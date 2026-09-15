@@ -1,1 +1,441 @@
-<p>rediger-prescription works!</p>
+<div class="pl-72"><main class="relative pt-20 w-full px-spacing-xl bg-background"><div class="flex flex-col w-full pb-spacing-3xl space-y-spacing-xl">
+<!-- Top Metadata Ribbon & Status Indicators -->
+<div class="flex flex-wrap items-center justify-between gap-spacing-md">
+<div class="flex items-center gap-spacing-md">
+<div class="flex items-center justify-center w-12 h-12 rounded-xl bg-primary-container text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-headline-sm">draw</span>
+</div>
+<div>
+<div class="flex items-center gap-spacing-xs">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Module e-Santé Certifié</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Norme e-Prescription ANS v3.4</span>
+</div>
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Rédaction d'Ordonnance Numérique</h1>
+</div>
+</div>
+<!-- Quick Actions / Mode Badges -->
+<div class="flex items-center gap-spacing-sm">
+<div class="flex items-center gap-spacing-xs px-spacing-md py-spacing-xs bg-surface-container rounded-full text-on-surface">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm font-semibold">Chiffrement AES-256 actif</span>
+</div>
+<button class="flex items-center gap-spacing-xs px-spacing-md py-spacing-xs bg-surface-container-lowest text-on-surface rounded-xl shadow-sm hover:bg-surface-container transition-all" type="button">
+<span class="material-symbols-outlined text-title-md">history_edu</span>
+<span class="font-label-md text-label-md">Modèles fréquents</span>
+</button>
+</div>
+</div>
+<!-- Main Grid: Prescriber + Patient Dual Identity Card -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-spacing-lg">
+<!-- Patient Context Panel -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-40 h-40 bg-secondary-fixed/30 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-start justify-between gap-spacing-md relative z-10">
+<div class="flex items-center gap-spacing-md">
+<img class="w-16 h-16 rounded-full object-cover shadow-sm" data-alt="Close-up gentle portrait of Helene Mercier, a 54-year-old French woman smiling calmly with soft natural window lighting, wearing a warm knitted teal scarf, clinical portrait style, high resolution" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxI2C_N31-sYz1A1mcKn14W5B0SFa3fgau_yPcOmqnRp3ShJkqxLeIK7HGGJKRiUk-kgItUWZ9fKfeQACJzZ400C4S2-JQSBD9wCiDLBXR5ik93GDoZqLhJe1CEyl25k-CX5HUxx_ax1xpEb6zdS9wXDtMVf5esetqRCyeqMDhaQ9amnnFprb-PPK9plhNEkTFwnJH8wsnine8Egz24yVm5P7wI3ykyz5iJiDTb7NV5yIEDtxF3zuT"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-spacing-xs">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Hélène Mercier</span>
+<span class="px-spacing-xs py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-medium">54 ans</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">NSS : 2 69 08 75 042 189 • Réf. Patient #MC-8841</span>
+<div class="flex items-center gap-spacing-sm mt-spacing-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm text-primary">monitor_weight</span> 63 kg
+              </span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm text-secondary">straighten</span> 168 cm
+              </span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-primary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">water_drop</span> ClCr : 88 ml/min (Normale)
+              </span>
+</div>
+</div>
+</div>
+<span class="px-spacing-sm py-spacing-2xs bg-surface-container-high text-on-secondary-container rounded-full font-label-sm text-label-sm font-medium">
+          ALD n°5 (Cardiopathie)
+        </span>
+</div>
+<div class="grid grid-cols-3 gap-spacing-sm mt-spacing-md pt-spacing-md bg-surface-container-low/70 rounded-lg p-spacing-sm relative z-10">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Allergies déclarées</span>
+<span class="font-label-md text-label-md text-error font-medium flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-label-sm">warning</span> Pénicilline
+          </span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Grossesse / Allaitement</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">Non applicable</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Dernière prise de tension</span>
+<span class="font-label-md text-label-md text-primary font-medium mt-0.5">128/82 mmHg (Hier)</span>
+</div>
+</div>
+</div>
+<!-- Prescriber Details Panel -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm flex flex-col justify-between relative">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-spacing-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-headline-sm">badge</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Médecin Praticien Prescripteur</span>
+<h2 class="font-title-md text-title-md text-on-surface">Dr. Stéphane Laurent</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cardiologie clinique & Rythmologie</span>
+</div>
+</div>
+<span class="px-spacing-xs py-0.5 bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm rounded">RPPS Actif</span>
+</div>
+<div class="space-y-spacing-xs mt-spacing-md pt-spacing-xs">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Identifiant RPPS :</span>
+<span class="font-code-prescription text-code-prescription text-on-surface font-semibold">10098472910</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Centre de rattachement :</span>
+<span class="text-on-surface font-medium">Hôpital Universitaire MboaCare - Unité A</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Date de délivrance :</span>
+<span class="text-on-surface font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm text-secondary">calendar_today</span> 24 Octobre 2024
+          </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Real-time Interaction Checker Banner -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-md shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-spacing-md">
+<div class="flex items-center gap-spacing-md">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-title-md">verified_user</span>
+</div>
+<div>
+<div class="flex items-center gap-spacing-xs">
+<span class="font-title-md text-title-md text-primary font-semibold">Contrôle de sécurité en direct : Aucune interaction néfaste détectée</span>
+<span class="px-spacing-xs py-0.5 bg-primary-container text-on-primary font-label-sm text-label-sm rounded-full">Niveau 0 (Optimal)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+          Validation croisée automatique : Base Claude Bernard / Vidal + profil physiologique du patient (rein, foie, antécédents QT).
+        </p>
+</div>
+</div>
+<div class="flex items-center gap-spacing-xs bg-surface-container-low px-spacing-sm py-spacing-xs rounded-lg shrink-0">
+<span class="material-symbols-outlined text-label-sm text-on-surface-variant">speed</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Temps de vérif. : 14ms</span>
+</div>
+</div>
+<!-- Prescription Line Items Header & Prescription Workspace -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm space-y-spacing-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-spacing-md pb-spacing-xs">
+<div>
+<div class="flex items-center gap-spacing-xs">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">Traitement Ambulatoire</span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">3 lignes enregistrées</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Lignes de Traitement & Prescriptions</h2>
+</div>
+<!-- Quick Search / VIDAL integration -->
+<div class="relative w-full sm:w-96">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-title-md">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low text-on-surface font-body-sm text-body-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/40 placeholder:text-on-surface-variant/70" placeholder="Rechercher VIDAL (ex: Cordarone, Bisoprolol...)" type="text"/>
+</div>
+</div>
+<!-- Treatment Cards / Rows -->
+<div class="space-y-spacing-md" id="prescription-lines-container">
+<!-- Line 1: Amiodarone -->
+<div class="group relative bg-surface rounded-xl p-spacing-md hover:bg-surface-container-low transition-all shadow-sm">
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-spacing-md">
+<!-- Medicine Name & Category -->
+<div class="xl:w-1/4 flex items-start gap-spacing-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-label-md shrink-0">
+              1
+            </div>
+<div class="min-w-0">
+<div class="flex items-center gap-spacing-xs flex-wrap">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Amiodarone (Cordarone®)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-code-prescription text-code-prescription font-medium">200 mg</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5">Antiarythmique de classe III • Comprimé sécable</span>
+</div>
+</div>
+<!-- 4 Required Fields Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-spacing-sm xl:w-2/4">
+<!-- Posologie -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Posologie usuelle</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 comp. le matin au milieu du repas</span>
+</div>
+<!-- Durée -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Durée du traitement</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">30 jours</span>
+</div>
+<!-- Quantité -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Conditionnement</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 boîte (30 comp.)</span>
+</div>
+<!-- Renouvellement -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Renouvellement</span>
+<span class="font-label-md text-label-md text-primary font-semibold mt-0.5">Répétable 2x</span>
+</div>
+</div>
+<!-- Line Meta & Actions -->
+<div class="flex items-center justify-between xl:justify-end gap-spacing-sm xl:w-1/4">
+<span class="px-spacing-xs py-1 rounded-full bg-primary-fixed/60 text-on-primary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">check_circle</span> Substituable
+            </span>
+<div class="flex items-center gap-spacing-2xs">
+<button aria-label="Éditer la ligne" class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">edit</span>
+</button>
+<button aria-label="Supprimer la ligne" class="p-1.5 text-on-surface-variant hover:text-error hover:bg-surface-container rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Line 2: Bisoprolol (Non Substituable) -->
+<div class="group relative bg-surface rounded-xl p-spacing-md hover:bg-surface-container-low transition-all shadow-sm">
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-spacing-md">
+<!-- Medicine Name & Category -->
+<div class="xl:w-1/4 flex items-start gap-spacing-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-label-md shrink-0">
+              2
+            </div>
+<div class="min-w-0">
+<div class="flex items-center gap-spacing-xs flex-wrap">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Bisoprolol</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-code-prescription text-code-prescription font-medium">2.5 mg</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5">Bêta-bloquant sélectif • Comprimé pelliculé</span>
+</div>
+</div>
+<!-- 4 Required Fields Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-spacing-sm xl:w-2/4">
+<!-- Posologie -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Posologie usuelle</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1/2 comprimé le soir au coucher</span>
+</div>
+<!-- Durée -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Durée du traitement</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 mois (30j)</span>
+</div>
+<!-- Quantité -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Conditionnement</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 boîte (30 comp.)</span>
+</div>
+<!-- Renouvellement -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Renouvellement</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">Non renouvelable</span>
+</div>
+</div>
+<!-- Line Meta & Actions -->
+<div class="flex items-center justify-between xl:justify-end gap-spacing-sm xl:w-1/4">
+<span class="px-spacing-xs py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">lock</span> Non Substituable (MTE)
+            </span>
+<div class="flex items-center gap-spacing-2xs">
+<button aria-label="Éditer la ligne" class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">edit</span>
+</button>
+<button aria-label="Supprimer la ligne" class="p-1.5 text-on-surface-variant hover:text-error hover:bg-surface-container rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Line 3: Bilan Biologique -->
+<div class="group relative bg-surface rounded-xl p-spacing-md hover:bg-surface-container-low transition-all shadow-sm">
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-spacing-md">
+<!-- Medicine / Exam Name & Category -->
+<div class="xl:w-1/4 flex items-start gap-spacing-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-label-md shrink-0">
+              3
+            </div>
+<div class="min-w-0">
+<div class="flex items-center gap-spacing-xs flex-wrap">
+<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Bilan sanguin iono + TSH</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed-dim text-on-tertiary-fixed font-code-prescription text-code-prescription font-medium">Bio</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5">Surveillance amiodarone • Biologie médicale</span>
+</div>
+</div>
+<!-- 4 Required Fields Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-spacing-sm xl:w-2/4">
+<!-- Posologie / Instructions -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Conditions de réalisation</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">À jeun en laboratoire de ville</span>
+</div>
+<!-- Durée / Délai -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Délai d'exécution</span>
+<span class="font-label-md text-label-md text-error font-medium mt-0.5">Sous 7 jours</span>
+</div>
+<!-- Quantité -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Prélèvement</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 analyse complète</span>
+</div>
+<!-- Renouvellement -->
+<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Renouvellement</span>
+<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">Acte unique</span>
+</div>
+</div>
+<!-- Line Meta & Actions -->
+<div class="flex items-center justify-between xl:justify-end gap-spacing-sm xl:w-1/4">
+<span class="px-spacing-xs py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">biotech</span> Prise de sang
+            </span>
+<div class="flex items-center gap-spacing-2xs">
+<button aria-label="Éditer la ligne" class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">edit</span>
+</button>
+<button aria-label="Supprimer la ligne" class="p-1.5 text-on-surface-variant hover:text-error hover:bg-surface-container rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Treatment CTA & Direct VIDAL Quick Bar -->
+<div class="pt-spacing-xs flex flex-wrap items-center justify-between gap-spacing-md">
+<button class="flex items-center gap-spacing-xs px-spacing-lg py-spacing-sm bg-primary text-on-primary rounded-xl font-label-md text-label-md font-semibold hover:bg-primary/90 transition-all shadow-sm" id="btn-add-med" type="button">
+<span class="material-symbols-outlined text-title-md">add_circle</span>
+<span>+ Ajouter un médicament / examen</span>
+</button>
+<div class="flex items-center gap-spacing-sm text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-title-md text-secondary">menu_book</span>
+<span>Base connectée : <strong>Vidal Expert 2024.2</strong> (Mise à jour ce jour)</span>
+</div>
+</div>
+</div>
+<!-- Medical Insights & Visual Cohesion Bento -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-spacing-lg">
+<!-- Cardiac Profile Sparkline / Mini Trend -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold uppercase">Historique Fréquence Cardiaque</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">64 bpm</span>
+</div>
+<div class="py-spacing-sm">
+<!-- SVG Sparkline Under 2KB -->
+<svg class="w-full h-12 text-primary" fill="none" viewbox="0 0 200 40" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 25 L30 25 L40 10 L50 35 L60 20 L70 25 L100 25 L110 5 L120 38 L130 18 L140 25 L200 25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Stabilité sous Bisoprolol confirmée sur 30j.</span>
+</div>
+<!-- Electronic Dispensation Rules -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold uppercase">Conditions de Délivrance</span>
+<span class="material-symbols-outlined text-secondary text-title-md">local_pharmacy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-spacing-xs">
+        Délivrance fractionnée en officine autorisée. Mention spéciale <em>"Non Substituable"</em> certifiée selon critères MTE (Marge Thérapeutique Étroite).
+      </p>
+<span class="font-label-sm text-label-sm text-secondary font-medium">Accord direct Réseau Pharmacie MboaCare</span>
+</div>
+<!-- Tele-Surveillance Alert Link -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold uppercase">Rappel Télésuivi Patient</span>
+<span class="material-symbols-outlined text-tertiary text-title-md">notifications_active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-spacing-xs">
+        Notification automatique envoyée à Hélène Mercier 48h avant l'échéance de son bilan ionogramme pour confirmation du RDV labo.
+      </p>
+<span class="font-label-sm text-label-sm text-primary font-medium">Activé dans le carnet digital</span>
+</div>
+</div>
+<!-- Bottom Validation Footer: Certified QR Code & Primary Transmission Action -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-xl shadow-sm">
+<div class="flex flex-col lg:flex-row items-center justify-between gap-spacing-xl">
+<!-- Left: QR Code & Certificate Stamps -->
+<div class="flex flex-col sm:flex-row items-center gap-spacing-lg text-center sm:text-left">
+<!-- SVG Generated Crisp QR Matrix Placeholder with Medical Cross Shield -->
+<div class="relative p-2 bg-surface rounded-xl shadow-sm shrink-0">
+<svg class="w-28 h-28 text-on-surface" fill="currentColor" viewbox="0 0 100 100">
+<!-- QR Pattern Glyphs -->
+<rect fill="#006c49" height="30" rx="3" width="30" x="0" y="0"></rect>
+<rect fill="#ffffff" height="20" width="20" x="5" y="5"></rect>
+<rect fill="#006c49" height="10" width="10" x="10" y="10"></rect>
+<rect fill="#006591" height="30" rx="3" width="30" x="70" y="0"></rect>
+<rect fill="#ffffff" height="20" width="20" x="75" y="5"></rect>
+<rect fill="#006591" height="10" width="10" x="80" y="10"></rect>
+<rect fill="#006c49" height="30" rx="3" width="30" x="0" y="70"></rect>
+<rect fill="#ffffff" height="20" width="20" x="5" y="75"></rect>
+<rect fill="#006c49" height="10" width="10" x="10" y="80"></rect>
+<!-- Random Data Matrix Blocks -->
+<rect height="6" width="6" x="36" y="6"></rect>
+<rect height="6" width="8" x="46" y="12"></rect>
+<rect height="8" width="6" x="58" y="6"></rect>
+<rect height="6" width="8" x="36" y="24"></rect>
+<rect height="8" width="6" x="50" y="22"></rect>
+<rect height="8" width="6" x="12" y="38"></rect>
+<rect height="6" width="8" x="22" y="44"></rect>
+<rect fill="#10b981" height="24" rx="4" width="24" x="38" y="38"></rect>
+<rect height="6" width="8" x="70" y="38"></rect>
+<rect height="8" width="6" x="84" y="42"></rect>
+<rect height="6" width="8" x="36" y="70"></rect>
+<rect height="8" width="6" x="48" y="68"></rect>
+<rect height="6" width="8" x="62" y="74"></rect>
+<rect height="8" width="6" x="76" y="80"></rect>
+<rect height="6" width="8" x="88" y="72"></rect>
+<!-- Central Shield Cross in QR -->
+<path d="M47 44 H53 V48 H57 V54 H53 V58 H47 V54 H43 V48 H47 Z" fill="#ffffff"></path>
+</svg>
+</div>
+<div class="space-y-spacing-2xs">
+<div class="flex items-center justify-center sm:justify-start gap-spacing-xs">
+<span class="material-symbols-outlined text-primary text-title-md">verified</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold">Signature Électronique Certifiée</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">
+            Horodatage officiel RGS*** : <strong>24/10/2024 à 11:42:19 CET</strong>.<br/>
+            Empreinte SHA-256 : <span class="font-code-prescription text-code-prescription text-on-surface">e9a4...c01f8</span> • Clef CPS valide.
+          </p>
+<div class="flex items-center justify-center sm:justify-start gap-spacing-sm pt-spacing-2xs text-label-sm font-medium">
+<span class="text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">lock</span> E-Prescription Non Falsifiable
+            </span>
+<span class="text-outline-variant">•</span>
+<span class="text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-label-sm">domain</span> Réseau MboaCare Validé
+            </span>
+</div>
+</div>
+</div>
+<!-- Right: Main Transmission Button & Secondary Options -->
+<div class="flex flex-col sm:flex-row items-center gap-spacing-sm w-full lg:w-auto">
+<button class="w-full sm:w-auto px-spacing-lg py-spacing-md bg-surface-container text-on-surface font-label-md text-label-md font-medium rounded-xl hover:bg-surface-container-high transition-colors flex items-center justify-center gap-spacing-xs" type="button">
+<span class="material-symbols-outlined text-title-md">print</span>
+<span>Imprimer duplicata papier</span>
+</button>
+<button class="w-full sm:w-auto px-spacing-xl py-spacing-md bg-primary-container text-on-primary font-title-md text-title-md font-semibold rounded-xl hover:bg-primary transition-all shadow-md hover:shadow-xl flex items-center justify-center gap-spacing-sm" id="btn-submit-prescription" type="button">
+<span class="material-symbols-outlined text-headline-sm">send_and_archive</span>
+<span>Envoyer la prescription sécurisée</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main></div>

@@ -1,0 +1,10 @@
+/* Responsive Navbar - MboaCare */
+header {
+  transition: background-color 0.2s ease;
+}
+
+.nav-link-active {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary);
+  font-weight: 600;
+}

@@ -1,1 +1,412 @@
-<p>consultation-detail works!</p>
+<div class="pl-72"><main class="relative pt-20 w-full px-spacing-xl bg-background"><div class="flex flex-col w-full pb-spacing-3xl space-y-spacing-xl">
+<!-- TOP CLINICAL HUD / PATIENT HEADER -->
+<div class="relative bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm overflow-hidden">
+<div class="absolute -top-12 -right-12 w-64 h-64 bg-secondary-fixed/30 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-8 left-1/3 w-48 h-48 bg-primary-fixed/20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-spacing-md">
+<!-- Patient Identity & Biomarkers -->
+<div class="flex items-start sm:items-center gap-spacing-md min-w-0">
+<div class="relative flex-shrink-0">
+<img class="w-16 h-16 rounded-xl object-cover shadow-sm" data-alt="Portrait photography of Helene Mercier, a dignified 54-year-old female patient with soft expression, natural gentle lighting, clean hospital background with soft teal accents, professional medical atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWOAVAPchhNfAi3mZt6flomETrAzviEuZC2ksbcMBdx45m4J7Kn6tSb00OE9Ofodn9ve8geTszdcfxGqZhmectRP1CoA6rjZn2HTNlmejg2oH77x1NwPsqrmA_TWDAQNOXdMz7uRDq7E32aKySG8B529cYRH6YcUBfjIuc7lUSNmme6zmC69kcB7Pku8r1CnJK1p9g1xBbPpHwnDfswh-tZcnuDV-O0jjQAZO2oDqP0y14i3QDBhgU"/>
+<span class="absolute -bottom-1 -right-1 flex h-4 w-4">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span>
+<span class="relative inline-flex rounded-full h-4 w-4 bg-primary text-on-primary text-[9px] font-bold items-center justify-center">O+</span>
+</span>
+</div>
+<div class="space-y-spacing-2xs min-w-0">
+<div class="flex flex-wrap items-center gap-spacing-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Hélène Mercier</span>
+<span class="font-label-sm text-label-sm bg-surface-container px-spacing-xs py-0.5 rounded-md text-on-surface-variant font-medium">54 ans • F</span>
+<span class="font-code-prescription text-code-prescription bg-surface-container-low px-spacing-xs py-0.5 rounded-md text-on-surface-variant">IPP: #FR-88942-A7</span>
+<span class="font-code-prescription text-code-prescription bg-surface-container-low px-spacing-xs py-0.5 rounded-md text-on-surface-variant">NIR: 2 69 11 75 089 421 / 34</span>
+</div>
+<!-- Dynamic Badges & Critical Alerts -->
+<div class="flex flex-wrap items-center gap-spacing-xs pt-1">
+<div class="inline-flex items-center gap-1.5 px-spacing-xs py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold animate-pulse">
+<span class="material-symbols-outlined text-title-md" style="font-variation-settings: 'FILL' 1;">warning</span>
+              Allergie majeure : Pénicilline & Bêta-lactamines
+            </div>
+<span class="inline-flex items-center gap-1 px-spacing-xs py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-title-md text-secondary">health_and_safety</span>
+              ALBD : Non
+            </span>
+<span class="inline-flex items-center gap-1 px-spacing-xs py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-title-md text-primary">history</span>
+              Dernière visite : 18 Janv. 2025
+            </span>
+</div>
+</div>
+</div>
+<!-- Live Encounter Clock & Telehealth Feed State -->
+<div class="flex items-center gap-spacing-md bg-surface-container-low p-spacing-sm rounded-xl self-stretch lg:self-auto justify-between lg:justify-end shadow-sm">
+<div class="flex items-center gap-spacing-xs">
+<div class="w-3 h-3 rounded-full bg-primary-container animate-ping"></div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Consultation Active</span>
+<span class="font-headline-sm text-headline-sm text-primary font-mono font-bold tracking-tight" id="sessionTimer">14:25</span>
+</div>
+</div>
+<div class="flex items-center gap-1 pl-spacing-sm">
+<button aria-label="Microphone" class="p-2 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-title-md">mic</span>
+</button>
+<button aria-label="Caméra" class="p-2 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-title-md">videocam</span>
+</button>
+<button aria-label="Historique" class="p-2 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-secondary transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-title-md">manage_search</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- WORKSPACE GRID: FORM & CLINICAL VITAL MONITORING -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-spacing-lg items-start">
+<!-- MAIN EXAM / CLINICAL FORM CONTAINER (8 COLS) -->
+<div class="lg:col-span-8 flex flex-col space-y-spacing-lg">
+<!-- SECTION 1: MOTIF DE CONSULTATION -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm space-y-spacing-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-spacing-xs">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold">1</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Motif de consultation</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-spacing-xs py-0.5 rounded-full">Saisie Praticien & Pré-tri</span>
+</div>
+<div class="bg-surface-container-low rounded-xl p-spacing-md flex items-start gap-spacing-sm">
+<span class="material-symbols-outlined text-secondary text-title-md mt-0.5">chat_bubble_outline</span>
+<div class="flex-1 space-y-spacing-2xs">
+<p class="font-body-md text-body-md text-on-surface font-medium leading-relaxed">
+              « Palpitations nocturnes récurrentes et sensation d'oppression légère »
+            </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Épisodes décrits depuis 8 jours, survenant préférentiellement au repos après minuit. Durée variable (15 à 45 minutes), sans syncope ni dyspnée au repos.
+            </p>
+</div>
+</div>
+</div>
+<!-- SECTION 2: EXAMEN CLINIQUE & CONSTANTES VITALES -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm space-y-spacing-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-spacing-xs">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold">2</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Examen clinique & Constantes</span>
+</div>
+<button class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary hover:text-on-secondary-container transition-colors" type="button">
+<span class="material-symbols-outlined text-title-md">sensors</span>
+            Synchroniser télémétrie IoT
+          </button>
+</div>
+<!-- Vital metric tiles -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-spacing-md">
+<!-- Blood Pressure -->
+<div class="bg-surface-container-low rounded-xl p-spacing-md flex flex-col justify-between space-y-spacing-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Tension Artérielle</span>
+<span class="material-symbols-outlined text-secondary text-title-md">cardiology</span>
+</div>
+<div class="flex items-baseline gap-spacing-2xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">138/88</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">mmHg</span>
+</div>
+<div class="flex items-center gap-1 text-on-secondary-container font-label-sm text-label-sm bg-secondary-fixed/40 px-spacing-xs py-0.5 rounded">
+<span class="material-symbols-outlined text-label-sm">trending_up</span>
+              Légère hausse vs M-1
+            </div>
+</div>
+<!-- Heart Rate with critical alert -->
+<div class="bg-error-container/30 rounded-xl p-spacing-md flex flex-col justify-between space-y-spacing-xs relative overflow-hidden">
+<div class="absolute right-0 top-0 w-16 h-16 bg-error/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Fréquence Cardiaque</span>
+<span class="material-symbols-outlined text-error text-title-md animate-bounce">favorite</span>
+</div>
+<div class="flex items-baseline gap-spacing-2xs">
+<span class="font-headline-lg text-headline-lg text-error font-bold tracking-tight">118</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">bpm</span>
+</div>
+<div class="flex items-center gap-1 text-on-error-container font-label-sm text-label-sm bg-error-container px-spacing-xs py-0.5 rounded font-semibold">
+<span class="material-symbols-outlined text-label-sm">priority_high</span>
+              Tachycardie constatée
+            </div>
+</div>
+<!-- Temperature -->
+<div class="bg-surface-container-low rounded-xl p-spacing-md flex flex-col justify-between space-y-spacing-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Température</span>
+<span class="material-symbols-outlined text-primary text-title-md">device_thermostat</span>
+</div>
+<div class="flex items-baseline gap-spacing-2xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">37.4</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">°C</span>
+</div>
+<div class="flex items-center gap-1 text-primary font-label-sm text-label-sm bg-primary-fixed/30 px-spacing-xs py-0.5 rounded">
+<span class="material-symbols-outlined text-label-sm">check_circle</span>
+              Apyrétique
+            </div>
+</div>
+</div>
+<!-- Real-time Sparkline Card: Holter / Rhythm Waveform -->
+<div class="bg-surface-container-low rounded-xl p-spacing-md space-y-spacing-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-spacing-xs">
+<span class="material-symbols-outlined text-primary text-title-md">ecg</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Tracé Dérivation DII (Aperçu en direct)</span>
+</div>
+<span class="font-code-prescription text-code-prescription text-on-surface-variant">25 mm/s • 10 mm/mV</span>
+</div>
+<!-- Inline ECG SVG Waveform -->
+<div class="w-full h-16 bg-surface-container-lowest rounded-lg p-2 flex items-center justify-center overflow-hidden">
+<svg class="w-full h-full text-primary" fill="none" preserveaspectratio="none" viewbox="0 0 700 60">
+<path d="M0,30 L60,30 L70,30 L80,26 L85,34 L90,30 L110,30 L118,30 L125,5 L133,52 L140,22 L145,30 L160,30 L175,20 L185,30 L230,30 L240,26 L245,34 L250,30 L270,30 L278,30 L285,3 L293,54 L300,20 L305,30 L320,30 L335,19 L345,30 L390,30 L400,26 L405,34 L410,30 L430,30 L438,30 L445,4 L453,53 L460,21 L465,30 L480,30 L495,20 L505,30 L550,30 L560,26 L565,34 L570,30 L590,30 L598,30 L605,6 L613,51 L620,23 L625,30 L640,30 L655,21 L665,30 L700,30" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+</svg>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Auscultation : B1 B2 réguliers mais accélérés. Pas de souffle carotidien ni aortique audible.</span>
+<span class="text-primary font-medium">Capteur actif</span>
+</div>
+</div>
+</div>
+<!-- SECTION 3: DIAGNOSTIC MÉDICAL -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm space-y-spacing-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-spacing-xs">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold">3</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Diagnostic médical</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-code-prescription">CIM-10 : I47.9 / R00.0</span>
+</div>
+<div class="relative">
+<div class="bg-surface-container-low rounded-xl p-spacing-md space-y-spacing-xs">
+<div class="flex items-center gap-spacing-xs">
+<span class="material-symbols-outlined text-primary text-title-md">psychiatry</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Synthèse nosologique posée</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              Tachycardie sinusale réactionnelle, suspicion d'arythmie paroxystique à surveiller, sans signe d'insuffisance aiguë ni décompensation hémodynamique immédiate.
+            </p>
+<div class="pt-2 flex flex-wrap gap-1.5">
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-spacing-xs py-0.5 rounded text-on-surface font-medium">#TroubleDuRythme</span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-spacing-xs py-0.5 rounded text-on-surface font-medium">#BilanCardioPrioritaire</span>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-spacing-xs py-0.5 rounded text-on-surface font-medium">#SurveillanceAmbulatoire</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 4: OBSERVATIONS & CONDUITE À TENIR -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm space-y-spacing-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-spacing-xs">
+<span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary font-label-md text-label-md font-bold">4</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Observations & Conduite à tenir</span>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Micro-dictée" class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary hover:text-on-primary-fixed-variant" type="button">
+<span class="material-symbols-outlined text-title-md">mic</span>
+              Dictée vocale active
+            </button>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-spacing-md space-y-spacing-sm">
+<div class="flex items-start gap-spacing-xs">
+<span class="material-symbols-outlined text-secondary text-title-md mt-1">notes</span>
+<div class="space-y-spacing-xs flex-1">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                Prescription d'un Holter ECG 48h, bilan biologique thyroïdien (TSH ultra-sensible, T4 libre, ionogramme complet, troponine ultra-sensible de référence) et ajustement du traitement bêtabloquant. Contrôle clinique programmé sous 15 jours.
+              </p>
+<div class="bg-surface-container-lowest p-spacing-sm rounded-lg space-y-1">
+<div class="flex items-center gap-2 text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-title-md">assignment_turned_in</span>
+                  Recommandations transmises à la patiente :
+                </div>
+<ul class="list-disc list-inside font-body-sm text-body-sm text-on-surface-variant space-y-0.5 pl-spacing-xs">
+<li>Tenue d'un journal horaire précis lors de la survenue des accès de palpitations.</li>
+<li>Éviction formelle des excitants (café, thé noir, sodas caféinés, alcool).</li>
+<li>Consigne d'appel immédiat au 15 si douleur thoracique constrictive ou sensation de malaise vagal/syncope.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT SIDEBAR: QUICK ACTION TOOLS & CLINICAL DECISION SUPPORT (4 COLS) -->
+<div class="lg:col-span-4 flex flex-col space-y-spacing-lg">
+<!-- QUICK TOOLS / ACTIONS RAPIDES -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm space-y-spacing-md">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Actes & Prescriptions</span>
+<span class="material-symbols-outlined text-on-surface-variant">bolt</span>
+</div>
+<div class="space-y-spacing-xs">
+<!-- Action 1: Rédiger ordonnance -->
+<button class="w-full text-left bg-surface-container-low hover:bg-surface-container transition-all p-spacing-sm rounded-xl flex items-center justify-between group shadow-sm" type="button">
+<div class="flex items-center gap-spacing-sm">
+<div class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-title-md">prescriptions</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface group-hover:text-primary transition-colors">Rédiger une ordonnance</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Médicaments & Posologie sécurisée</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-0.5 transition-transform text-title-md">chevron_right</span>
+</button>
+<!-- Action 2: Prescrire imagerie / ECG -->
+<button class="w-full text-left bg-surface-container-low hover:bg-surface-container transition-all p-spacing-sm rounded-xl flex items-center justify-between group shadow-sm" type="button">
+<div class="flex items-center gap-spacing-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-title-md">radiology</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface group-hover:text-secondary transition-colors">Prescrire examen d'imagerie</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Holter ECG, Échocardiographie...</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-0.5 transition-transform text-title-md">chevron_right</span>
+</button>
+<!-- Action 3: Arrêt de travail -->
+<button class="w-full text-left bg-surface-container-low hover:bg-surface-container transition-all p-spacing-sm rounded-xl flex items-center justify-between group shadow-sm" type="button">
+<div class="flex items-center gap-spacing-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest text-on-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-title-md">badge</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface transition-colors">Envoyer arrêt de travail</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Télétransmission CPAM instantanée</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-0.5 transition-transform text-title-md">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- ELECTRONIC PRESCRIPTION GENERATOR SUMMARY CARD (BRAND DESIGN SYSTEM ADAPTATION) -->
+<div class="relative bg-surface-container-lowest rounded-xl p-spacing-md shadow-sm overflow-hidden space-y-spacing-sm">
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-primary"></div>
+<div class="flex items-center justify-between pl-spacing-xs">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-title-md">verified_user</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Ordonnance N° 2025-0841</span>
+</div>
+<span class="font-label-sm text-label-sm bg-primary-fixed/40 text-on-primary-fixed font-semibold px-spacing-xs py-0.5 rounded-full">Prête</span>
+</div>
+<div class="pl-spacing-xs space-y-spacing-2xs font-code-prescription text-code-prescription text-on-surface-variant">
+<div class="p-spacing-xs bg-surface-container-low rounded-lg space-y-1">
+<div class="font-semibold text-on-surface text-label-sm">1. BISOPROLOL 2.5 mg (Hémifumarate)</div>
+<p>1 comprimé chaque matin au réveil avec un grand verre d'eau. Durée : 30 jours (Renouvelable 1 fois).</p>
+</div>
+<div class="p-spacing-xs bg-surface-container-low rounded-lg space-y-1">
+<div class="font-semibold text-on-surface text-label-sm">2. POSE D'UN ENREGISTREUR HOLTER 48H</div>
+<p>À réaliser en cabinet de cardiologie dans un délai n'excédant pas 10 jours.</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 pl-spacing-xs">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-title-md text-primary">qr_code_2</span>
+<span>Signature e-CPS active</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-medium">Voir le PDF</span>
+</div>
+</div>
+<!-- CLINICAL DECISION SUPPORT & RECENT LABS -->
+<div class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm space-y-spacing-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Antécédents Notables</span>
+<span class="material-symbols-outlined text-on-surface-variant text-label-md">history_edu</span>
+</div>
+<div class="space-y-spacing-2xs">
+<div class="flex items-center justify-between p-spacing-xs rounded-lg bg-surface-container-low">
+<span class="font-body-sm text-body-sm text-on-surface">Hypertension essentielle</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Depuis 2021</span>
+</div>
+<div class="flex items-center justify-between p-spacing-xs rounded-lg bg-surface-container-low">
+<span class="font-body-sm text-body-sm text-on-surface">Appendicectomie</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">1996</span>
+</div>
+<div class="flex items-center justify-between p-spacing-xs rounded-lg bg-surface-container-low">
+<span class="font-body-sm text-body-sm text-on-surface">Tabagisme sevré (0 paq/an)</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">Arrêt 2018</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- STICKY ACTION CONTROL BAR (BOTTOM VIEW) -->
+<div class="sticky bottom-4 z-30 bg-surface-container-lowest/95 backdrop-blur-md rounded-xl p-spacing-md shadow-xl flex flex-col sm:flex-row items-center justify-between gap-spacing-md">
+<div class="flex items-center gap-spacing-md">
+<div class="hidden sm:flex w-10 h-10 rounded-xl bg-primary-fixed/40 items-center justify-center text-primary">
+<span class="material-symbols-outlined text-headline-sm">medical_services</span>
+</div>
+<div>
+<div class="flex items-center gap-spacing-xs">
+<span class="font-label-md text-label-md font-bold text-on-surface">Clôture de l'acte • Télémédecine / CS</span>
+<span class="font-code-prescription text-code-prescription bg-surface-container px-spacing-2xs py-0.5 rounded text-on-surface-variant">Code NGAP : TC (25,00 €)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant hidden md:block">
+          Dossier synchronisé avec l'Espace Santé Patient • Ordonnance horodatée et archivée.
+        </p>
+</div>
+</div>
+<div class="flex items-center gap-spacing-sm w-full sm:w-auto justify-end">
+<!-- Secondary option -->
+<button class="px-spacing-md py-spacing-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors shadow-sm" type="button">
+        Mettre en attente
+      </button>
+<!-- Primary Clôturer Consultation Button with Confirmation Dialog Trigger -->
+<button class="flex-1 sm:flex-none inline-flex items-center justify-center gap-spacing-xs px-spacing-lg py-spacing-xs rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold transition-all shadow-md" id="btnOpenCloseModal" type="button">
+<span class="material-symbols-outlined text-title-md">check_circle</span>
+        Clôturer la consultation
+      </button>
+</div>
+</div>
+<!-- CLINICAL CLOSURE CONFIRMATION MODAL OVERLAY (LEVEL 3 DEPTH) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden flex items-center justify-center p-spacing-md" id="closeModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-lg w-full p-spacing-xl shadow-xl space-y-spacing-lg transform transition-all scale-100">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-spacing-sm">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed/40 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-headline-sm">verified</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Confirmer la clôture</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Consultation du Dr. K. Nsangou</span>
+</div>
+</div>
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" id="btnCloseModal" type="button">
+<span class="material-symbols-outlined text-title-md">close</span>
+</button>
+</div>
+<div class="space-y-spacing-sm font-body-md text-body-md text-on-surface-variant">
+<p>Vous êtes sur le point de valider définitivement la fiche clinique de :</p>
+<div class="bg-surface-container-low p-spacing-sm rounded-lg flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span class="font-bold">Mme Hélène Mercier (54 ans)</span>
+<span class="text-primary font-semibold">Tension 138/88 • 118 bpm</span>
+</div>
+<ul class="space-y-1 font-body-sm text-body-sm pl-spacing-xs">
+<li class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-primary text-title-md">check</span>
+            Envoi de l'ordonnance biométrique à la pharmacie référente
+          </li>
+<li class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-primary text-title-md">check</span>
+            Transmission du compte-rendu au Dossier Médical Partagé (DMP)
+          </li>
+<li class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-primary text-title-md">check</span>
+            Facturation SESAM-Vitale télétransmise (25,00 €)
+          </li>
+</ul>
+</div>
+<div class="flex items-center justify-end gap-spacing-sm pt-spacing-xs">
+<button class="px-spacing-md py-spacing-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" id="btnCancelModal" type="button">
+          Retour au dossier
+        </button>
+<button class="inline-flex items-center gap-spacing-xs px-spacing-lg py-spacing-xs rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold transition-all shadow-md" id="btnConfirmEnd" type="button">
+<span class="material-symbols-outlined text-title-md">task_alt</span>
+          Signer & Clôturer l'acte
+        </button>
+</div>
+</div>
+</div>
+
+</div></main></div>

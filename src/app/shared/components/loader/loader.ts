@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  imports: [],
   selector: 'app-loader',
-  styleUrl: './loader.css',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './loader.html',
+  styleUrl: './loader.css',
 })
-export class Loader {}
+export class Loader {
+  @Input() isLoading = false;
+  @Input() message = 'Chargement...';
+}

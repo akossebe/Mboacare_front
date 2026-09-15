@@ -1,9 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
-  imports: [],
   selector: 'app-navbar',
-  styleUrl: './navbar.css',
+  standalone: true,
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
+  styleUrl: './navbar.css',
 })
-export class Navbar {}
+export class Navbar {
+  @Input() role: 'patient' | 'medecin' | 'global' = 'global';
+  menuOuvert = false;
+
+  toggleMenu(): void {
+    this.menuOuvert = !this.menuOuvert;
+  }
+}

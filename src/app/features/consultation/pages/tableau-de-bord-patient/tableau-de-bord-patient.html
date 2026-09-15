@@ -1,0 +1,612 @@
+<div class="pl-72">
+    
+    <main class="relative pt-20 w-full px-spacing-xl bg-background">
+      <div class="flex flex-col w-full pb-spacing-3xl gap-spacing-xl">
+        <!-- Top Greeting & Primary Action Bar -->
+        <div
+          class="relative overflow-hidden bg-surface-container-lowest rounded-xl p-spacing-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col md:flex-row md:items-center justify-between gap-spacing-lg">
+          <div
+            class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-secondary-fixed/30 blur-3xl pointer-events-none">
+          </div>
+          <div
+            class="absolute right-32 -bottom-20 w-56 h-56 rounded-full bg-primary-fixed/20 blur-2xl pointer-events-none">
+          </div>
+          <div class="relative z-10 flex flex-col gap-spacing-2xs max-w-2xl">
+            <div class="flex items-center gap-spacing-xs">
+              <span
+                class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
+                <span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span>
+                Espace Santé Vérifié • Sécurisé HDS
+              </span>
+              <span class="text-on-surface-variant font-label-sm text-label-sm">• ID #MC-9402</span>
+            </div>
+            <h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">
+              Bonjour Amélie, prenez soin de votre santé aujourd’hui
+            </h1>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+              Vous avez <span class="font-semibold text-primary">1 téléconsultation imminente</span> aujourd’hui et vos
+              résultats d’analyses cardiologiques sont disponibles.
+            </p>
+          </div>
+          <div class="relative z-10 flex items-center gap-spacing-sm shrink-0">
+            <button
+              class="group flex items-center gap-spacing-xs px-spacing-lg py-spacing-md bg-primary hover:bg-primary-container text-on-primary rounded-xl font-label-md text-label-md transition-all duration-200 shadow-[0_10px_25px_-5px_rgba(0,108,73,0.3)] hover:shadow-lg active:scale-95"
+              type="button">
+              <span
+                class="material-symbols-outlined text-title-md transition-transform group-hover:rotate-90">add</span>
+              <span>Prendre un rendez-vous</span>
+            </button>
+            <button
+              class="p-spacing-md rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors"
+              title="Synchroniser l'agenda" type="button">
+              <span class="material-symbols-outlined text-title-md">event_repeat</span>
+            </button>
+          </div>
+        </div>
+        <!-- Clinical Highlights & Metric Quick-Strip -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-spacing-md">
+          <div
+            class="bg-surface-container-lowest p-spacing-md rounded-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex items-center gap-spacing-md">
+            <div
+              class="w-12 h-12 rounded-xl bg-secondary-fixed flex items-center justify-between p-spacing-xs text-secondary shrink-0">
+              <span class="material-symbols-outlined text-headline-sm">videocam</span>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span class="font-label-sm text-label-sm text-on-surface-variant truncate">Prochain RDV</span>
+              <span class="font-title-md text-title-md font-semibold text-on-surface">Aujourd’hui 14:30</span>
+              <span class="font-body-sm text-body-sm text-secondary font-medium truncate">Dr. S. Laurent</span>
+            </div>
+          </div>
+          <div
+            class="bg-surface-container-lowest p-spacing-md rounded-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex items-center gap-spacing-md">
+            <div
+              class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-between p-spacing-xs text-primary shrink-0">
+              <span class="material-symbols-outlined text-headline-sm">prescriptions</span>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span class="font-label-sm text-label-sm text-on-surface-variant truncate">Ordonnances actives</span>
+              <span class="font-title-md text-title-md font-semibold text-on-surface">2 traitements</span>
+              <span class="font-body-sm text-body-sm text-primary font-medium truncate">Renouvellement à J-12</span>
+            </div>
+          </div>
+          <div
+            class="bg-surface-container-lowest p-spacing-md rounded-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex items-center gap-spacing-md">
+            <div
+              class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-between p-spacing-xs text-tertiary shrink-0">
+              <span class="material-symbols-outlined text-headline-sm">ecg_heart</span>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span class="font-label-sm text-label-sm text-on-surface-variant truncate">Tension artérielle</span>
+              <span class="font-title-md text-title-md font-semibold text-on-surface">122 / 78 mmHg</span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">Stabilité optimale</span>
+            </div>
+          </div>
+          <div
+            class="bg-surface-container-lowest p-spacing-md rounded-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex items-center gap-spacing-md">
+            <div
+              class="w-12 h-12 rounded-xl bg-secondary-container/20 flex items-center justify-between p-spacing-xs text-secondary shrink-0">
+              <span class="material-symbols-outlined text-headline-sm">clinical_notes</span>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span class="font-label-sm text-label-sm text-on-surface-variant truncate">Dossier médical</span>
+              <span class="font-title-md text-title-md font-semibold text-on-surface">À jour 100%</span>
+              <span class="font-body-sm text-body-sm text-secondary font-medium truncate">Assurance synchronisée</span>
+            </div>
+          </div>
+        </div>
+        <!-- Section 1 : Mes Prochains Rendez-vous -->
+        <section class="flex flex-col gap-spacing-md">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-spacing-sm">
+              <h2 class="font-headline-md text-headline-md font-semibold text-on-surface">Mes Prochains Rendez-vous</h2>
+              <span
+                class="px-spacing-xs py-spacing-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">4</span>
+            </div>
+            <div class="flex items-center gap-spacing-xs">
+              <button
+                class="text-secondary hover:text-on-secondary-container font-label-md text-label-md flex items-center gap-spacing-2xs transition-colors"
+                type="button">
+                <span>Voir l’historique complet</span>
+                <span class="material-symbols-outlined text-title-md">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-spacing-lg">
+            <!-- RDV 1 : Confirmé / Téléconsultation / Urgence imminente -->
+            <div
+              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_10px_25px_-5px_rgba(14,165,233,0.08),0_8px_10px_-6px_rgba(16,185,129,0.04)] flex flex-col justify-between gap-spacing-lg transition-all hover:shadow-lg">
+              <div class="flex flex-col gap-spacing-md">
+                <div class="flex items-start justify-between gap-spacing-sm">
+                  <div class="flex items-center gap-spacing-xs">
+                    <!-- Mode Tag -->
+                    <span
+                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+                      <span class="material-symbols-outlined text-label-md">videocam</span>
+                      Téléconsultation Vidéo
+                    </span>
+                    <!-- Semantic Status Badge: Confirmé (Sky/Azure) -->
+                    <span
+                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-sky-100 text-sky-700 font-label-sm text-label-sm font-semibold">
+                      <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+                      Confirmé
+                    </span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">RDV-2024-8841</span>
+                </div>
+                <div class="flex items-start gap-spacing-md">
+                  <div class="relative shrink-0">
+                    <img class="w-16 h-16 rounded-xl object-cover"
+                      data-alt="Portrait photograph of Dr Sophie Laurent, a compassionate female cardiologist wearing a clinical white coat and navy stethoscope, warm clinic background with soft diffuse light, professional and approachable expression"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuARQeykbkCMVYiTDFsLNQjqTA1R7rwkFQPARHUYJ9rRsVBsr3phx-csszyfX2HRpVcks-h3e2y9_YFQiqekCzTyusQ9at0vBR-pFiW7A3A8vRw2VIe1c9JQe8n0B46o38L_wIiHQpRdYKyD8tmY_2nVxdpBUwZJuPP3cJMBaxQYYwdxziifVE03BBySWv2PGF5EK1vTeWID-1Snrj6aNfJe6Y5fU9JmKEB8scVUn6Exy-TxUGhu8fu7" />
+                    <span
+                      class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary-container shadow-[0_0_0_2px_#ffffff]"
+                      title="En ligne dans son cabinet virtuel"></span>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <h3 class="font-title-md text-title-md font-semibold text-on-surface truncate">Dr. Sophie Laurent
+                    </h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Cardiologie clinique & Rythmologie</p>
+                    <div
+                      class="flex items-center gap-spacing-xs mt-spacing-2xs text-on-surface-variant font-body-sm text-body-sm">
+                      <span class="material-symbols-outlined text-title-md text-secondary">domain</span>
+                      <span class="truncate">Institut Médical Cardio-Care • Yaoundé & Paris</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-spacing-sm flex items-center justify-between">
+                  <div class="flex items-center gap-spacing-xs">
+                    <span class="material-symbols-outlined text-primary text-title-md">schedule</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-md text-label-md font-semibold text-on-surface">Aujourd'hui, 24 Octobre
+                        2024</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">14:30 - 15:00 (30 min)</span>
+                    </div>
+                  </div>
+                  <span
+                    class="px-spacing-xs py-spacing-2xs rounded bg-surface-container-highest text-primary font-label-sm text-label-sm font-semibold">
+                    Démarre dans 45 min
+                  </span>
+                </div>
+              </div>
+              <div
+                class="flex flex-wrap items-center justify-between gap-spacing-sm pt-spacing-sm bg-gradient-to-r from-transparent via-surface-container-high/30 to-transparent">
+                <div class="flex items-center gap-spacing-xs">
+                  <button
+                    class="px-spacing-md py-spacing-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors"
+                    type="button">
+                    Modifier
+                  </button>
+                  <button
+                    class="px-spacing-md py-spacing-xs rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md"
+                    type="button">
+                    Détails & Consignes
+                  </button>
+                </div>
+                <button
+                  class="flex items-center gap-spacing-xs px-spacing-lg py-spacing-xs rounded-xl bg-secondary hover:bg-on-secondary-fixed-variant text-on-secondary font-label-md text-label-md font-semibold transition-all shadow-[0_4px_12px_rgba(0,101,145,0.25)]"
+                  type="button">
+                  <span class="material-symbols-outlined text-title-md">videocam</span>
+                  <span>Rejoindre le salon vidéo</span>
+                </button>
+              </div>
+            </div>
+            <!-- RDV 2 : En attente / Présentiel cabinet -->
+            <div
+              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-lg transition-all hover:shadow-md">
+              <div class="flex flex-col gap-spacing-md">
+                <div class="flex items-start justify-between gap-spacing-sm">
+                  <div class="flex items-center gap-spacing-xs">
+                    <span
+                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                      <span class="material-symbols-outlined text-label-md">apartment</span>
+                      Présentiel Cabinet
+                    </span>
+                    <!-- Semantic Status Badge: En attente (Amber) -->
+                    <span
+                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-amber-100 text-amber-800 font-label-sm text-label-sm font-semibold">
+                      <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                      En attente de validation
+                    </span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">RDV-2024-9120</span>
+                </div>
+                <div class="flex items-start gap-spacing-md">
+                  <div class="relative shrink-0">
+                    <img class="w-16 h-16 rounded-xl object-cover"
+                      data-alt="Portrait photography of Dr Marc Toure, a warm, professional West African male general practitioner in his 40s wearing a modern dark cyan scrubs top, smiling reassuringly in a bright, modern medical practice"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWJX-KaskiHtASk8qDiMkdSuMmBoRID71J4AjUY-a8M6Ncz8wEhA9cPPkYog968nYRM_HlDqsvIyVQJLOYAI7FDIIBJO1zypPe8wcV60KUMnITYc7inZcLBL5krIv7Qrv_9RrOhdLx68hIn4l6je7ZSGOM5QKai61sMAodfObtl9Oye428KkI5tG-L_ZddqEWIk6-JsHBCM2IUAup3gi35xo5_kgNhngXOAFarHX_cfXPa_-0pZYwT" />
+                    <span
+                      class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-amber-400 shadow-[0_0_0_2px_#ffffff]"
+                      title="Planning en cours de synchronisation"></span>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <h3 class="font-title-md text-title-md font-semibold text-on-surface truncate">Dr. Marc Touré</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Médecine Générale • Praticien Traitant
+                    </p>
+                    <div
+                      class="flex items-center gap-spacing-xs mt-spacing-2xs text-on-surface-variant font-body-sm text-body-sm">
+                      <span class="material-symbols-outlined text-title-md text-primary">location_on</span>
+                      <span class="truncate">Polyclinique MboaSanté • Bâtiment B, Salle 104</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-spacing-sm flex items-center justify-between">
+                  <div class="flex items-center gap-spacing-xs">
+                    <span class="material-symbols-outlined text-secondary text-title-md">calendar_month</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-md text-label-md font-semibold text-on-surface">Lundi 28 Octobre
+                        2024</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">09:15 - 09:45</span>
+                    </div>
+                  </div>
+                  <span
+                    class="px-spacing-xs py-spacing-2xs rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+                    Confirmation sous 2h
+                  </span>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-spacing-sm pt-spacing-sm">
+                <div class="flex items-center gap-spacing-xs">
+                  <button
+                    class="px-spacing-md py-spacing-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors"
+                    type="button">
+                    Modifier
+                  </button>
+                  <button
+                    class="px-spacing-md py-spacing-xs rounded-xl text-error hover:bg-error-container/50 font-label-md text-label-md transition-colors"
+                    type="button">
+                    Annuler
+                  </button>
+                </div>
+                <button
+                  class="flex items-center gap-spacing-xs px-spacing-md py-spacing-xs rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors"
+                  type="button">
+                  <span class="material-symbols-outlined text-title-md">map</span>
+                  <span>Itinéraire & Accès</span>
+                </button>
+              </div>
+            </div>
+            <!-- RDV 3 : Honoré (Completed) / Examen de suivi -->
+            <div
+              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-lg opacity-95">
+              <div class="flex flex-col gap-spacing-md">
+                <div class="flex items-start justify-between gap-spacing-sm">
+                  <div class="flex items-center gap-spacing-xs">
+                    <span
+                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                      <span class="material-symbols-outlined text-label-md">videocam</span>
+                      Téléconsultation
+                    </span>
+                    <!-- Semantic Status Badge: Honoré (Emerald) -->
+                    <span
+                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-emerald-100 text-emerald-700 font-label-sm text-label-sm font-semibold">
+                      <span class="material-symbols-outlined text-label-sm">check_circle</span>
+                      Honoré
+                    </span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">RDV-2024-7419</span>
+                </div>
+                <div class="flex items-start gap-spacing-md">
+                  <div
+                    class="w-16 h-16 rounded-xl bg-surface-container-high flex items-center justify-center text-primary font-headline-sm text-headline-sm font-bold shrink-0">
+                    AB
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <h3 class="font-title-md text-title-md font-semibold text-on-surface truncate">Dr. Aminata Bamba
+                    </h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Dermatologie & Vénérologie</p>
+                    <div
+                      class="flex items-center gap-spacing-xs mt-spacing-2xs text-on-surface-variant font-body-sm text-body-sm">
+                      <span class="material-symbols-outlined text-title-md text-primary-container">verified</span>
+                      <span class="truncate">Compte-rendu et ordonnance générés</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-spacing-sm flex items-center justify-between">
+                  <div class="flex items-center gap-spacing-xs">
+                    <span class="material-symbols-outlined text-on-surface-variant text-title-md">history</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-md text-label-md font-semibold text-on-surface">15 Octobre 2024</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Terminé avec succès</span>
+                    </div>
+                  </div>
+                  <button
+                    class="text-primary hover:text-primary-container font-label-sm text-label-sm font-semibold flex items-center gap-spacing-2xs"
+                    type="button">
+                    <span class="material-symbols-outlined text-label-md">download</span>
+                    Télécharger l'ordonnance
+                  </button>
+                </div>
+              </div>
+              <div class="flex items-center justify-between gap-spacing-sm pt-spacing-sm">
+                <button class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md" type="button">
+                  Voir le récapitulatif
+                </button>
+                <button
+                  class="px-spacing-md py-spacing-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors"
+                  type="button">
+                  Prendre un suivi
+                </button>
+              </div>
+            </div>
+            <!-- RDV 4 : Annulé (Cancelled) -->
+            <div
+              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-lg opacity-80">
+              <div class="flex flex-col gap-spacing-md">
+                <div class="flex items-start justify-between gap-spacing-sm">
+                  <div class="flex items-center gap-spacing-xs">
+                    <span
+                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                      <span class="material-symbols-outlined text-label-md">apartment</span>
+                      Présentiel
+                    </span>
+                    <!-- Semantic Status Badge: Annulé (Soft Red) -->
+                    <span
+                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-red-100 text-red-700 font-label-sm text-label-sm font-semibold">
+                      <span class="material-symbols-outlined text-label-sm">cancel</span>
+                      Annulé
+                    </span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">RDV-2024-6502</span>
+                </div>
+                <div class="flex items-start gap-spacing-md">
+                  <div
+                    class="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant font-headline-sm text-headline-sm font-bold shrink-0">
+                    JK
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <h3 class="font-title-md text-title-md font-semibold text-on-surface truncate">Dr. Joseph Kamga</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Ophtalmologie</p>
+                    <div
+                      class="flex items-center gap-spacing-xs mt-spacing-2xs text-on-surface-variant font-body-sm text-body-sm">
+                      <span class="material-symbols-outlined text-title-md text-error">info</span>
+                      <span class="truncate">Annulé par le patient (déplacement)</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-spacing-sm flex items-center justify-between">
+                  <div class="flex items-center gap-spacing-xs">
+                    <span class="material-symbols-outlined text-on-surface-variant text-title-md">event_busy</span>
+                    <div class="flex flex-col">
+                      <span class="font-label-md text-label-md font-medium text-on-surface-variant">Prévu initialement
+                        le 02 Oct.</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Remboursement sans frais
+                        effectué</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between gap-spacing-sm pt-spacing-sm">
+                <span class="font-label-sm text-label-sm text-on-surface-variant">Réf. remboursement : RB-9031</span>
+                <button
+                  class="px-spacing-md py-spacing-xs rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-colors"
+                  type="button">
+                  Reprendre ce créneau
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Section 2 : Accès rapide à mon Dossier & Historique Médical -->
+        <section class="flex flex-col gap-spacing-md">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="font-headline-md text-headline-md font-semibold text-on-surface">Dossier & Historique Médical
+              </h2>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Vos documents officiels, prescriptions
+                chiffrées et profil biométrique synchronisés.</p>
+            </div>
+            <span class="inline-flex items-center gap-spacing-2xs text-primary font-label-md text-label-md">
+              <span class="material-symbols-outlined text-title-md">lock</span>
+              Chiffrement de bout en bout
+            </span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-spacing-lg">
+            <!-- Tuile 1 : Dernières prescriptions téléchargeables -->
+            <div
+              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-md relative overflow-hidden group hover:shadow-md transition-all">
+              <div class="absolute top-0 left-0 bottom-0 w-1.5 bg-primary-container"></div>
+              <div class="flex flex-col gap-spacing-sm">
+                <div class="flex items-center justify-between">
+                  <div class="w-10 h-10 rounded-lg bg-primary-fixed/40 text-primary flex items-center justify-center">
+                    <span class="material-symbols-outlined text-title-md">receipt_long</span>
+                  </div>
+                  <span
+                    class="inline-flex items-center gap-1 font-label-sm text-label-sm font-semibold px-spacing-xs py-spacing-2xs rounded bg-surface-container text-primary">
+                    <span class="material-symbols-outlined text-label-sm">qr_code_2</span>
+                    QR Validé
+                  </span>
+                </div>
+                <div>
+                  <h3 class="font-title-md text-title-md font-semibold text-on-surface">Dernières Prescriptions</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-spacing-2xs">Ordonnances électroniques
+                    sécurisées compatibles en pharmacie.</p>
+                </div>
+                <div
+                  class="bg-surface-container-low rounded-lg p-spacing-xs flex flex-col gap-spacing-2xs font-mono text-code-prescription text-on-surface">
+                  <div class="flex justify-between items-center">
+                    <span class="truncate">BISOPROLOL 2.5MG</span>
+                    <span class="text-on-surface-variant shrink-0">1 cp / matin</span>
+                  </div>
+                  <div class="flex justify-between items-center text-on-surface-variant">
+                    <span class="truncate">RAMIPRIL 5MG</span>
+                    <span class="shrink-0">1 cp / soir</span>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="w-full flex items-center justify-center gap-spacing-xs py-spacing-sm px-spacing-md rounded-xl bg-surface-container hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md transition-colors"
+                type="button">
+                <span class="material-symbols-outlined text-title-md">download</span>
+                <span>Télécharger PDF signé (e-Prescription)</span>
+              </button>
+            </div>
+            <!-- Tuile 2 : Comptes-rendus de consultations passées -->
+            <div
+              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-md relative overflow-hidden group hover:shadow-md transition-all">
+              <div class="absolute top-0 left-0 bottom-0 w-1.5 bg-secondary"></div>
+              <div class="flex flex-col gap-spacing-sm">
+                <div class="flex items-center justify-between">
+                  <div class="w-10 h-10 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center">
+                    <span class="material-symbols-outlined text-title-md">clinical_notes</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">6 documents</span>
+                </div>
+                <div>
+                  <h3 class="font-title-md text-title-md font-semibold text-on-surface">Comptes-Rendus Médicaux</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-spacing-2xs">Synthèses rédigées par vos
+                    praticiens avec observations et bilans.</p>
+                </div>
+                <div class="flex flex-col gap-spacing-xs">
+                  <div class="p-spacing-xs rounded-lg bg-surface-container-low flex items-center justify-between">
+                    <div class="flex flex-col min-w-0">
+                      <span class="font-label-md text-label-md font-medium text-on-surface truncate">Bilan cardiologique
+                        annuel</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">Dr. Laurent • 12/10/2024</span>
+                    </div>
+                    <span class="material-symbols-outlined text-secondary text-title-md">visibility</span>
+                  </div>
+                  <div class="p-spacing-xs rounded-lg bg-surface-container-low flex items-center justify-between">
+                    <div class="flex flex-col min-w-0">
+                      <span class="font-label-md text-label-md font-medium text-on-surface truncate">Bilan sanguin
+                        complet</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">Laboratoire Central •
+                        04/09/2024</span>
+                    </div>
+                    <span class="material-symbols-outlined text-secondary text-title-md">visibility</span>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="w-full flex items-center justify-center gap-spacing-xs py-spacing-sm px-spacing-md rounded-xl bg-surface-container hover:bg-secondary hover:text-on-secondary text-on-surface font-label-md text-label-md transition-colors"
+                type="button">
+                <span class="material-symbols-outlined text-title-md">folder_open</span>
+                <span>Explorer les archives</span>
+              </button>
+            </div>
+            <!-- Tuile 3 : Mes constantes et allergies signalées -->
+            <div
+              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-md relative overflow-hidden group hover:shadow-md transition-all">
+              <div class="absolute top-0 left-0 bottom-0 w-1.5 bg-tertiary"></div>
+              <div class="flex flex-col gap-spacing-sm">
+                <div class="flex items-center justify-between">
+                  <div
+                    class="w-10 h-10 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center">
+                    <span class="material-symbols-outlined text-title-md">vital_signs</span>
+                  </div>
+                  <span
+                    class="px-spacing-xs py-spacing-2xs rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-label-sm">warning</span>
+                    2 Allergies
+                  </span>
+                </div>
+                <div>
+                  <h3 class="font-title-md text-title-md font-semibold text-on-surface">Constantes & Allergies</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-spacing-2xs">Données vitales actives
+                    communiquées à l'équipe médicale en urgence.</p>
+                </div>
+                <!-- Mini Vital Visualizer -->
+                <div class="flex flex-col gap-spacing-xs">
+                  <div class="flex items-center justify-between font-label-sm text-label-sm">
+                    <span class="text-on-surface-variant">Fréquence cardiaque</span>
+                    <span class="font-semibold text-primary">68 BPM (Normal)</span>
+                  </div>
+                  <div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+                    <div class="h-full bg-primary rounded-full" style="width: 62%;"></div>
+                  </div>
+                  <div class="mt-spacing-2xs flex flex-wrap gap-spacing-2xs">
+                    <span
+                      class="px-spacing-xs py-spacing-2xs rounded bg-error-container/60 text-error font-label-sm text-label-sm font-medium">
+                      Pénicilline (Majeure)
+                    </span>
+                    <span
+                      class="px-spacing-xs py-spacing-2xs rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                      Arachide (Modérée)
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="w-full flex items-center justify-center gap-spacing-xs py-spacing-sm px-spacing-md rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors"
+                type="button">
+                <span class="material-symbols-outlined text-title-md">edit_note</span>
+                <span>Mettre à jour les constantes</span>
+              </button>
+            </div>
+            <!-- Tuile 4 : Mon médecin traitant -->
+            <div
+              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-md relative overflow-hidden group hover:shadow-md transition-all">
+              <div class="absolute top-0 left-0 bottom-0 w-1.5 bg-secondary-container"></div>
+              <div class="flex flex-col gap-spacing-sm">
+                <div class="flex items-center justify-between">
+                  <div
+                    class="w-10 h-10 rounded-lg bg-secondary-fixed-dim/40 text-secondary flex items-center justify-center">
+                    <span class="material-symbols-outlined text-title-md">stethoscope</span>
+                  </div>
+                  <span
+                    class="px-spacing-xs py-spacing-2xs rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm font-semibold">
+                    Déclaré CPAM
+                  </span>
+                </div>
+                <div>
+                  <h3 class="font-title-md text-title-md font-semibold text-on-surface">Médecin Traitant Déclaré</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant mt-spacing-2xs">Votre référent parcours de
+                    soin coordonné sur le réseau MboaCare.</p>
+                </div>
+                <div class="bg-surface-container-low p-spacing-sm rounded-xl flex items-center gap-spacing-sm">
+                  <img class="w-12 h-12 rounded-full object-cover shrink-0"
+                    data-alt="Close up warm headshot of Dr Marc Toure, gentle African doctor with trimmed beard, wearing navy medical scrubs and warm ambient light"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkIacvgVyPG4bofy-p4XLBDBIz6X7hIrjyXX2t3YcqWAZKkuUywrYEeeXw5ghXtlLzQysA1HXfOzKSeMzieRBsP-bEJj-UHw9cco9gBKruz272NoyNqcaLbHuV1JV3-JnjtPvKZvD9Px_pQdEw9Tk_CM-dTwKH2Norya66iSSoWCYTdiHijQ2zSHykql0X6jd_7O-ykx5sc8WE8DkVWMWYpU6KNGQYE_YoAZieq-b84jh8fTCesqBO" />
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-title-md text-title-md font-semibold text-on-surface truncate">Dr. Marc
+                      Touré</span>
+                    <span class="font-body-sm text-body-sm text-on-surface-variant truncate">Cabinet MboaSanté
+                      Yaoundé</span>
+                    <span class="font-label-sm text-label-sm text-primary font-medium mt-spacing-2xs">Disponibilité :
+                      Aujourd'hui</span>
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-spacing-xs">
+                <button
+                  class="flex items-center justify-center gap-spacing-2xs py-spacing-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors"
+                  type="button">
+                  <span class="material-symbols-outlined text-title-md">chat</span>
+                  <span>Message</span>
+                </button>
+                <button
+                  class="flex items-center justify-center gap-spacing-2xs py-spacing-sm rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-colors"
+                  type="button">
+                  <span class="material-symbols-outlined text-title-md">event</span>
+                  <span>Rendez-vous</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Interactive Help & Health Prevention Banner -->
+        <div
+          class="bg-gradient-to-r from-primary to-tertiary rounded-xl p-spacing-lg text-on-primary shadow-sm flex flex-col md:flex-row items-center justify-between gap-spacing-lg">
+          <div class="flex items-center gap-spacing-md">
+            <div
+              class="w-12 h-12 rounded-xl bg-on-primary/10 backdrop-blur-md flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-headline-sm text-on-primary">support_agent</span>
+            </div>
+            <div class="flex flex-col">
+              <h4 class="font-title-md text-title-md font-semibold text-on-primary">Une question médicale ou besoin
+                d'assistance ?</h4>
+              <p class="font-body-sm text-body-sm text-on-primary/80">Notre cellule d'orientation clinique MboaCare est
+                joignable 24h/7j pour vous guider vers le bon spécialiste.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-spacing-sm shrink-0">
+            <button
+              class="px-spacing-lg py-spacing-sm rounded-xl bg-surface-container-lowest text-primary font-label-md text-label-md font-semibold hover:bg-surface-bright transition-colors shadow-sm"
+              type="button">
+              Contacter l'Assistance
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>

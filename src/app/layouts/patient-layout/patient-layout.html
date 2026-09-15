@@ -1,1 +1,8 @@
-<p>patient-layout works!</p>
+<div class="min-h-screen flex flex-col bg-background text-on-surface">
+  <app-navbar role="patient"></app-navbar>
+  <app-loader></app-loader>
+  <main class="flex-grow">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer></app-footer>
+</div>

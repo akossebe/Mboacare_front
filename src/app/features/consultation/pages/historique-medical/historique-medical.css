@@ -1,0 +1,68 @@
+/* ==========================================================================
+   MBOACARE - MODULE 2: HISTORIQUE MÉDICAL & COMPTES-RENDUS
+   ========================================================================== */
+
+.medical-timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin-top: 1.5rem;
+}
+
+.medical-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.65rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #bbcabf;
+}
+
+.timeline-event {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -2rem;
+  top: 0.25rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 3px solid #006c49;
+  box-shadow: 0 0 0 4px #eff4ff;
+}
+
+.timeline-dot.hospital {
+  border-color: #006591;
+}
+
+.timeline-card {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e5eeff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.prescription-preview-box {
+  background: #f8f9ff;
+  border: 1px dashed #bbcabf;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.medication-pill-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5eeff;
+}
+
+.medication-pill-row:last-child {
+  border-bottom: none;
+}
