@@ -1,4 +1,4 @@
-<div class="pl-72"><main class="relative pt-20 w-full px-spacing-xl bg-background"><div class="flex flex-col w-full pb-spacing-3xl space-y-spacing-xl">
+<div class="w-full"><main class="relative pt-20 w-full px-spacing-xl bg-background"><div class="flex flex-col w-full pb-spacing-3xl space-y-spacing-xl">
 <!-- Top Metadata Ribbon & Status Indicators -->
 <div class="flex flex-wrap items-center justify-between gap-spacing-md">
 <div class="flex items-center gap-spacing-md">
@@ -148,176 +148,78 @@
 </div>
 </div>
 <!-- Treatment Cards / Rows -->
+<!-- Treatment Cards / Rows -->
 <div class="space-y-spacing-md" id="prescription-lines-container">
-<!-- Line 1: Amiodarone -->
-<div class="group relative bg-surface rounded-xl p-spacing-md hover:bg-surface-container-low transition-all shadow-sm">
-<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-spacing-md">
-<!-- Medicine Name & Category -->
-<div class="xl:w-1/4 flex items-start gap-spacing-sm">
-<div class="w-8 h-8 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-label-md shrink-0">
-              1
-            </div>
-<div class="min-w-0">
-<div class="flex items-center gap-spacing-xs flex-wrap">
-<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Amiodarone (Cordarone®)</span>
-<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-code-prescription text-code-prescription font-medium">200 mg</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5">Antiarythmique de classe III • Comprimé sécable</span>
-</div>
-</div>
-<!-- 4 Required Fields Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-spacing-sm xl:w-2/4">
-<!-- Posologie -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Posologie usuelle</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 comp. le matin au milieu du repas</span>
-</div>
-<!-- Durée -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Durée du traitement</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">30 jours</span>
-</div>
-<!-- Quantité -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Conditionnement</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 boîte (30 comp.)</span>
-</div>
-<!-- Renouvellement -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Renouvellement</span>
-<span class="font-label-md text-label-md text-primary font-semibold mt-0.5">Répétable 2x</span>
-</div>
-</div>
-<!-- Line Meta & Actions -->
-<div class="flex items-center justify-between xl:justify-end gap-spacing-sm xl:w-1/4">
-<span class="px-spacing-xs py-1 rounded-full bg-primary-fixed/60 text-on-primary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
-<span class="material-symbols-outlined text-label-sm">check_circle</span> Substituable
-            </span>
-<div class="flex items-center gap-spacing-2xs">
-<button aria-label="Éditer la ligne" class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button">
-<span class="material-symbols-outlined text-title-md">edit</span>
-</button>
-<button aria-label="Supprimer la ligne" class="p-1.5 text-on-surface-variant hover:text-error hover:bg-surface-container rounded-lg transition-colors" type="button">
-<span class="material-symbols-outlined text-title-md">delete</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Line 2: Bisoprolol (Non Substituable) -->
-<div class="group relative bg-surface rounded-xl p-spacing-md hover:bg-surface-container-low transition-all shadow-sm">
-<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-spacing-md">
-<!-- Medicine Name & Category -->
-<div class="xl:w-1/4 flex items-start gap-spacing-sm">
-<div class="w-8 h-8 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-label-md shrink-0">
-              2
-            </div>
-<div class="min-w-0">
-<div class="flex items-center gap-spacing-xs flex-wrap">
-<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Bisoprolol</span>
-<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-code-prescription text-code-prescription font-medium">2.5 mg</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5">Bêta-bloquant sélectif • Comprimé pelliculé</span>
-</div>
-</div>
-<!-- 4 Required Fields Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-spacing-sm xl:w-2/4">
-<!-- Posologie -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Posologie usuelle</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1/2 comprimé le soir au coucher</span>
-</div>
-<!-- Durée -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Durée du traitement</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 mois (30j)</span>
-</div>
-<!-- Quantité -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Conditionnement</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 boîte (30 comp.)</span>
-</div>
-<!-- Renouvellement -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Renouvellement</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">Non renouvelable</span>
-</div>
-</div>
-<!-- Line Meta & Actions -->
-<div class="flex items-center justify-between xl:justify-end gap-spacing-sm xl:w-1/4">
-<span class="px-spacing-xs py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex items-center gap-1">
-<span class="material-symbols-outlined text-label-sm">lock</span> Non Substituable (MTE)
-            </span>
-<div class="flex items-center gap-spacing-2xs">
-<button aria-label="Éditer la ligne" class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button">
-<span class="material-symbols-outlined text-title-md">edit</span>
-</button>
-<button aria-label="Supprimer la ligne" class="p-1.5 text-on-surface-variant hover:text-error hover:bg-surface-container rounded-lg transition-colors" type="button">
-<span class="material-symbols-outlined text-title-md">delete</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Line 3: Bilan Biologique -->
-<div class="group relative bg-surface rounded-xl p-spacing-md hover:bg-surface-container-low transition-all shadow-sm">
-<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-spacing-md">
-<!-- Medicine / Exam Name & Category -->
-<div class="xl:w-1/4 flex items-start gap-spacing-sm">
-<div class="w-8 h-8 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-label-md shrink-0">
-              3
-            </div>
-<div class="min-w-0">
-<div class="flex items-center gap-spacing-xs flex-wrap">
-<span class="font-title-md text-title-md text-on-surface font-semibold truncate">Bilan sanguin iono + TSH</span>
-<span class="px-2 py-0.5 rounded bg-tertiary-fixed-dim text-on-tertiary-fixed font-code-prescription text-code-prescription font-medium">Bio</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5">Surveillance amiodarone • Biologie médicale</span>
-</div>
-</div>
-<!-- 4 Required Fields Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-spacing-sm xl:w-2/4">
-<!-- Posologie / Instructions -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Conditions de réalisation</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">À jeun en laboratoire de ville</span>
-</div>
-<!-- Durée / Délai -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Délai d'exécution</span>
-<span class="font-label-md text-label-md text-error font-medium mt-0.5">Sous 7 jours</span>
-</div>
-<!-- Quantité -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Prélèvement</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">1 analyse complète</span>
-</div>
-<!-- Renouvellement -->
-<div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Renouvellement</span>
-<span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">Acte unique</span>
-</div>
-</div>
-<!-- Line Meta & Actions -->
-<div class="flex items-center justify-between xl:justify-end gap-spacing-sm xl:w-1/4">
-<span class="px-spacing-xs py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold flex items-center gap-1">
-<span class="material-symbols-outlined text-label-sm">biotech</span> Prise de sang
-            </span>
-<div class="flex items-center gap-spacing-2xs">
-<button aria-label="Éditer la ligne" class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button">
-<span class="material-symbols-outlined text-title-md">edit</span>
-</button>
-<button aria-label="Supprimer la ligne" class="p-1.5 text-on-surface-variant hover:text-error hover:bg-surface-container rounded-lg transition-colors" type="button">
-<span class="material-symbols-outlined text-title-md">delete</span>
-</button>
-</div>
-</div>
-</div>
-</div>
+  <div *ngIf="lignesMedicaments.length === 0" class="text-center p-spacing-xl bg-surface-container-lowest rounded-xl shadow-sm text-on-surface-variant">
+    Aucun traitement n'a encore été ajouté.
+  </div>
+
+  <div *ngFor="let med of lignesMedicaments; let i = index" class="group relative bg-surface rounded-xl p-spacing-md hover:bg-surface-container-low transition-all shadow-sm">
+    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-spacing-md">
+      <!-- Medicine Name -->
+      <div class="xl:w-1/4 flex items-start gap-spacing-sm">
+        <div class="w-8 h-8 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-label-md shrink-0">
+          {{ i + 1 }}
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-spacing-xs flex-wrap">
+            <span class="font-title-md text-title-md text-on-surface font-semibold truncate">{{ med.nomMedicament }}</span>
+          </div>
+          <span class="font-label-sm text-label-sm text-on-surface-variant block mt-0.5">Médicament standard</span>
+        </div>
+      </div>
+      <!-- 4 Required Fields Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-spacing-sm xl:w-2/4">
+        <!-- Posologie -->
+        <div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+          <span class="font-label-sm text-label-sm text-on-surface-variant">Posologie usuelle</span>
+          <span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">{{ med.posologie }}</span>
+        </div>
+        <!-- Durée -->
+        <div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+          <span class="font-label-sm text-label-sm text-on-surface-variant">Durée du traitement</span>
+          <span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">{{ med.duree }}</span>
+        </div>
+        <!-- Quantité -->
+        <div class="bg-surface-container-lowest p-spacing-xs rounded-lg flex flex-col">
+          <span class="font-label-sm text-label-sm text-on-surface-variant">Conditionnement</span>
+          <span class="font-label-md text-label-md text-on-surface font-medium mt-0.5">{{ med.quantite }} boîte(s)</span>
+        </div>
+      </div>
+      <!-- Line Meta & Actions -->
+      <div class="flex items-center justify-between xl:justify-end gap-spacing-sm xl:w-1/4">
+        <div class="flex items-center gap-spacing-2xs">
+          <button (click)="supprimerLigne(i)" aria-label="Supprimer la ligne" class="p-1.5 text-on-surface-variant hover:text-error hover:bg-surface-container rounded-lg transition-colors" type="button">
+            <span class="material-symbols-outlined text-title-md">delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulaire d'ajout rapide -->
+  <div class="bg-surface-container-lowest rounded-xl p-spacing-md shadow-sm border border-primary/20">
+    <h3 class="font-label-md text-primary font-bold mb-spacing-sm">Ajouter un nouveau traitement</h3>
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-spacing-sm">
+      <div class="md:col-span-2">
+        <input [(ngModel)]="nouveauMedicament.nomMedicament" placeholder="Nom du médicament" class="w-full px-3 py-2 bg-surface-container text-on-surface rounded-lg font-body-sm focus:outline-none focus:ring-2 focus:ring-primary/40">
+      </div>
+      <div>
+        <input [(ngModel)]="nouveauMedicament.posologie" placeholder="Posologie" class="w-full px-3 py-2 bg-surface-container text-on-surface rounded-lg font-body-sm focus:outline-none focus:ring-2 focus:ring-primary/40">
+      </div>
+      <div>
+        <input [(ngModel)]="nouveauMedicament.duree" placeholder="Durée" class="w-full px-3 py-2 bg-surface-container text-on-surface rounded-lg font-body-sm focus:outline-none focus:ring-2 focus:ring-primary/40">
+      </div>
+      <div>
+        <input type="number" [(ngModel)]="nouveauMedicament.quantite" placeholder="Qté" class="w-full px-3 py-2 bg-surface-container text-on-surface rounded-lg font-body-sm focus:outline-none focus:ring-2 focus:ring-primary/40">
+      </div>
+    </div>
+    <div *ngIf="messageError" class="text-error font-label-sm mt-1">{{ messageError }}</div>
+  </div>
 </div>
 <!-- Add Treatment CTA & Direct VIDAL Quick Bar -->
 <div class="pt-spacing-xs flex flex-wrap items-center justify-between gap-spacing-md">
-<button class="flex items-center gap-spacing-xs px-spacing-lg py-spacing-sm bg-primary text-on-primary rounded-xl font-label-md text-label-md font-semibold hover:bg-primary/90 transition-all shadow-sm" id="btn-add-med" type="button">
+<button (click)="ajouterLigne()" class="flex items-center gap-spacing-xs px-spacing-lg py-spacing-sm bg-primary text-on-primary rounded-xl font-label-md text-label-md font-semibold hover:bg-primary/90 transition-all shadow-sm" type="button">
 <span class="material-symbols-outlined text-title-md">add_circle</span>
 <span>+ Ajouter un médicament / examen</span>
 </button>
@@ -430,10 +332,11 @@
 <span class="material-symbols-outlined text-title-md">print</span>
 <span>Imprimer duplicata papier</span>
 </button>
-<button class="w-full sm:w-auto px-spacing-xl py-spacing-md bg-primary-container text-on-primary font-title-md text-title-md font-semibold rounded-xl hover:bg-primary transition-all shadow-md hover:shadow-xl flex items-center justify-center gap-spacing-sm" id="btn-submit-prescription" type="button">
+<button (click)="enregistrerPrescription()" [disabled]="isSaving" class="w-full sm:w-auto px-spacing-xl py-spacing-md bg-primary-container text-on-primary font-title-md text-title-md font-semibold rounded-xl hover:bg-primary transition-all shadow-md hover:shadow-xl flex items-center justify-center gap-spacing-sm" type="button">
 <span class="material-symbols-outlined text-headline-sm">send_and_archive</span>
-<span>Envoyer la prescription sécurisée</span>
+<span><ng-container *ngIf="!isSaving">Envoyer la prescription sécurisée</ng-container><ng-container *ngIf="isSaving">Enregistrement...</ng-container></span>
 </button>
+<div *ngIf="messageSuccess" class="w-full text-center text-primary font-label-md mt-2">{{ messageSuccess }}</div>
 </div>
 </div>
 </div>

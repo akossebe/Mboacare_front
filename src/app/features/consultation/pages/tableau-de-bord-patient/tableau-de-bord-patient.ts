@@ -60,6 +60,17 @@ export class TableauDeBordPatient implements OnInit {
     });
   }
 
+  annulerRdv(id: number): void {
+    if (confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous ?')) {
+      this.rdvService.annuler(id).subscribe({
+        next: () => {
+          this.chargerDonnees();
+        },
+        error: (err) => console.error('Erreur annulation RDV:', err)
+      });
+    }
+  }
+
   telechargerPdfConsultation(idConsultation: number): void {
     this.consultationService.genererPdf(idConsultation).subscribe({
       next: (blob) => {

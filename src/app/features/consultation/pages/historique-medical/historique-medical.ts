@@ -66,4 +66,8 @@ export class HistoriqueMedicalComponent implements OnInit {
       }
     });
   }
+
+  getPrescription(idConsultation: number): PrescriptionResDTO | undefined {
+    return this.prescriptions.find(p => p.idConsultation === idConsultation);
+  }
 }

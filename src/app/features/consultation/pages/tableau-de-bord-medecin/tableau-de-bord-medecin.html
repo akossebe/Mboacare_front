@@ -1,4 +1,4 @@
-<div class="pl-72">
+<div class="w-full">
     
     <main class="relative pt-20 w-full px-spacing-xl bg-background">
       <div class="flex flex-col w-full">
@@ -23,9 +23,9 @@
                 </div>
                 <span class="font-body-md text-body-md text-primary font-semibold">Cardiologie & Médecine Interne</span>
                 <span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
-                  <span class="material-symbols-outlined text-label-md text-secondary">calendar_today</span>
-                  Jeudi 24 Octobre 2024 • Service Hospitalo-Universitaire & Téléclinique
-                </span>
+  <span class="material-symbols-outlined text-label-md text-secondary">calendar_today</span>
+  {{ currentDate | date:'fullDate':'':'fr-FR' }} • Service Hospitalo-Universitaire & Téléclinique
+</span>
               </div>
             </div>
             <div class="flex flex-wrap items-center gap-spacing-sm">
@@ -49,79 +49,57 @@
           </div>
           <!-- Synthèse Métriques / Bento Snapshot -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-spacing-md">
-            <!-- Metric 1: Total RDV -->
-            <div
-              class="p-spacing-lg bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between relative overflow-hidden group">
-              <div class="flex flex-col z-10">
-                <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Planning du
-                  jour</span>
-                <span class="font-display-hero text-display-hero text-on-surface mt-spacing-2xs">8</span>
-                <div class="flex items-center gap-spacing-xs mt-spacing-xs">
-                  <span
-                    class="inline-flex items-center px-spacing-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
-                    <span class="w-1.5 h-1.5 rounded-full bg-primary mr-1"></span> 100% Confirmé
-                  </span>
-                  <span class="font-body-sm text-body-sm text-on-surface-variant">Consultations</span>
-                </div>
-              </div>
-              <div
-                class="w-16 h-16 rounded-xl bg-primary-fixed-dim/20 flex items-center justify-center text-primary z-10">
-                <span class="material-symbols-outlined text-display-hero">stethoscope</span>
-              </div>
-              <!-- Decorative SVG wave -->
-              <svg
-                class="absolute bottom-0 right-0 w-32 h-16 text-primary-fixed-dim/15 translate-x-4 translate-y-2 pointer-events-none"
-                fill="currentColor" viewbox="0 0 100 40">
-                <path d="M0 30 Q 25 10, 50 25 T 100 15 L 100 40 L 0 40 Z"></path>
-              </svg>
-            </div>
-            <!-- Metric 2: Téléconsultations -->
-            <div
-              class="p-spacing-lg bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between relative overflow-hidden group">
-              <div class="flex flex-col z-10">
-                <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Vidéo
-                  Directe</span>
-                <span class="font-display-hero text-display-hero text-secondary mt-spacing-2xs">2</span>
-                <div class="flex items-center gap-spacing-xs mt-spacing-xs">
-                  <span
-                    class="inline-flex items-center px-spacing-xs py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
-                    <span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1 animate-pulse"></span> Sécurisées HD
-                  </span>
-                  <span class="font-body-sm text-body-sm text-on-surface-variant">Téléconsultations</span>
-                </div>
-              </div>
-              <div
-                class="w-16 h-16 rounded-xl bg-secondary-fixed/40 flex items-center justify-center text-secondary z-10">
-                <span class="material-symbols-outlined text-display-hero">videocam</span>
-              </div>
-              <!-- Decorative subtle aura -->
-              <div
-                class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-secondary-container/10 pointer-events-none">
-              </div>
-            </div>
-            <!-- Metric 3: Prescriptions à valider -->
-            <div
-              class="p-spacing-lg bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between relative overflow-hidden group">
-              <div class="flex flex-col z-10">
-                <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Actes en
-                  attente</span>
-                <span class="font-display-hero text-display-hero text-tertiary mt-spacing-2xs">3</span>
-                <div class="flex items-center gap-spacing-xs mt-spacing-xs">
-                  <span
-                    class="inline-flex items-center px-spacing-xs py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">
-                    <span class="material-symbols-outlined text-[13px] mr-1">signature</span> Signature Électronique
-                  </span>
-                  <span class="font-body-sm text-body-sm text-on-surface-variant">À valider</span>
-                </div>
-              </div>
-              <div
-                class="w-16 h-16 rounded-xl bg-tertiary-fixed/30 flex items-center justify-center text-tertiary z-10">
-                <span class="material-symbols-outlined text-display-hero">prescriptions</span>
-              </div>
-              <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-tertiary-fixed/20 pointer-events-none">
-              </div>
-            </div>
-          </div>
+<!-- Metric 1: Total RDV -->
+<div class="p-spacing-lg bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between relative overflow-hidden group">
+  <div class="flex flex-col z-10">
+    <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Rendez-vous Total</span>
+    <span class="font-display-hero text-display-hero text-on-surface mt-spacing-2xs">{{ stats?.nombreRendezVousTotal || 0 }}</span>
+    <div class="flex items-center gap-spacing-xs mt-spacing-xs">
+      <span class="inline-flex items-center px-spacing-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+        Taux annulation: {{ stats?.tauxAnnulation || 0 }}%
+      </span>
+    </div>
+  </div>
+  <div class="w-16 h-16 rounded-xl bg-primary-fixed-dim/20 flex items-center justify-center text-primary z-10">
+    <span class="material-symbols-outlined text-display-hero">schedule</span>
+  </div>
+  <svg class="absolute bottom-0 right-0 w-32 h-16 text-primary-fixed-dim/15 translate-x-4 translate-y-2 pointer-events-none" fill="currentColor" viewbox="0 0 100 40">
+    <path d="M0 30 Q 25 10, 50 25 T 100 15 L 100 40 L 0 40 Z"></path>
+  </svg>
+</div>
+<!-- Metric 2: Consultations Réalisées -->
+<div class="p-spacing-lg bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between relative overflow-hidden group">
+  <div class="flex flex-col z-10">
+    <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Consultations Terminées</span>
+    <span class="font-display-hero text-display-hero text-secondary mt-spacing-2xs">{{ stats?.nombreConsultations || 0 }}</span>
+    <div class="flex items-center gap-spacing-xs mt-spacing-xs">
+      <span class="inline-flex items-center px-spacing-xs py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+        Enregistrées avec succès
+      </span>
+    </div>
+  </div>
+  <div class="w-16 h-16 rounded-xl bg-secondary-fixed/40 flex items-center justify-center text-secondary z-10">
+    <span class="material-symbols-outlined text-display-hero">stethoscope</span>
+  </div>
+  <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-secondary-container/10 pointer-events-none"></div>
+</div>
+<!-- Metric 3: Prescriptions -->
+<div class="p-spacing-lg bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between relative overflow-hidden group">
+  <div class="flex flex-col z-10">
+    <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Prescriptions Actives</span>
+    <span class="font-display-hero text-display-hero text-tertiary mt-spacing-2xs">{{ prescriptionsList.length || 0 }}</span>
+    <div class="flex items-center gap-spacing-xs mt-spacing-xs">
+      <span class="inline-flex items-center px-spacing-xs py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">
+        <span class="material-symbols-outlined text-[13px] mr-1">signature</span> Signées
+      </span>
+    </div>
+  </div>
+  <div class="w-16 h-16 rounded-xl bg-tertiary-fixed/30 flex items-center justify-center text-tertiary z-10">
+    <span class="material-symbols-outlined text-display-hero">prescriptions</span>
+  </div>
+  <div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-tertiary-fixed/20 pointer-events-none"></div>
+</div>
+</div>
           <!-- Main Workspace Split: Agenda Column (70%) + Live Room / Alerts Sidebar (30%) -->
           <div class="grid grid-cols-1 xl:grid-cols-12 gap-spacing-xl items-start">
             <!-- Timeline & Detailed Patient Consultations (8 Cols) -->
@@ -146,422 +124,72 @@
               <!-- Agenda List with Timeline Beads -->
               <div
                 class="space-y-spacing-md relative before:absolute before:left-[45px] before:top-6 before:bottom-6 before:w-0.5 before:bg-surface-container-highest">
-                <!-- CRENEAU 1 : 09:00 - EN COURS (Active Consultation) -->
-                <div class="relative flex items-start gap-spacing-md">
-                  <!-- Timeline timestamp -->
-                  <div class="flex flex-col items-center min-w-[70px] pt-2 z-10">
-                    <span class="font-code-prescription text-code-prescription font-bold text-primary">09:00</span>
-                    <span
-                      class="w-4 h-4 rounded-full bg-primary-container ring-4 ring-primary-fixed/40 flex items-center justify-center mt-1">
-                      <span class="w-1.5 h-1.5 rounded-full bg-surface-container-lowest"></span>
-                    </span>
-                    <span class="font-label-sm text-label-sm text-on-surface-variant mt-1">45 min</span>
-                  </div>
-                  <!-- Patient Card Level 2: Active Glow -->
-                  <div
-                    class="flex-1 bg-surface-container-lowest rounded-xl p-spacing-lg shadow-md ring-2 ring-primary-container/30 transition-all">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-spacing-md">
-                      <div class="flex items-center gap-spacing-md">
-                        <div class="relative">
-                          <img class="w-14 h-14 rounded-xl object-cover"
-                            data-alt="Portrait photography of Hélène Mercier, an elegant 62-year-old Caucasian female patient with silver hair, warm and reassuring expression, soft neutral clinic room background, bright ambient light, photorealistic portrait"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgN9LqMIXt_asThpA_kzRpG4c_JJpyiFSVKQrtn7NV_4zyasu39LluYvYcZymCaiamZgl3LANPKs2bXHwt9ShOC8HnsOyh5ZXS5n3OEBm9JwU2c6HlDgFh02Q-klk8Ta6j6co7_6sIPxY0pYjobzTlL3QheOUN85bzpikDP5unn94_r6lDHUfavIdaR_3dkHvTH9ca62CuBCGH2Wo6v2tGMH3xaePZNoQDlgg2iXSORtnSNIH8il1X" />
-                          <span class="absolute -top-1 -right-1 flex h-3 w-3">
-                            <span
-                              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-                          </span>
-                        </div>
-                        <div class="flex flex-col">
-                          <div class="flex items-center gap-spacing-xs">
-                            <span class="font-title-md text-title-md text-on-surface">Hélène Mercier</span>
-                            <span class="font-body-sm text-body-sm text-on-surface-variant">• 62 ans</span>
-                            <!-- Status Pill -->
-                            <span
-                              class="px-spacing-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm flex items-center gap-1 font-semibold">
-                              <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                              En cours
-                            </span>
-                          </div>
-                          <span class="font-body-md text-body-md text-on-surface-variant font-medium mt-0.5">Contrôle
-                            post-opératoire (Pose de stent coronaire J+30)</span>
-                          <div
-                            class="flex items-center gap-spacing-sm mt-1 text-on-surface-variant font-label-sm text-label-sm">
-                            <span class="flex items-center gap-1 text-primary"><span
-                                class="material-symbols-outlined text-[15px]">meeting_room</span> Cabinet A-102
-                              (Présentiel)</span>
-                            <span>•</span>
-                            <span class="font-code-prescription text-code-prescription text-secondary font-semibold">ECG
-                              de contrôle reçu (12 dérivations)</span>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Action Slot: Primary Action -->
-                      <div
-                        class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-end sm:items-center gap-spacing-xs">
-                        <button
-                          class="w-full sm:w-auto flex items-center justify-center gap-spacing-xs px-spacing-md py-spacing-sm rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all font-label-md text-label-md shadow-sm"
-                          type="button">
-                          <span class="material-symbols-outlined text-title-md">stethoscope</span>
-                          Reprendre la séance
-                        </button>
-                      </div>
-                    </div>
-                    <!-- Quick shortcuts row -->
-                    <div
-                      class="mt-spacing-md pt-spacing-sm bg-surface-container-low/60 -mx-spacing-lg -mb-spacing-lg px-spacing-lg py-spacing-xs rounded-b-xl flex flex-wrap items-center justify-between gap-spacing-xs text-label-sm">
-                      <div class="flex items-center gap-spacing-md">
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
-                          <span class="material-symbols-outlined text-label-md">history_edu</span>
-                          Voir l'historique médical
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-secondary transition-colors">
-                          <span class="material-symbols-outlined text-label-md">ecg_heart</span>
-                          Constantes & Tracés
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-error transition-colors">
-                          <span class="material-symbols-outlined text-label-md">schedule</span>
-                          Prolonger (+15m)
-                        </button>
-                      </div>
-                      <span class="font-code-prescription text-code-prescription text-on-surface-variant">Dossier
-                        #CARDIO-8921</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- CRENEAU 2 : 09:45 - CONFIRMÉ (Téléconsultation) -->
-                <div class="relative flex items-start gap-spacing-md">
-                  <!-- Timeline timestamp -->
-                  <div class="flex flex-col items-center min-w-[70px] pt-2 z-10">
-                    <span class="font-code-prescription text-code-prescription font-bold text-on-surface">09:45</span>
-                    <span
-                      class="w-3.5 h-3.5 rounded-full bg-secondary-container ring-4 ring-secondary-fixed/50 flex items-center justify-center mt-1"></span>
-                    <span class="font-label-sm text-label-sm text-on-surface-variant mt-1">30 min</span>
-                  </div>
-                  <!-- Patient Card Level 1 -->
-                  <div
-                    class="flex-1 bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm hover:shadow-md transition-all">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-spacing-md">
-                      <div class="flex items-center gap-spacing-md">
-                        <div class="relative">
-                          <img class="w-14 h-14 rounded-xl object-cover"
-                            data-alt="Portrait photography of Marc Dubois, a 44-year-old male architect with glasses and neatly groomed beard, sitting calmly in an urban office, natural daylight streaming through window, hyper-realistic modern portrait"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcWfa8ZZnKxmlReN0fVQAYqEE5WQ1cqSr_PjsX-RBzsfie7AxpYVs7aImgVERQLDT7OFjMujMOhC4SgzW-a_cHDu0pZ_QrZa6OgH_Ch72RXnDEATkRro5oKyup5fyoxoqXqemTZR8t7tRKsjQqVV3DstAMMLRYv--Q5xFkT89Oaj1-8ux7wIH2zKtazbvBHzAzy1x8FKs--HXEpmd6VjizHS1U7QHd1kZAUrm1jaTvskltRBScx-4c" />
-                          <span class="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-secondary text-on-secondary">
-                            <span class="material-symbols-outlined text-[10px]">videocam</span>
-                          </span>
-                        </div>
-                        <div class="flex flex-col">
-                          <div class="flex items-center gap-spacing-xs">
-                            <span class="font-title-md text-title-md text-on-surface">Marc Dubois</span>
-                            <span class="font-body-sm text-body-sm text-on-surface-variant">• 44 ans</span>
-                            <!-- Status Pill -->
-                            <span
-                              class="px-spacing-xs py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
-                              Confirmé • Téléconsultation
-                            </span>
-                          </div>
-                          <span
-                            class="font-body-md text-body-md text-on-surface-variant font-medium mt-0.5">Palpitations
-                            nocturnes & Bilan ECG Holter</span>
-                          <div
-                            class="flex items-center gap-spacing-sm mt-1 text-on-surface-variant font-label-sm text-label-sm">
-                            <span class="flex items-center gap-1 text-secondary font-medium"><span
-                                class="material-symbols-outlined text-[15px]">sensors</span> Appareil connecté
-                              actif</span>
-                            <span>•</span>
-                            <span class="text-on-surface-variant">Lien vidéo généré et chiffré</span>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Primary CTA -->
-                      <div
-                        class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-end sm:items-center gap-spacing-xs">
-                        <button
-                          class="w-full sm:w-auto flex items-center justify-center gap-spacing-xs px-spacing-md py-spacing-sm rounded-xl bg-secondary text-on-secondary hover:bg-secondary/90 transition-all font-label-md text-label-md shadow-sm"
-                          type="button">
-                          <span class="material-symbols-outlined text-title-md">videocam</span>
-                          Démarrer la consultation
-                        </button>
-                      </div>
-                    </div>
-                    <!-- Quick shortcuts row -->
-                    <div
-                      class="mt-spacing-md pt-spacing-sm bg-surface-container-low/40 -mx-spacing-lg -mb-spacing-lg px-spacing-lg py-spacing-xs rounded-b-xl flex flex-wrap items-center justify-between gap-spacing-xs text-label-sm">
-                      <div class="flex items-center gap-spacing-md">
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
-                          <span class="material-symbols-outlined text-label-md">history_edu</span>
-                          Historique médical
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors">
-                          <span class="material-symbols-outlined text-label-md">calendar_month</span>
-                          Reporter
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors">
-                          <span class="material-symbols-outlined text-label-md">call</span>
-                          Appeler (Audio)
-                        </button>
-                      </div>
-                      <span class="font-code-prescription text-code-prescription text-on-surface-variant">Dossier
-                        #CARDIO-7740</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- CRENEAU 3 : 10:30 - CONFIRMÉ (Présentiel) -->
-                <div class="relative flex items-start gap-spacing-md">
-                  <!-- Timeline timestamp -->
-                  <div class="flex flex-col items-center min-w-[70px] pt-2 z-10">
-                    <span class="font-code-prescription text-code-prescription font-bold text-on-surface">10:30</span>
-                    <span
-                      class="w-3.5 h-3.5 rounded-full bg-secondary-container ring-4 ring-secondary-fixed/50 flex items-center justify-center mt-1"></span>
-                    <span class="font-label-sm text-label-sm text-on-surface-variant mt-1">45 min</span>
-                  </div>
-                  <!-- Patient Card Level 1 -->
-                  <div
-                    class="flex-1 bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm hover:shadow-md transition-all">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-spacing-md">
-                      <div class="flex items-center gap-spacing-md">
-                        <div class="relative">
-                          <img class="w-14 h-14 rounded-xl object-cover"
-                            data-alt="Portrait photography of Camille Martin, a 31-year-old woman in casual athletic attire, smiling gently, clinical reception blurred background, luminous daylight, soft clean tones, high dynamic range"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSKWesSCxH3u7VE756PftlzLJA6CCQr8G2LEq6sNCy0_ORUvByoJlU2zv4oY8KPf1zc3Wnkbl9WJwqxNQcCMmR_fLIbM_7km4ukFL2m5dRBre8CPoriwVgLwPWYJexv9GuPxLx8lQY4ngJGaLJc72M_YQITsLpKr-6iem52MFaQUtBPMWAocWTxnzeWYps2zkMvoGOgeAN9f_tz5whIGmmjzIfFLF86eRUR5-xNcHZ2_Az-of38p4a" />
-                          <span class="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-primary text-on-primary">
-                            <span class="material-symbols-outlined text-[10px]">domain</span>
-                          </span>
-                        </div>
-                        <div class="flex flex-col">
-                          <div class="flex items-center gap-spacing-xs">
-                            <span class="font-title-md text-title-md text-on-surface">Camille Martin</span>
-                            <span class="font-body-sm text-body-sm text-on-surface-variant">• 31 ans</span>
-                            <!-- Status Pill -->
-                            <span
-                              class="px-spacing-xs py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
-                              Confirmé
-                            </span>
-                          </div>
-                          <span
-                            class="font-body-md text-body-md text-on-surface-variant font-medium mt-0.5">Échocardiographie
-                            transthoracique de suivi & Bilan d'effort</span>
-                          <div
-                            class="flex items-center gap-spacing-sm mt-1 text-on-surface-variant font-label-sm text-label-sm">
-                            <span class="flex items-center gap-1 text-primary"><span
-                                class="material-symbols-outlined text-[15px]">meeting_room</span> Salle Écho Doppler
-                              B-04</span>
-                            <span>•</span>
-                            <span class="text-tertiary font-semibold">Enregistrée à l'accueil (9h55)</span>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Action Buttons -->
-                      <div
-                        class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-end sm:items-center gap-spacing-xs">
-                        <button
-                          class="w-full sm:w-auto flex items-center justify-center gap-spacing-xs px-spacing-md py-spacing-sm rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all font-label-md text-label-md shadow-sm"
-                          type="button">
-                          <span class="material-symbols-outlined text-title-md">stethoscope</span>
-                          Démarrer la consultation
-                        </button>
-                      </div>
-                    </div>
-                    <!-- Quick shortcuts row -->
-                    <div
-                      class="mt-spacing-md pt-spacing-sm bg-surface-container-low/40 -mx-spacing-lg -mb-spacing-lg px-spacing-lg py-spacing-xs rounded-b-xl flex flex-wrap items-center justify-between gap-spacing-xs text-label-sm">
-                      <div class="flex items-center gap-spacing-md">
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
-                          <span class="material-symbols-outlined text-label-md">history_edu</span>
-                          Voir l'historique médical
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors">
-                          <span class="material-symbols-outlined text-label-md">calendar_month</span>
-                          Reporter
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors">
-                          <span class="material-symbols-outlined text-label-md">call</span>
-                          Appeler
-                        </button>
-                      </div>
-                      <span class="font-code-prescription text-code-prescription text-on-surface-variant">Dossier
-                        #CARDIO-6102</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- CRENEAU 4 : 11:15 - CONFIRMÉ (Première visite) -->
-                <div class="relative flex items-start gap-spacing-md">
-                  <!-- Timeline timestamp -->
-                  <div class="flex flex-col items-center min-w-[70px] pt-2 z-10">
-                    <span class="font-code-prescription text-code-prescription font-bold text-on-surface">11:15</span>
-                    <span
-                      class="w-3.5 h-3.5 rounded-full bg-secondary-container ring-4 ring-secondary-fixed/50 flex items-center justify-center mt-1"></span>
-                    <span class="font-label-sm text-label-sm text-on-surface-variant mt-1">30 min</span>
-                  </div>
-                  <!-- Patient Card Level 1 -->
-                  <div
-                    class="flex-1 bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm hover:shadow-md transition-all">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-spacing-md">
-                      <div class="flex items-center gap-spacing-md">
-                        <div class="relative">
-                          <img class="w-14 h-14 rounded-xl object-cover"
-                            data-alt="Portrait photography of Paul Vaneck, a 52-year-old male teacher with a warm smile, wearing a dark blue woolen sweater, bright daylight, authentic medical patient headshot, soft shallow depth of field"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsX_moInr2qmEVZwZTH7FLHIT5U45SHSQ10y5ESrZ_91Fg8qAOY_JM4JuGJWQb4_cVQJUpP53GIxdBM3ywBe6K8ZY-J2zRgPjgZlKFPE2ATKIFUMypenGTObCcGutosm2-_n-YLDf61COKgPkd-akXebOxUQoS82L1XFYrIxNljfHxPUt_GFhQvqfpwJf1IMHvKN-yWFyUVH-AaUqM4ipj92KBNyUSsPd_7ptSyKVe176CABX_UB0e" />
-                          <span class="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-primary text-on-primary">
-                            <span class="material-symbols-outlined text-[10px]">domain</span>
-                          </span>
-                        </div>
-                        <div class="flex flex-col">
-                          <div class="flex items-center gap-spacing-xs">
-                            <span class="font-title-md text-title-md text-on-surface">Paul Vaneck</span>
-                            <span class="font-body-sm text-body-sm text-on-surface-variant">• 52 ans</span>
-                            <!-- Status Pill -->
-                            <span
-                              class="px-spacing-xs py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
-                              Confirmé
-                            </span>
-                          </div>
-                          <span class="font-body-md text-body-md text-on-surface-variant font-medium mt-0.5">Bilan HTA
-                            résistante & Avis cardiologique</span>
-                          <div
-                            class="flex items-center gap-spacing-sm mt-1 text-on-surface-variant font-label-sm text-label-sm">
-                            <span class="flex items-center gap-1 text-primary"><span
-                                class="material-symbols-outlined text-[15px]">meeting_room</span> Cabinet A-102</span>
-                            <span>•</span>
-                            <span class="text-on-surface-variant">Courrier du médecin traitant joint (Dr. Ngo)</span>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Action Buttons -->
-                      <div
-                        class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-end sm:items-center gap-spacing-xs">
-                        <button
-                          class="w-full sm:w-auto flex items-center justify-center gap-spacing-xs px-spacing-md py-spacing-sm rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all font-label-md text-label-md shadow-sm"
-                          type="button">
-                          <span class="material-symbols-outlined text-title-md">stethoscope</span>
-                          Démarrer la consultation
-                        </button>
-                      </div>
-                    </div>
-                    <!-- Quick shortcuts row -->
-                    <div
-                      class="mt-spacing-md pt-spacing-sm bg-surface-container-low/40 -mx-spacing-lg -mb-spacing-lg px-spacing-lg py-spacing-xs rounded-b-xl flex flex-wrap items-center justify-between gap-spacing-xs text-label-sm">
-                      <div class="flex items-center gap-spacing-md">
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
-                          <span class="material-symbols-outlined text-label-md">history_edu</span>
-                          Voir l'historique médical
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors">
-                          <span class="material-symbols-outlined text-label-md">calendar_month</span>
-                          Reporter
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors">
-                          <span class="material-symbols-outlined text-label-md">call</span>
-                          Appeler
-                        </button>
-                      </div>
-                      <span class="font-code-prescription text-code-prescription text-on-surface-variant">Dossier
-                        #CARDIO-5419</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- LUNCH BREAK SEPARATOR -->
-                <div class="relative flex items-center gap-spacing-md py-spacing-xs">
-                  <div class="flex flex-col items-center min-w-[70px]">
-                    <span class="font-code-prescription text-code-prescription text-on-surface-variant">12:15</span>
-                  </div>
-                  <div
-                    class="flex-1 flex items-center justify-center gap-spacing-xs py-spacing-xs bg-surface-container-low rounded-lg text-on-surface-variant font-label-sm text-label-sm">
-                    <span class="material-symbols-outlined text-label-md text-primary">restaurant</span>
-                    Pause méridienne & Revue des dossiers d'hospitalisation (12:15 - 14:00)
-                  </div>
-                </div>
-                <!-- CRENEAU 5 : 14:00 - CONFIRMÉ (Téléconsultation) -->
-                <div class="relative flex items-start gap-spacing-md">
-                  <!-- Timeline timestamp -->
-                  <div class="flex flex-col items-center min-w-[70px] pt-2 z-10">
-                    <span class="font-code-prescription text-code-prescription font-bold text-on-surface">14:00</span>
-                    <span
-                      class="w-3.5 h-3.5 rounded-full bg-secondary-container ring-4 ring-secondary-fixed/50 flex items-center justify-center mt-1"></span>
-                    <span class="font-label-sm text-label-sm text-on-surface-variant mt-1">30 min</span>
-                  </div>
-                  <!-- Patient Card Level 1 -->
-                  <div
-                    class="flex-1 bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm hover:shadow-md transition-all">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-spacing-md">
-                      <div class="flex items-center gap-spacing-md">
-                        <div class="relative">
-                          <img class="w-14 h-14 rounded-xl object-cover"
-                            data-alt="Portrait photography of Aminata Traore, a 28-year-old African woman smiling warmly, wearing a neat turquoise blouse, modern clinic background, natural light, confident patient headshot, 8k"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSQAoOVQa1MuSP792E669j9p44bAX0PWprUgJwCZSy7krgkbJ9RwwG7sfN1IFicXUbEivdnOul6G9_i9Zu_5qjY3hctHLhZWJ_w7aGNAM8zeathZuZDRDUlQl3Hx6frFPlEiCwpsTRsV5Tapa7Q0Gp35oK9eDXwvKUjC5u5cWTYVSt2-nyKLtdLMhSNdowfJVjl-GP3DZH4vd1xKLjhgEw1PsVa5OYh04wffUf8fMWdzJXGnH3HKe2" />
-                          <span class="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-secondary text-on-secondary">
-                            <span class="material-symbols-outlined text-[10px]">videocam</span>
-                          </span>
-                        </div>
-                        <div class="flex flex-col">
-                          <div class="flex items-center gap-spacing-xs">
-                            <span class="font-title-md text-title-md text-on-surface">Aminata Traore</span>
-                            <span class="font-body-sm text-body-sm text-on-surface-variant">• 28 ans</span>
-                            <!-- Status Pill -->
-                            <span
-                              class="px-spacing-xs py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
-                              Confirmé • Téléconsultation
-                            </span>
-                          </div>
-                          <span class="font-body-md text-body-md text-on-surface-variant font-medium mt-0.5">Adaptation
-                            posologique & Résultats bilan lipidique</span>
-                          <div
-                            class="flex items-center gap-spacing-sm mt-1 text-on-surface-variant font-label-sm text-label-sm">
-                            <span class="flex items-center gap-1 text-secondary font-medium"><span
-                                class="material-symbols-outlined text-[15px]">lab_profile</span> Analyse biologique
-                              reçue hier</span>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Primary CTA -->
-                      <div
-                        class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-end sm:items-center gap-spacing-xs">
-                        <button
-                          class="w-full sm:w-auto flex items-center justify-center gap-spacing-xs px-spacing-md py-spacing-sm rounded-xl bg-secondary text-on-secondary hover:bg-secondary/90 transition-all font-label-md text-label-md shadow-sm"
-                          type="button">
-                          <span class="material-symbols-outlined text-title-md">videocam</span>
-                          Démarrer la consultation
-                        </button>
-                      </div>
-                    </div>
-                    <!-- Quick shortcuts row -->
-                    <div
-                      class="mt-spacing-md pt-spacing-sm bg-surface-container-low/40 -mx-spacing-lg -mb-spacing-lg px-spacing-lg py-spacing-xs rounded-b-xl flex flex-wrap items-center justify-between gap-spacing-xs text-label-sm">
-                      <div class="flex items-center gap-spacing-md">
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
-                          <span class="material-symbols-outlined text-label-md">history_edu</span>
-                          Voir l'historique médical
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors">
-                          <span class="material-symbols-outlined text-label-md">calendar_month</span>
-                          Reporter
-                        </button>
-                        <button
-                          class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors">
-                          <span class="material-symbols-outlined text-label-md">call</span>
-                          Appeler
-                        </button>
-                      </div>
-                      <span class="font-code-prescription text-code-prescription text-on-surface-variant">Dossier
-                        #CARDIO-9014</span>
-                    </div>
-                  </div>
-                </div>
+                <div *ngFor="let rdv of rendezVousList; let isFirst = first" class="relative flex items-start gap-spacing-md">
+<!-- Timeline timestamp -->
+<div class="flex flex-col items-center min-w-[70px] pt-2 z-10">
+  <span class="font-code-prescription text-code-prescription font-bold" [ngClass]="rdv.statut === 'CONFIRME' ? 'text-primary' : 'text-on-surface'">{{ rdv.heureSouhaitee.substring(0, 5) }}</span>
+  <span *ngIf="rdv.statut === 'CONFIRME'" class="w-4 h-4 rounded-full bg-primary-container ring-4 ring-primary-fixed/40 flex items-center justify-center mt-1">
+    <span class="w-1.5 h-1.5 rounded-full bg-surface-container-lowest"></span>
+  </span>
+  <span *ngIf="rdv.statut !== 'CONFIRME'" class="w-3.5 h-3.5 rounded-full bg-secondary-container ring-4 ring-secondary-fixed/50 flex items-center justify-center mt-1"></span>
+</div>
+<!-- Patient Card -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm hover:shadow-md transition-all" [ngClass]="{'ring-2 ring-primary-container/30': rdv.statut === 'CONFIRME', 'opacity-70': rdv.statut === 'ANNULE'}">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-spacing-md">
+    <div class="flex items-center gap-spacing-md">
+      <div class="relative">
+        <div class="w-14 h-14 rounded-xl bg-surface-container-high flex items-center justify-center text-primary font-headline-sm">
+          P{{ rdv.idPatient }}
+        </div>
+        <span *ngIf="rdv.motifPrise?.includes('VIDEO')" class="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-secondary text-on-secondary">
+          <span class="material-symbols-outlined text-[10px]">videocam</span>
+        </span>
+        <span *ngIf="!rdv.motifPrise?.includes('VIDEO')" class="absolute -bottom-1 -right-1 p-0.5 rounded-full bg-primary text-on-primary">
+          <span class="material-symbols-outlined text-[10px]">domain</span>
+        </span>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center gap-spacing-xs">
+          <span class="font-title-md text-title-md text-on-surface">Patient #{{ rdv.idPatient }}</span>
+          <span class="px-spacing-xs py-0.5 rounded-full font-label-sm text-label-sm font-semibold"
+                [ngClass]="rdv.statut === 'CONFIRME' ? 'bg-primary-fixed text-on-primary-fixed' : (rdv.statut === 'ANNULE' ? 'bg-error/20 text-error' : 'bg-secondary-fixed text-on-secondary-fixed')">
+            {{ rdv.statut }}
+          </span>
+        </div>
+        <span class="font-body-md text-body-md text-on-surface-variant font-medium mt-0.5">{{ rdv.motifPrise }}</span>
+      </div>
+    </div>
+    <!-- Action Slot -->
+    <div *ngIf="rdv.statut !== 'ANNULE'" class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-end sm:items-center gap-spacing-xs">
+      <button *ngIf="rdv.statut === 'EN_ATTENTE'" (click)="confirmerRdv(rdv.idRendezVous)" class="w-full sm:w-auto flex items-center justify-center gap-spacing-xs px-spacing-md py-spacing-sm rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all font-label-md text-label-md shadow-sm">
+        Confirmer
+      </button>
+      <button *ngIf="rdv.statut === 'CONFIRME' && rdv.motifPrise?.includes('VIDEO')" routerLink="/medecin/consultation" class="w-full sm:w-auto flex items-center justify-center gap-spacing-xs px-spacing-md py-spacing-sm rounded-xl bg-secondary text-on-secondary hover:bg-secondary/90 transition-all font-label-md text-label-md shadow-sm">
+        <span class="material-symbols-outlined text-title-md">videocam</span> Lancer Visio
+      </button>
+      <button *ngIf="rdv.statut === 'CONFIRME' && !rdv.motifPrise?.includes('VIDEO')" routerLink="/medecin/consultation" class="w-full sm:w-auto flex items-center justify-center gap-spacing-xs px-spacing-md py-spacing-sm rounded-xl bg-primary text-on-primary hover:bg-primary-container transition-all font-label-md text-label-md shadow-sm">
+        <span class="material-symbols-outlined text-title-md">stethoscope</span> Démarrer
+      </button>
+    </div>
+  </div>
+  <!-- Quick shortcuts row -->
+  <div class="mt-spacing-md pt-spacing-sm bg-surface-container-low/40 -mx-spacing-lg -mb-spacing-lg px-spacing-lg py-spacing-xs rounded-b-xl flex flex-wrap items-center justify-between gap-spacing-xs text-label-sm">
+    <div class="flex items-center gap-spacing-md">
+      <button routerLink="/patient/historique-medical" class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-label-md">history_edu</span> Dossier
+      </button>
+      <button *ngIf="rdv.statut !== 'ANNULE'" (click)="annulerRdv(rdv.idRendezVous)" class="flex items-center gap-1 text-on-surface-variant hover:text-error transition-colors">
+        <span class="material-symbols-outlined text-label-md">cancel</span> Annuler
+      </button>
+    </div>
+    <span class="font-code-prescription text-code-prescription text-on-surface-variant">Date: {{ rdv.dateSouhaitee | date:'shortDate' }}</span>
+  </div>
+</div>
+</div>
+<!-- Empty State -->
+<div *ngIf="rendezVousList.length === 0 && !chargement" class="p-spacing-xl text-center bg-surface-container-lowest rounded-xl shadow-sm text-on-surface-variant">
+  Aucun rendez-vous planifié.
+</div>
               </div>
             </div>
             <!-- Volet Latéral : Salle d'attente & Alertes Immédiates (4 Cols) -->
@@ -573,115 +201,70 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse"></span>
                     <h3 class="font-headline-sm text-headline-sm text-on-surface">Salle d'attente</h3>
                   </div>
-                  <span
-                    class="px-spacing-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
-                    2 Présents
-                  </span>
-                </div>
-                <div
-                  class="mt-spacing-sm flex items-center gap-spacing-xs p-spacing-sm rounded-xl bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">
-                  <span class="material-symbols-outlined text-title-md text-primary">notifications_active</span>
-                  <span>2 patients enregistrés à l'accueil du pôle</span>
+                  <span class="px-spacing-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+  {{ enAttenteCount }} En attente
+</span>
+</div>
+<div class="mt-spacing-sm flex items-center gap-spacing-xs p-spacing-sm rounded-xl bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-title-md text-primary">notifications_active</span>
+<span>{{ enAttenteCount }} patient(s) en attente de validation</span>
                 </div>
                 <!-- List of arrived patients -->
                 <div class="mt-spacing-md space-y-spacing-sm">
-                  <!-- Patient 1 Arrived -->
-                  <div
-                    class="p-spacing-sm rounded-xl bg-surface-container-lowest hover:bg-surface-container-low transition-colors shadow-sm flex items-center justify-between">
-                    <div class="flex items-center gap-spacing-sm">
-                      <div class="relative">
-                        <img class="w-10 h-10 rounded-full object-cover"
-                          data-alt="Portrait photography headshot of Camille Martin, Caucasian female patient 31 years old, smiling, natural clinic waiting lounge, realistic medical photography"
-                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuChvJg0Wf-_rdsKR1wv1hpH1Bl-OjMoyV9FY380z6q46deeBD30_yqmB3yAfMOEUb2oY-AQVZIiAwvNTX-v6el-cFrfyT-N5HoIgO6noudX9WtU7SVRZBAcpkouB7uxxteRMJhaT1hn1Lz6AEOKBxGwg51RgCzFKZhAVpSPr6b9QYyZfSIuCbZ38s3NqXyDVTJrpfbBBlbC2vbdaAUYHRvTmiO2_WvKri6Gw71FsAqM65sjwNle21zZ" />
-                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-primary"></span>
-                      </div>
-                      <div class="flex flex-col">
-                        <span class="font-label-md text-label-md font-semibold text-on-surface">Camille Martin</span>
-                        <span class="font-body-sm text-body-sm text-on-surface-variant">Arrivée à 09:55 • RDV
-                          10:30</span>
-                      </div>
-                    </div>
-                    <button
-                      class="px-spacing-sm py-1 rounded-lg bg-surface-container-highest text-on-surface hover:bg-primary-container hover:text-on-primary transition-colors font-label-sm text-label-sm font-semibold flex items-center gap-1">
-                      Faire entrer
-                      <span class="material-symbols-outlined text-[14px]">login</span>
-                    </button>
-                  </div>
-                  <!-- Patient 2 Arrived -->
-                  <div
-                    class="p-spacing-sm rounded-xl bg-surface-container-lowest hover:bg-surface-container-low transition-colors shadow-sm flex items-center justify-between">
-                    <div class="flex items-center gap-spacing-sm">
-                      <div class="relative">
-                        <img class="w-10 h-10 rounded-full object-cover"
-                          data-alt="Portrait photography headshot of Paul Vaneck, 52 years old man with friendly look, seated in hospital reception area, soft neutral colors, modern healthcare photography"
-                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuARXv9-hSmdqrnuiYvi_dwgGFPq5_rPM24mQIkq2OH2bJXEJ4odAVCvaFmBEXphAaGY9QOQZTNnpslr-CbAuQjnjDdsVEcY_DiY_3VRoSSVClWOJAPLGq2eOVbEDiHngo-kEo2P3fHMJocAc2XjYUn8U1rIQHvSFfb5Z47RtUjo3LGZTSPYlj_FUyucddhqLVGChqRvRtKcsx6BKOkXa_D0mRDEe75jYh161QtdpNuVFGWSfOzquCMa" />
-                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-primary"></span>
-                      </div>
-                      <div class="flex flex-col">
-                        <span class="font-label-md text-label-md font-semibold text-on-surface">Paul Vaneck</span>
-                        <span class="font-body-sm text-body-sm text-on-surface-variant">Arrivé à 10:12 • RDV
-                          11:15</span>
-                      </div>
-                    </div>
-                    <button
-                      class="px-spacing-sm py-1 rounded-lg bg-surface-container-highest text-on-surface hover:bg-primary-container hover:text-on-primary transition-colors font-label-sm text-label-sm font-semibold flex items-center gap-1">
-                      Faire entrer
-                      <span class="material-symbols-outlined text-[14px]">login</span>
-                    </button>
-                  </div>
-                </div>
+  <ng-container *ngFor="let rdv of rendezVousList">
+    <div *ngIf="rdv.statut === 'EN_ATTENTE'" class="p-spacing-sm rounded-xl bg-surface-container-lowest hover:bg-surface-container-low transition-colors shadow-sm flex items-center justify-between">
+      <div class="flex items-center gap-spacing-sm">
+        <div class="relative">
+          <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary font-label-md">
+            P{{ rdv.idPatient }}
+          </div>
+          <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-primary"></span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-label-md text-label-md font-semibold text-on-surface">Patient #{{ rdv.idPatient }}</span>
+          <span class="font-body-sm text-body-sm text-on-surface-variant">Motif: {{ rdv.motifPrise }} • RDV {{ rdv.heureSouhaitee.substring(0, 5) }}</span>
+        </div>
+      </div>
+      <button (click)="confirmerRdv(rdv.idRendezVous)" class="px-spacing-sm py-1 rounded-lg bg-surface-container-highest text-on-surface hover:bg-primary-container hover:text-on-primary transition-colors font-label-sm text-label-sm font-semibold flex items-center gap-1">
+        Accepter <span class="material-symbols-outlined text-[14px]">login</span>
+      </button>
+    </div>
+  </ng-container>
+</div>
               </div>
               <!-- Electronic Prescription Pending Signature Module -->
               <div class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm">
-                <div class="flex items-center justify-between pb-spacing-sm border-b border-surface-container-high/60">
-                  <div class="flex items-center gap-spacing-xs">
-                    <span class="material-symbols-outlined text-title-md text-tertiary">prescriptions</span>
-                    <h3 class="font-headline-sm text-headline-sm text-on-surface">Ordonnances à Valider</h3>
-                  </div>
-                  <span
-                    class="px-spacing-xs py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">
-                    3 Prêtes
-                  </span>
-                </div>
-                <div class="mt-spacing-md space-y-spacing-sm">
-                  <!-- Prescription Item 1 -->
-                  <div class="p-spacing-sm rounded-xl bg-surface-container-low flex flex-col gap-spacing-xs">
-                    <div class="flex items-center justify-between">
-                      <span class="font-label-md text-label-md font-semibold text-on-surface">M. Jean Dupont</span>
-                      <span
-                        class="font-code-prescription text-code-prescription text-tertiary font-bold">#ORD-4491</span>
-                    </div>
-                    <span class="font-body-sm text-body-sm text-on-surface-variant">Bisoprolol 2.5mg • Ramipril 5mg
-                      (Renouvellement 3 mois)</span>
-                    <div class="flex items-center justify-between pt-1">
-                      <span class="font-label-sm text-label-sm text-on-surface-variant">Revue d'interaction: OK</span>
-                      <button
-                        class="px-spacing-sm py-1 rounded-lg bg-primary text-on-primary hover:bg-primary/90 font-label-sm text-label-sm font-semibold flex items-center gap-1 shadow-sm">
-                        <span class="material-symbols-outlined text-[14px]">draw</span>
-                        Signer (eID)
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Prescription Item 2 -->
-                  <div class="p-spacing-sm rounded-xl bg-surface-container-low flex flex-col gap-spacing-xs">
-                    <div class="flex items-center justify-between">
-                      <span class="font-label-md text-label-md font-semibold text-on-surface">Mme Sophie Caron</span>
-                      <span
-                        class="font-code-prescription text-code-prescription text-tertiary font-bold">#ORD-4492</span>
-                    </div>
-                    <span class="font-body-sm text-body-sm text-on-surface-variant">Atorvastatine 20mg • Bilan hépatique
-                      à 6 semaines</span>
-                    <div class="flex items-center justify-between pt-1">
-                      <span class="font-label-sm text-label-sm text-on-surface-variant">Revue d'interaction: OK</span>
-                      <button
-                        class="px-spacing-sm py-1 rounded-lg bg-primary text-on-primary hover:bg-primary/90 font-label-sm text-label-sm font-semibold flex items-center gap-1 shadow-sm">
-                        <span class="material-symbols-outlined text-[14px]">draw</span>
-                        Signer (eID)
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<div class="flex items-center justify-between pb-spacing-sm border-b border-surface-container-high/60">
+  <div class="flex items-center gap-spacing-xs">
+    <span class="material-symbols-outlined text-title-md text-tertiary">prescriptions</span>
+    <h3 class="font-headline-sm text-headline-sm text-on-surface">Ordonnances à Valider</h3>
+  </div>
+  <span class="px-spacing-xs py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">
+    {{ prescriptionsList.length }} Prêtes
+  </span>
+</div>
+<div class="mt-spacing-md space-y-spacing-sm">
+  <div *ngFor="let pres of prescriptionsList" class="p-spacing-sm rounded-xl bg-surface-container-low flex flex-col gap-spacing-xs">
+    <div class="flex items-center justify-between">
+      <span class="font-label-md text-label-md font-semibold text-on-surface">Consultation #{{ pres.idConsultation }}</span>
+      <span class="font-code-prescription text-code-prescription text-tertiary font-bold">#ORD-{{ pres.idPrescription }}</span>
+    </div>
+    <span *ngIf="pres.lignesMedicaments?.length" class="font-body-sm text-body-sm text-on-surface-variant">
+      {{ pres.lignesMedicaments[0].nomMedicament }} {{ pres.lignesMedicaments[0].posologie }}
+      <span *ngIf="pres.lignesMedicaments.length > 1">+ {{ pres.lignesMedicaments.length - 1 }} autre(s)</span>
+    </span>
+    <div class="flex items-center justify-between pt-1">
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Statut: {{ pres.statut }}</span>
+      <button *ngIf="pres.statut === 'CREEE'" (click)="signerPrescription(pres.idPrescription)" class="px-spacing-sm py-1 rounded-lg bg-primary text-on-primary hover:bg-primary/90 font-label-sm text-label-sm font-semibold flex items-center gap-1 shadow-sm">
+        <span class="material-symbols-outlined text-[14px]">draw</span> Signer (eID)
+      </button>
+    </div>
+  </div>
+  <div *ngIf="prescriptionsList.length === 0" class="text-center text-on-surface-variant text-sm py-2">
+    Aucune ordonnance en attente de validation.
+  </div>
+</div>
+</div>
               <!-- Telehealth Network Status Card -->
               <div class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm flex flex-col gap-spacing-sm">
                 <div class="flex items-center justify-between">

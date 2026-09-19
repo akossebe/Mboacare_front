@@ -1,4 +1,4 @@
-<div class="pl-72"><main class="relative pt-20 w-full px-spacing-xl bg-background"><div class="flex flex-col w-full pb-spacing-3xl space-y-spacing-xl">
+<div class="w-full"><main class="relative pt-20 w-full px-spacing-xl bg-background"><div class="flex flex-col w-full pb-spacing-3xl space-y-spacing-xl">
 <!-- TOP CLINICAL HUD / PATIENT HEADER -->
 <div class="relative bg-surface-container-lowest rounded-xl p-spacing-lg shadow-sm overflow-hidden">
 <div class="absolute -top-12 -right-12 w-64 h-64 bg-secondary-fixed/30 rounded-full blur-3xl pointer-events-none"></div>
@@ -53,7 +53,7 @@
 <button aria-label="Caméra" class="p-2 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors shadow-sm" type="button">
 <span class="material-symbols-outlined text-title-md">videocam</span>
 </button>
-<button aria-label="Historique" class="p-2 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-secondary transition-colors shadow-sm" type="button">
+<button routerLink="/patient/historique-medical" aria-label="Historique" class="p-2 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-secondary transition-colors shadow-sm" type="button">
 <span class="material-symbols-outlined text-title-md">manage_search</span>
 </button>
 </div>
@@ -77,11 +77,8 @@
 <span class="material-symbols-outlined text-secondary text-title-md mt-0.5">chat_bubble_outline</span>
 <div class="flex-1 space-y-spacing-2xs">
 <p class="font-body-md text-body-md text-on-surface font-medium leading-relaxed">
-              « Palpitations nocturnes récurrentes et sensation d'oppression légère »
-            </p>
-<p class="font-body-sm text-body-sm text-on-surface-variant">
-              Épisodes décrits depuis 8 jours, survenant préférentiellement au repos après minuit. Durée variable (15 à 45 minutes), sans syncope ni dyspnée au repos.
-            </p>
+  « {{ consultation?.motif || 'Aucun motif renseigné' }} »
+</p>
 </div>
 </div>
 </div>
@@ -182,9 +179,13 @@
 <span class="material-symbols-outlined text-primary text-title-md">psychiatry</span>
 <span class="font-label-md text-label-md text-on-surface font-semibold">Synthèse nosologique posée</span>
 </div>
-<p class="font-body-md text-body-md text-on-surface leading-relaxed">
-              Tachycardie sinusale réactionnelle, suspicion d'arythmie paroxystique à surveiller, sans signe d'insuffisance aiguë ni décompensation hémodynamique immédiate.
-            </p>
+<textarea 
+  [(ngModel)]="diagnostic" 
+  (blur)="sauvegarderDiagnostic()"
+  class="w-full bg-transparent border-none resize-none focus:ring-0 font-body-md text-body-md text-on-surface leading-relaxed p-0" 
+  rows="3" 
+  placeholder="Saisissez le diagnostic médical ici...">
+</textarea>
 <div class="pt-2 flex flex-wrap gap-1.5">
 <span class="font-label-sm text-label-sm bg-surface-container-highest px-spacing-xs py-0.5 rounded text-on-surface font-medium">#TroubleDuRythme</span>
 <span class="font-label-sm text-label-sm bg-surface-container-highest px-spacing-xs py-0.5 rounded text-on-surface font-medium">#BilanCardioPrioritaire</span>
@@ -211,9 +212,13 @@
 <div class="flex items-start gap-spacing-xs">
 <span class="material-symbols-outlined text-secondary text-title-md mt-1">notes</span>
 <div class="space-y-spacing-xs flex-1">
-<p class="font-body-md text-body-md text-on-surface leading-relaxed">
-                Prescription d'un Holter ECG 48h, bilan biologique thyroïdien (TSH ultra-sensible, T4 libre, ionogramme complet, troponine ultra-sensible de référence) et ajustement du traitement bêtabloquant. Contrôle clinique programmé sous 15 jours.
-              </p>
+<textarea 
+  [(ngModel)]="observations" 
+  (blur)="sauvegarderDiagnostic()"
+  class="w-full bg-transparent border-none resize-none focus:ring-0 font-body-md text-body-md text-on-surface leading-relaxed p-0" 
+  rows="4" 
+  placeholder="Observations et conduite à tenir...">
+</textarea>
 <div class="bg-surface-container-lowest p-spacing-sm rounded-lg space-y-1">
 <div class="flex items-center gap-2 text-primary font-label-sm text-label-sm font-semibold">
 <span class="material-symbols-outlined text-title-md">assignment_turned_in</span>
@@ -240,7 +245,7 @@
 </div>
 <div class="space-y-spacing-xs">
 <!-- Action 1: Rédiger ordonnance -->
-<button class="w-full text-left bg-surface-container-low hover:bg-surface-container transition-all p-spacing-sm rounded-xl flex items-center justify-between group shadow-sm" type="button">
+<button [routerLink]="['/medecin/rediger-prescription', consultation?.idConsultation]" class="w-full text-left bg-surface-container-low hover:bg-surface-container transition-all p-spacing-sm rounded-xl flex items-center justify-between group shadow-sm" type="button">
 <div class="flex items-center gap-spacing-sm">
 <div class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center">
 <span class="material-symbols-outlined text-title-md">prescriptions</span>
@@ -305,7 +310,7 @@
 <span class="material-symbols-outlined text-title-md text-primary">qr_code_2</span>
 <span>Signature e-CPS active</span>
 </div>
-<span class="font-label-sm text-label-sm text-secondary font-medium">Voir le PDF</span>
+<button (click)="telechargerCompteRendu()" class="font-label-sm text-label-sm text-secondary font-medium hover:underline">Voir le PDF</button>
 </div>
 </div>
 <!-- CLINICAL DECISION SUPPORT & RECENT LABS -->
@@ -353,14 +358,14 @@
         Mettre en attente
       </button>
 <!-- Primary Clôturer Consultation Button with Confirmation Dialog Trigger -->
-<button class="flex-1 sm:flex-none inline-flex items-center justify-center gap-spacing-xs px-spacing-lg py-spacing-xs rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold transition-all shadow-md" id="btnOpenCloseModal" type="button">
+<button (click)="ouvrirModalCloture()" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-spacing-xs px-spacing-lg py-spacing-xs rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold transition-all shadow-md" type="button">
 <span class="material-symbols-outlined text-title-md">check_circle</span>
         Clôturer la consultation
       </button>
 </div>
 </div>
 <!-- CLINICAL CLOSURE CONFIRMATION MODAL OVERLAY (LEVEL 3 DEPTH) -->
-<div class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm hidden flex items-center justify-center p-spacing-md" id="closeModal">
+<div *ngIf="showClotureModal" class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-sm flex items-center justify-center p-spacing-md">
 <div class="bg-surface-container-lowest rounded-xl max-w-lg w-full p-spacing-xl shadow-xl space-y-spacing-lg transform transition-all scale-100">
 <div class="flex items-start justify-between">
 <div class="flex items-center gap-spacing-sm">
@@ -369,24 +374,16 @@
 </div>
 <div class="flex flex-col">
 <span class="font-headline-sm text-headline-sm text-on-surface">Confirmer la clôture</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Consultation du Dr. K. Nsangou</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Consultation de {{ consultation?.idPatient }}</span>
 </div>
 </div>
-<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" id="btnCloseModal" type="button">
+<button (click)="fermerModalCloture()" class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" type="button">
 <span class="material-symbols-outlined text-title-md">close</span>
 </button>
 </div>
 <div class="space-y-spacing-sm font-body-md text-body-md text-on-surface-variant">
-<p>Vous êtes sur le point de valider définitivement la fiche clinique de :</p>
-<div class="bg-surface-container-low p-spacing-sm rounded-lg flex items-center justify-between font-label-md text-label-md text-on-surface">
-<span class="font-bold">Mme Hélène Mercier (54 ans)</span>
-<span class="text-primary font-semibold">Tension 138/88 • 118 bpm</span>
-</div>
+<p>Vous êtes sur le point de valider définitivement la fiche clinique de ce patient.</p>
 <ul class="space-y-1 font-body-sm text-body-sm pl-spacing-xs">
-<li class="flex items-center gap-2 text-on-surface">
-<span class="material-symbols-outlined text-primary text-title-md">check</span>
-            Envoi de l'ordonnance biométrique à la pharmacie référente
-          </li>
 <li class="flex items-center gap-2 text-on-surface">
 <span class="material-symbols-outlined text-primary text-title-md">check</span>
             Transmission du compte-rendu au Dossier Médical Partagé (DMP)
@@ -398,12 +395,13 @@
 </ul>
 </div>
 <div class="flex items-center justify-end gap-spacing-sm pt-spacing-xs">
-<button class="px-spacing-md py-spacing-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" id="btnCancelModal" type="button">
+<button (click)="fermerModalCloture()" class="px-spacing-md py-spacing-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button">
           Retour au dossier
         </button>
-<button class="inline-flex items-center gap-spacing-xs px-spacing-lg py-spacing-xs rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold transition-all shadow-md" id="btnConfirmEnd" type="button">
+<button [disabled]="isClosing" (click)="confirmerCloture()" class="inline-flex items-center gap-spacing-xs px-spacing-lg py-spacing-xs rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold transition-all shadow-md" type="button">
 <span class="material-symbols-outlined text-title-md">task_alt</span>
-          Signer & Clôturer l'acte
+          <span *ngIf="!isClosing">Signer & Clôturer l'acte</span>
+          <span *ngIf="isClosing">En cours...</span>
         </button>
 </div>
 </div>

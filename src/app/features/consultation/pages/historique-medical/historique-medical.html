@@ -1,111 +1,68 @@
 <main class="main-content">
     <div class="content-container">
       <div class="card" style="margin-bottom: 2rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <h1 style="font-size: 1.5rem; font-weight: 700; color: #0b1c30;">Historique Clinique de Amélie Kamdem</h1>
-            <p style="color: #6c7a71; font-size: 0.875rem;">
-              Retrouvez l'intégralité de vos comptes-rendus certifiés, ordonnances électroniques et suivis thérapeutiques.
-            </p>
-          </div>
-          <div style="display: flex; gap: 0.5rem;">
-            <span class="badge badge-success">Confidentialité HDS Garantie</span>
-            <span class="badge badge-neutral">3 Consultations enregistrées</span>
-          </div>
-        </div>
-      </div>
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <h1 style="font-size: 1.5rem; font-weight: 700; color: #0b1c30;">Historique Clinique</h1>
+      <p style="color: #6c7a71; font-size: 0.875rem;">
+        Retrouvez l'intégralité de vos comptes-rendus certifiés, ordonnances électroniques et suivis thérapeutiques.
+      </p>
+    </div>
+    <div style="display: flex; gap: 0.5rem;">
+      <span class="badge badge-success">Confidentialité HDS Garantie</span>
+      <span class="badge badge-neutral">{{ consultations.length }} Consultations enregistrées</span>
+    </div>
+  </div>
+</div>
 
       <!-- Timeline des Actes Médicaux -->
       <div class="medical-timeline">
-        <!-- Acte 1 -->
-        <div class="timeline-event">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-              <div>
-                <span class="badge badge-success" style="margin-bottom: 0.5rem;">Consultation Spécialisée</span>
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #0b1c30;">Consultation de Suivi Cardiologique</h3>
-                <p style="font-size: 0.8125rem; color: #6c7a71;">
-                  Dr. Stéphane Laurent (Cardiologue) • 04 Septembre 2026 à 14:00 • Hôpital Général
-                </p>
-              </div>
-              <button class="btn btn-outline btn-sm">
-                <span class="material-symbols-outlined" style="font-size: 16px;">download</span> Télécharger Compte-Rendu (PDF)
-              </button>
-            </div>
+        <div *ngIf="chargement" style="text-align: center; padding: 2rem; color: #6c7a71;">Chargement de l'historique...</div>
+<div *ngIf="!chargement && consultations.length === 0" style="text-align: center; padding: 2rem; color: #6c7a71;">Aucune consultation trouvée.</div>
+<ng-container *ngFor="let cons of consultations">
+  <div class="timeline-event">
+    <div class="timeline-dot"></div>
+    <div class="timeline-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+        <div>
+          <span class="badge badge-success" style="margin-bottom: 0.5rem;">Consultation Médicale</span>
+          <h3 style="font-size: 1.125rem; font-weight: 700; color: #0b1c30;">Motif: {{ cons.motif }}</h3>
+          <p style="font-size: 0.8125rem; color: #6c7a71;">
+            Dr. MboaCare • {{ cons.dateConsultation | date:'longDate':'':'fr-FR' }} à {{ cons.heureConsultation?.substring(0,5) }}
+          </p>
+        </div>
+        <button (click)="telechargerPdf(cons.idConsultation)" class="btn btn-outline btn-sm">
+          <span class="material-symbols-outlined" style="font-size: 16px;">download</span> Télécharger Compte-Rendu (PDF)
+        </button>
+      </div>
 
-            <div style="background: #f0f3ff; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; font-size: 0.875rem;">
-              <div style="font-weight: 600; color: #00422b; margin-bottom: 0.25rem;">Observations & Diagnostic :</div>
-              <p style="color: #3c4a42; margin-bottom: 0;">
-                Tension artérielle mesurée à 135/85 mmHg. Rythme sinusal régulier. Amélioration nette suite à l'ajustement posologique. Échocardiographie de contrôle prévue dans 6 mois.
-              </p>
-            </div>
+      <div *ngIf="cons.diagnostic || cons.observations" style="background: #f0f3ff; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; font-size: 0.875rem;">
+        <div style="font-weight: 600; color: #00422b; margin-bottom: 0.25rem;">Observations & Diagnostic :</div>
+        <p style="color: #3c4a42; margin-bottom: 0;">
+          <strong>Diagnostic:</strong> {{ cons.diagnostic }}<br/>
+          <strong>Observations:</strong> {{ cons.observations }}
+        </p>
+      </div>
 
-            <div class="prescription-preview-box">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                <div style="font-size: 0.8125rem; font-weight: 600; color: #006c49; display: flex; align-items: center; gap: 0.35rem;">
-                  <span class="material-symbols-outlined" style="font-size: 16px;">receipt_long</span>
-                  Prescription Électronique Associée (#ORD-2026-9812)
-                </div>
-                <span class="badge badge-success">Délivrée en Pharmacie</span>
-              </div>
-              <div class="medication-pill-row">
-                <span style="font-weight: 600;">Ramipril 5mg (Comprimé pelliculé)</span>
-                <span style="color: #6c7a71;">1 cp chaque matin au petit-déjeuner • 30 jours</span>
-              </div>
-              <div class="medication-pill-row">
-                <span style="font-weight: 600;">Bisoprolol 2.5mg</span>
-                <span style="color: #6c7a71;">1 cp chaque soir • 30 jours</span>
-              </div>
+      <!-- Prescription si existante -->
+      <ng-container *ngIf="getPrescription(cons.idConsultation) as pres">
+        <div class="prescription-preview-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <div style="font-size: 0.8125rem; font-weight: 600; color: #006c49; display: flex; align-items: center; gap: 0.35rem;">
+              <span class="material-symbols-outlined" style="font-size: 16px;">receipt_long</span>
+              Prescription Électronique Associée (#ORD-{{ pres.idPrescription }})
             </div>
+            <span class="badge badge-success">{{ pres.statut }}</span>
+          </div>
+          <div *ngFor="let med of pres.lignesMedicaments" class="medication-pill-row">
+            <span style="font-weight: 600;">{{ med.nomMedicament }}</span>
+            <span style="color: #6c7a71;">{{ med.posologie }}</span>
           </div>
         </div>
-
-        <!-- Acte 2 -->
-        <div class="timeline-event">
-          <div class="timeline-dot hospital"></div>
-          <div class="timeline-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-              <div>
-                <span class="badge badge-info" style="margin-bottom: 0.5rem;">Bilan Biologique & Laboratoire</span>
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #0b1c30;">Bilan Lipidique et Glycémie à jeun</h3>
-                <p style="font-size: 0.8125rem; color: #6c7a71;">
-                  Laboratoire MboaBio • 18 Août 2026 à 08:30 • Validé par Dr. Roger Ngo
-                </p>
-              </div>
-              <button class="btn btn-outline btn-sm">
-                <span class="material-symbols-outlined" style="font-size: 16px;">download</span> Résultats d'Analyses
-              </button>
-            </div>
-
-            <div style="font-size: 0.875rem; color: #3c4a42;">
-              Glycémie : 0.94 g/L (Normal). Cholestérol Total : 1.85 g/L (Cible atteinte). Triglycérides : 1.10 g/L.
-            </div>
-          </div>
-        </div>
-
-        <!-- Acte 3 -->
-        <div class="timeline-event">
-          <div class="timeline-dot"></div>
-          <div class="timeline-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-              <div>
-                <span class="badge badge-neutral" style="margin-bottom: 0.5rem;">Médecine Générale</span>
-                <h3 style="font-size: 1.125rem; font-weight: 700; color: #0b1c30;">Consultation Initiale & Prévention</h3>
-                <p style="font-size: 0.8125rem; color: #6c7a71;">
-                  Dr. Nicole Nguemo • 15 Janvier 2026 à 10:15 • Cabinet Bonanjo
-                </p>
-              </div>
-              <button class="btn btn-outline btn-sm">
-                <span class="material-symbols-outlined" style="font-size: 16px;">download</span> Compte-Rendu Initial
-              </button>
-            </div>
-
-            <div style="font-size: 0.875rem; color: #3c4a42;">
-              Bilan de santé initial d'entrée sur MboaCare. Antécédents familiaux notés. Orientation vers cardiologie préventive.
-            </div>
-          </div>
-        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
       </div>
     </div>
   </main>

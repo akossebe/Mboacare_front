@@ -54,7 +54,7 @@
             <div class="flex flex-col min-w-0">
               <span class="font-label-sm text-label-sm text-on-surface-variant truncate">Prochain RDV</span>
               <span class="font-title-md text-title-md font-semibold text-on-surface">Aujourd’hui 14:30</span>
-              <span class="font-body-sm text-body-sm text-secondary font-medium truncate">Dr. S. Laurent</span>
+              <span class="font-body-sm text-body-sm text-secondary font-medium truncate">{{ prochainsRdv.length > 0 ? ('Médecin #' + prochainsRdv[0].idMedecin) : '' }}</span>
             </div>
           </div>
           <div
@@ -65,8 +65,8 @@
             </div>
             <div class="flex flex-col min-w-0">
               <span class="font-label-sm text-label-sm text-on-surface-variant truncate">Ordonnances actives</span>
-              <span class="font-title-md text-title-md font-semibold text-on-surface">2 traitements</span>
-              <span class="font-body-sm text-body-sm text-primary font-medium truncate">Renouvellement à J-12</span>
+              <span class="font-title-md text-title-md font-semibold text-on-surface">{{ prescriptionsActives.length }} traitement(s)</span>
+              <span class="font-body-sm text-body-sm text-primary font-medium truncate">{{ prescriptionsActives.length > 0 ? 'Renouvellements possibles' : 'Aucune ordonnance' }}</span>
             </div>
           </div>
           <div
@@ -103,18 +103,17 @@
                 class="px-spacing-xs py-spacing-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">4</span>
             </div>
             <div class="flex items-center gap-spacing-xs">
-              <button
-                class="text-secondary hover:text-on-secondary-container font-label-md text-label-md flex items-center gap-spacing-2xs transition-colors"
-                type="button">
+              <a routerLink="/patient/historique-medical"
+                class="text-secondary hover:text-on-secondary-container font-label-md text-label-md flex items-center gap-spacing-2xs transition-colors">
                 <span>Voir l’historique complet</span>
                 <span class="material-symbols-outlined text-title-md">arrow_forward</span>
-              </button>
+              </a>
             </div>
           </div>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-spacing-lg">
             <!-- RDV 1 : Confirmé / Téléconsultation / Urgence imminente -->
             <div
-              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_10px_25px_-5px_rgba(14,165,233,0.08),0_8px_10px_-6px_rgba(16,185,129,0.04)] flex flex-col justify-between gap-spacing-lg transition-all hover:shadow-lg">
+              *ngFor="let rdv of prochainsRdv" class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_10px_25px_-5px_rgba(14,165,233,0.08),0_8px_10px_-6px_rgba(16,185,129,0.04)] flex flex-col justify-between gap-spacing-lg transition-all hover:shadow-lg">
               <div class="flex flex-col gap-spacing-md">
                 <div class="flex items-start justify-between gap-spacing-sm">
                   <div class="flex items-center gap-spacing-xs">
@@ -131,7 +130,7 @@
                       Confirmé
                     </span>
                   </div>
-                  <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">RDV-2024-8841</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">RDV-{{ rdv.idRendezVous }}</span>
                 </div>
                 <div class="flex items-start gap-spacing-md">
                   <div class="relative shrink-0">
@@ -143,7 +142,7 @@
                       title="En ligne dans son cabinet virtuel"></span>
                   </div>
                   <div class="flex flex-col min-w-0">
-                    <h3 class="font-title-md text-title-md font-semibold text-on-surface truncate">Dr. Sophie Laurent
+                    <h3 class="font-title-md text-title-md font-semibold text-on-surface truncate">Médecin #{{ rdv.idMedecin }}
                     </h3>
                     <p class="font-body-sm text-body-sm text-on-surface-variant">Cardiologie clinique & Rythmologie</p>
                     <div
@@ -159,7 +158,7 @@
                     <div class="flex flex-col">
                       <span class="font-label-md text-label-md font-semibold text-on-surface">Aujourd'hui, 24 Octobre
                         2024</span>
-                      <span class="font-body-sm text-body-sm text-on-surface-variant">14:30 - 15:00 (30 min)</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">{{ rdv.heureSouhaitee.substring(0,5) }}</span>
                     </div>
                   </div>
                   <span
@@ -182,206 +181,9 @@
                     Détails & Consignes
                   </button>
                 </div>
-                <button
-                  class="flex items-center gap-spacing-xs px-spacing-lg py-spacing-xs rounded-xl bg-secondary hover:bg-on-secondary-fixed-variant text-on-secondary font-label-md text-label-md font-semibold transition-all shadow-[0_4px_12px_rgba(0,101,145,0.25)]"
-                  type="button">
+                <button *ngIf="rdv.statut === 'CONFIRME' && rdv.motifPrise?.includes('VIDEO')" class="flex items-center gap-spacing-xs px-spacing-lg py-spacing-xs rounded-xl bg-secondary hover:bg-on-secondary-fixed-variant text-on-secondary font-label-md text-label-md font-semibold transition-all shadow-[0_4px_12px_rgba(0,101,145,0.25)]" type="button">
                   <span class="material-symbols-outlined text-title-md">videocam</span>
                   <span>Rejoindre le salon vidéo</span>
-                </button>
-              </div>
-            </div>
-            <!-- RDV 2 : En attente / Présentiel cabinet -->
-            <div
-              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-lg transition-all hover:shadow-md">
-              <div class="flex flex-col gap-spacing-md">
-                <div class="flex items-start justify-between gap-spacing-sm">
-                  <div class="flex items-center gap-spacing-xs">
-                    <span
-                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
-                      <span class="material-symbols-outlined text-label-md">apartment</span>
-                      Présentiel Cabinet
-                    </span>
-                    <!-- Semantic Status Badge: En attente (Amber) -->
-                    <span
-                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-amber-100 text-amber-800 font-label-sm text-label-sm font-semibold">
-                      <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                      En attente de validation
-                    </span>
-                  </div>
-                  <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">RDV-2024-9120</span>
-                </div>
-                <div class="flex items-start gap-spacing-md">
-                  <div class="relative shrink-0">
-                    <img class="w-16 h-16 rounded-xl object-cover"
-                      data-alt="Portrait photography of Dr Marc Toure, a warm, professional West African male general practitioner in his 40s wearing a modern dark cyan scrubs top, smiling reassuringly in a bright, modern medical practice"
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWJX-KaskiHtASk8qDiMkdSuMmBoRID71J4AjUY-a8M6Ncz8wEhA9cPPkYog968nYRM_HlDqsvIyVQJLOYAI7FDIIBJO1zypPe8wcV60KUMnITYc7inZcLBL5krIv7Qrv_9RrOhdLx68hIn4l6je7ZSGOM5QKai61sMAodfObtl9Oye428KkI5tG-L_ZddqEWIk6-JsHBCM2IUAup3gi35xo5_kgNhngXOAFarHX_cfXPa_-0pZYwT" />
-                    <span
-                      class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-amber-400 shadow-[0_0_0_2px_#ffffff]"
-                      title="Planning en cours de synchronisation"></span>
-                  </div>
-                  <div class="flex flex-col min-w-0">
-                    <h3 class="font-title-md text-title-md font-semibold text-on-surface truncate">Dr. Marc Touré</h3>
-                    <p class="font-body-sm text-body-sm text-on-surface-variant">Médecine Générale • Praticien Traitant
-                    </p>
-                    <div
-                      class="flex items-center gap-spacing-xs mt-spacing-2xs text-on-surface-variant font-body-sm text-body-sm">
-                      <span class="material-symbols-outlined text-title-md text-primary">location_on</span>
-                      <span class="truncate">Polyclinique MboaSanté • Bâtiment B, Salle 104</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="bg-surface-container-low rounded-lg p-spacing-sm flex items-center justify-between">
-                  <div class="flex items-center gap-spacing-xs">
-                    <span class="material-symbols-outlined text-secondary text-title-md">calendar_month</span>
-                    <div class="flex flex-col">
-                      <span class="font-label-md text-label-md font-semibold text-on-surface">Lundi 28 Octobre
-                        2024</span>
-                      <span class="font-body-sm text-body-sm text-on-surface-variant">09:15 - 09:45</span>
-                    </div>
-                  </div>
-                  <span
-                    class="px-spacing-xs py-spacing-2xs rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
-                    Confirmation sous 2h
-                  </span>
-                </div>
-              </div>
-              <div class="flex flex-wrap items-center justify-between gap-spacing-sm pt-spacing-sm">
-                <div class="flex items-center gap-spacing-xs">
-                  <button
-                    class="px-spacing-md py-spacing-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors"
-                    type="button">
-                    Modifier
-                  </button>
-                  <button
-                    class="px-spacing-md py-spacing-xs rounded-xl text-error hover:bg-error-container/50 font-label-md text-label-md transition-colors"
-                    type="button">
-                    Annuler
-                  </button>
-                </div>
-                <button
-                  class="flex items-center gap-spacing-xs px-spacing-md py-spacing-xs rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors"
-                  type="button">
-                  <span class="material-symbols-outlined text-title-md">map</span>
-                  <span>Itinéraire & Accès</span>
-                </button>
-              </div>
-            </div>
-            <!-- RDV 3 : Honoré (Completed) / Examen de suivi -->
-            <div
-              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-lg opacity-95">
-              <div class="flex flex-col gap-spacing-md">
-                <div class="flex items-start justify-between gap-spacing-sm">
-                  <div class="flex items-center gap-spacing-xs">
-                    <span
-                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
-                      <span class="material-symbols-outlined text-label-md">videocam</span>
-                      Téléconsultation
-                    </span>
-                    <!-- Semantic Status Badge: Honoré (Emerald) -->
-                    <span
-                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-emerald-100 text-emerald-700 font-label-sm text-label-sm font-semibold">
-                      <span class="material-symbols-outlined text-label-sm">check_circle</span>
-                      Honoré
-                    </span>
-                  </div>
-                  <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">RDV-2024-7419</span>
-                </div>
-                <div class="flex items-start gap-spacing-md">
-                  <div
-                    class="w-16 h-16 rounded-xl bg-surface-container-high flex items-center justify-center text-primary font-headline-sm text-headline-sm font-bold shrink-0">
-                    AB
-                  </div>
-                  <div class="flex flex-col min-w-0">
-                    <h3 class="font-title-md text-title-md font-semibold text-on-surface truncate">Dr. Aminata Bamba
-                    </h3>
-                    <p class="font-body-sm text-body-sm text-on-surface-variant">Dermatologie & Vénérologie</p>
-                    <div
-                      class="flex items-center gap-spacing-xs mt-spacing-2xs text-on-surface-variant font-body-sm text-body-sm">
-                      <span class="material-symbols-outlined text-title-md text-primary-container">verified</span>
-                      <span class="truncate">Compte-rendu et ordonnance générés</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="bg-surface-container-low rounded-lg p-spacing-sm flex items-center justify-between">
-                  <div class="flex items-center gap-spacing-xs">
-                    <span class="material-symbols-outlined text-on-surface-variant text-title-md">history</span>
-                    <div class="flex flex-col">
-                      <span class="font-label-md text-label-md font-semibold text-on-surface">15 Octobre 2024</span>
-                      <span class="font-body-sm text-body-sm text-on-surface-variant">Terminé avec succès</span>
-                    </div>
-                  </div>
-                  <button
-                    class="text-primary hover:text-primary-container font-label-sm text-label-sm font-semibold flex items-center gap-spacing-2xs"
-                    type="button">
-                    <span class="material-symbols-outlined text-label-md">download</span>
-                    Télécharger l'ordonnance
-                  </button>
-                </div>
-              </div>
-              <div class="flex items-center justify-between gap-spacing-sm pt-spacing-sm">
-                <button class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md" type="button">
-                  Voir le récapitulatif
-                </button>
-                <button
-                  class="px-spacing-md py-spacing-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors"
-                  type="button">
-                  Prendre un suivi
-                </button>
-              </div>
-            </div>
-            <!-- RDV 4 : Annulé (Cancelled) -->
-            <div
-              class="bg-surface-container-lowest rounded-xl p-spacing-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between gap-spacing-lg opacity-80">
-              <div class="flex flex-col gap-spacing-md">
-                <div class="flex items-start justify-between gap-spacing-sm">
-                  <div class="flex items-center gap-spacing-xs">
-                    <span
-                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
-                      <span class="material-symbols-outlined text-label-md">apartment</span>
-                      Présentiel
-                    </span>
-                    <!-- Semantic Status Badge: Annulé (Soft Red) -->
-                    <span
-                      class="inline-flex items-center gap-spacing-2xs px-spacing-sm py-spacing-2xs rounded-full bg-red-100 text-red-700 font-label-sm text-label-sm font-semibold">
-                      <span class="material-symbols-outlined text-label-sm">cancel</span>
-                      Annulé
-                    </span>
-                  </div>
-                  <span class="font-label-sm text-label-sm text-on-surface-variant font-mono">RDV-2024-6502</span>
-                </div>
-                <div class="flex items-start gap-spacing-md">
-                  <div
-                    class="w-16 h-16 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant font-headline-sm text-headline-sm font-bold shrink-0">
-                    JK
-                  </div>
-                  <div class="flex flex-col min-w-0">
-                    <h3 class="font-title-md text-title-md font-semibold text-on-surface truncate">Dr. Joseph Kamga</h3>
-                    <p class="font-body-sm text-body-sm text-on-surface-variant">Ophtalmologie</p>
-                    <div
-                      class="flex items-center gap-spacing-xs mt-spacing-2xs text-on-surface-variant font-body-sm text-body-sm">
-                      <span class="material-symbols-outlined text-title-md text-error">info</span>
-                      <span class="truncate">Annulé par le patient (déplacement)</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="bg-surface-container-low rounded-lg p-spacing-sm flex items-center justify-between">
-                  <div class="flex items-center gap-spacing-xs">
-                    <span class="material-symbols-outlined text-on-surface-variant text-title-md">event_busy</span>
-                    <div class="flex flex-col">
-                      <span class="font-label-md text-label-md font-medium text-on-surface-variant">Prévu initialement
-                        le 02 Oct.</span>
-                      <span class="font-body-sm text-body-sm text-on-surface-variant">Remboursement sans frais
-                        effectué</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between gap-spacing-sm pt-spacing-sm">
-                <span class="font-label-sm text-label-sm text-on-surface-variant">Réf. remboursement : RB-9031</span>
-                <button
-                  class="px-spacing-md py-spacing-xs rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md transition-colors"
-                  type="button">
-                  Reprendre ce créneau
                 </button>
               </div>
             </div>
@@ -422,17 +224,14 @@
                   <p class="font-body-sm text-body-sm text-on-surface-variant mt-spacing-2xs">Ordonnances électroniques
                     sécurisées compatibles en pharmacie.</p>
                 </div>
-                <div
-                  class="bg-surface-container-low rounded-lg p-spacing-xs flex flex-col gap-spacing-2xs font-mono text-code-prescription text-on-surface">
-                  <div class="flex justify-between items-center">
-                    <span class="truncate">BISOPROLOL 2.5MG</span>
-                    <span class="text-on-surface-variant shrink-0">1 cp / matin</span>
+                <div class="bg-surface-container-low rounded-lg p-spacing-xs flex flex-col gap-spacing-2xs font-mono text-code-prescription text-on-surface">
+                  <div *ngFor="let pres of prescriptionsActives" class="flex justify-between items-center">
+                    <span class="truncate text-on-surface">Ord #{{ pres.idPrescription }}</span>
+                    <span class="text-on-surface-variant shrink-0">{{ pres.lignesMedicaments?.length || 0 }} med(s)</span>
                   </div>
-                  <div class="flex justify-between items-center text-on-surface-variant">
-                    <span class="truncate">RAMIPRIL 5MG</span>
-                    <span class="shrink-0">1 cp / soir</span>
-                  </div>
-                </div>
+                  <div *ngIf="prescriptionsActives.length === 0" class="text-on-surface-variant text-center text-sm py-1">
+                    Aucune ordonnance
+                  </div></div>
               </div>
               <button
                 class="w-full flex items-center justify-center gap-spacing-xs py-spacing-sm px-spacing-md rounded-xl bg-surface-container hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md transition-colors"
@@ -458,24 +257,16 @@
                     praticiens avec observations et bilans.</p>
                 </div>
                 <div class="flex flex-col gap-spacing-xs">
-                  <div class="p-spacing-xs rounded-lg bg-surface-container-low flex items-center justify-between">
+                  <div *ngFor="let consult of dernieresConsultations" class="p-spacing-xs rounded-lg bg-surface-container-low flex items-center justify-between">
                     <div class="flex flex-col min-w-0">
-                      <span class="font-label-md text-label-md font-medium text-on-surface truncate">Bilan cardiologique
-                        annuel</span>
-                      <span class="font-label-sm text-label-sm text-on-surface-variant">Dr. Laurent • 12/10/2024</span>
+                      <span class="font-label-md text-label-md font-medium text-on-surface truncate">{{ consult.diagnostic || 'Consultation' }}</span>
+                      <span class="font-label-sm text-label-sm text-on-surface-variant">Le {{ consult.dateConsultation | date:'shortDate' }}</span>
                     </div>
                     <span class="material-symbols-outlined text-secondary text-title-md">visibility</span>
                   </div>
-                  <div class="p-spacing-xs rounded-lg bg-surface-container-low flex items-center justify-between">
-                    <div class="flex flex-col min-w-0">
-                      <span class="font-label-md text-label-md font-medium text-on-surface truncate">Bilan sanguin
-                        complet</span>
-                      <span class="font-label-sm text-label-sm text-on-surface-variant">Laboratoire Central •
-                        04/09/2024</span>
-                    </div>
-                    <span class="material-symbols-outlined text-secondary text-title-md">visibility</span>
-                  </div>
-                </div>
+                  <div *ngIf="dernieresConsultations.length === 0" class="text-on-surface-variant text-center text-sm py-1">
+                    Aucun compte-rendu
+                  </div></div>
               </div>
               <button
                 class="w-full flex items-center justify-center gap-spacing-xs py-spacing-sm px-spacing-md rounded-xl bg-surface-container hover:bg-secondary hover:text-on-secondary text-on-surface font-label-md text-label-md transition-colors"

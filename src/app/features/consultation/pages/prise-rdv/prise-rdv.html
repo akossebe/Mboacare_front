@@ -58,11 +58,11 @@
 </div>
 <!-- Field 3: Modality Toggle Chips -->
 <div class="lg:col-span-3 flex items-center gap-spacing-xs bg-surface-container-low p-spacing-xs rounded-xl">
-<button class="flex-1 py-spacing-xs px-spacing-sm rounded-lg bg-surface-container-lowest text-primary shadow-sm font-label-md text-label-md flex items-center justify-center gap-spacing-2xs" type="button">
+<button (click)="typeConsultation = 'cabinet'" [ngClass]="typeConsultation === 'cabinet' ? 'bg-surface-container-lowest text-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container'" class="flex-1 py-spacing-xs px-spacing-sm rounded-lg font-label-md text-label-md flex items-center justify-center gap-spacing-2xs transition-colors" type="button">
 <span class="material-symbols-outlined text-title-md">domain</span>
 <span>Cabinet</span>
 </button>
-<button class="flex-1 py-spacing-xs px-spacing-sm rounded-lg text-on-surface-variant hover:bg-surface-container font-label-md text-label-md flex items-center justify-center gap-spacing-2xs transition-colors" type="button">
+<button (click)="typeConsultation = 'video'" [ngClass]="typeConsultation === 'video' ? 'bg-surface-container-lowest text-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container'" class="flex-1 py-spacing-xs px-spacing-sm rounded-lg font-label-md text-label-md flex items-center justify-center gap-spacing-2xs transition-colors" type="button">
 <span class="material-symbols-outlined text-title-md">videocam</span>
 <span>Téléconsultation</span>
 </button>
@@ -156,33 +156,35 @@
 </div>
 <!-- Select predefined motifs -->
 <div class="space-y-spacing-xs">
-<label class="flex items-center justify-between p-spacing-sm rounded-xl bg-secondary-fixed/30 cursor-pointer transition-colors">
+<label class="flex items-center justify-between p-spacing-sm rounded-xl cursor-pointer transition-colors" [ngClass]="motifPrise === 'Première consultation cardiologique' ? 'bg-secondary-fixed/30' : 'bg-surface-container-low hover:bg-surface-container'">
 <div class="flex items-center gap-spacing-sm">
-<input checked="" class="w-4 h-4 text-primary accent-primary" name="consultation_reason" type="radio"/>
+<input [(ngModel)]="motifPrise" value="Première consultation cardiologique" class="w-4 h-4 text-primary accent-primary" name="consultation_reason" type="radio"/>
 <div>
 <span class="font-title-md text-title-md text-on-surface block">Première consultation cardiologique</span>
 <span class="font-body-sm text-body-sm text-on-surface-variant">Bilan complet • Durée estimée 45 min • 70€ (remboursable)</span>
 </div>
 </div>
-<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span *ngIf="motifPrise === 'Première consultation cardiologique'" class="material-symbols-outlined text-secondary">check_circle</span>
 </label>
-<label class="flex items-center justify-between p-spacing-sm rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<label class="flex items-center justify-between p-spacing-sm rounded-xl cursor-pointer transition-colors" [ngClass]="motifPrise === 'Suivi d\'hypertension et renouvellement' ? 'bg-secondary-fixed/30' : 'bg-surface-container-low hover:bg-surface-container'">
 <div class="flex items-center gap-spacing-sm">
-<input class="w-4 h-4 text-primary accent-primary" name="consultation_reason" type="radio"/>
+<input [(ngModel)]="motifPrise" value="Suivi d'hypertension et renouvellement" class="w-4 h-4 text-primary accent-primary" name="consultation_reason" type="radio"/>
 <div>
 <span class="font-title-md text-title-md text-on-surface block">Suivi d'hypertension et renouvellement</span>
 <span class="font-body-sm text-body-sm text-on-surface-variant">Contrôle tensionnel régulier • 30 min • 50€</span>
 </div>
 </div>
+<span *ngIf="motifPrise === 'Suivi d\'hypertension et renouvellement'" class="material-symbols-outlined text-secondary">check_circle</span>
 </label>
-<label class="flex items-center justify-between p-spacing-sm rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors">
+<label class="flex items-center justify-between p-spacing-sm rounded-xl cursor-pointer transition-colors" [ngClass]="motifPrise === 'Douleur thoracique ou essoufflement à l\'effort' ? 'bg-secondary-fixed/30' : 'bg-surface-container-low hover:bg-surface-container'">
 <div class="flex items-center gap-spacing-sm">
-<input class="w-4 h-4 text-primary accent-primary" name="consultation_reason" type="radio"/>
+<input [(ngModel)]="motifPrise" value="Douleur thoracique ou essoufflement à l'effort" class="w-4 h-4 text-primary accent-primary" name="consultation_reason" type="radio"/>
 <div>
 <span class="font-title-md text-title-md text-on-surface block">Douleur thoracique ou essoufflement à l'effort</span>
 <span class="font-body-sm text-body-sm text-on-surface-variant">Investigation prioritaire • ECG au cabinet inclus</span>
 </div>
 </div>
+<span *ngIf="motifPrise === 'Douleur thoracique ou essoufflement à l\'effort'" class="material-symbols-outlined text-secondary">check_circle</span>
 </label>
 </div>
 <!-- Free text precision field -->
@@ -259,53 +261,24 @@
 </div>
 <!-- Time Grid: Mardi 18 Février -->
 <div class="flex flex-col gap-spacing-md pt-spacing-xs">
-<!-- Matin -->
-<div>
-<div class="flex items-center gap-spacing-xs mb-spacing-xs text-on-surface">
-<span class="material-symbols-outlined text-secondary text-title-md">wb_sunny</span>
-<span class="font-title-md text-title-md">Matinée</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">(Cabinet Médical)</span>
-</div>
-<div class="grid grid-cols-3 sm:grid-cols-4 gap-spacing-xs">
-<button class="py-spacing-sm px-spacing-xs rounded-xl bg-surface-container-low text-on-surface font-title-md text-title-md hover:bg-surface-container-high transition-all text-center" type="button">
-                  09:00
-                </button>
-<button class="py-spacing-sm px-spacing-xs rounded-xl bg-surface-container-low text-on-surface font-title-md text-title-md hover:bg-surface-container-high transition-all text-center" type="button">
-                  09:30
-                </button>
-<button class="py-spacing-sm px-spacing-xs rounded-xl bg-surface-container-low text-on-surface font-title-md text-title-md hover:bg-surface-container-high transition-all text-center" type="button">
-                  10:45
-                </button>
-<button class="py-spacing-sm px-spacing-xs rounded-xl bg-surface-container-low/40 text-on-surface-variant/40 font-title-md text-title-md text-center cursor-not-allowed line-through" disabled="" type="button">
-                  11:30
-                </button>
-</div>
-</div>
-<!-- Après-midi -->
+<!-- Tous les créneaux disponibles -->
 <div>
 <div class="flex items-center gap-spacing-xs mb-spacing-xs text-on-surface">
 <span class="material-symbols-outlined text-primary text-title-md">routine</span>
-<span class="font-title-md text-title-md">Après-midi</span>
+<span class="font-title-md text-title-md">Créneaux Disponibles</span>
 <span class="font-body-sm text-body-sm text-on-surface-variant">(Cabinet & Téléconsultation)</span>
 </div>
 <div class="grid grid-cols-3 sm:grid-cols-4 gap-spacing-xs">
-<button class="py-spacing-sm px-spacing-xs rounded-xl bg-surface-container-low text-on-surface font-title-md text-title-md hover:bg-surface-container-high transition-all text-center" type="button">
-                  14:15
-                </button>
-<!-- Active highlighted blue MboaCare slot -->
-<button class="py-spacing-sm px-spacing-xs rounded-xl bg-secondary text-on-secondary font-title-md text-title-md shadow-md ring-2 ring-secondary-fixed text-center relative overflow-hidden group" type="button">
-<span class="flex items-center justify-center gap-1">
-<span>15:00</span>
-<span class="material-symbols-outlined text-label-sm">check</span>
+<button *ngFor="let h of heuresDisponibles" (click)="choisirHeure(h)" [ngClass]="heureSouhaitee === h ? 'bg-secondary text-on-secondary shadow-md ring-2 ring-secondary-fixed' : 'bg-surface-container-low text-on-surface hover:bg-surface-container-high'" class="py-spacing-sm px-spacing-xs rounded-xl font-title-md text-title-md transition-all text-center relative overflow-hidden group" type="button">
+<span *ngIf="heureSouhaitee !== h">{{ h.substring(0, 5) }}</span>
+<span *ngIf="heureSouhaitee === h" class="flex flex-col items-center justify-center">
+  <span class="flex items-center justify-center gap-1">
+    <span>{{ h.substring(0, 5) }}</span>
+    <span class="material-symbols-outlined text-label-sm">check</span>
+  </span>
+  <span class="font-label-sm text-[10px] block opacity-90 mt-1">Sélectionné</span>
 </span>
-<span class="font-label-sm text-[10px] block opacity-90">Sélectionné</span>
 </button>
-<button class="py-spacing-sm px-spacing-xs rounded-xl bg-surface-container-low text-on-surface font-title-md text-title-md hover:bg-surface-container-high transition-all text-center" type="button">
-                  16:30
-                </button>
-<button class="py-spacing-sm px-spacing-xs rounded-xl bg-surface-container-low text-on-surface font-title-md text-title-md hover:bg-surface-container-high transition-all text-center" type="button">
-                  17:15
-                </button>
 </div>
 </div>
 </div>
@@ -338,7 +311,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-spacing-md bg-surface-container-low p-spacing-md rounded-xl">
 <div>
 <span class="font-label-sm text-label-sm text-on-surface-variant block">Date & Heure</span>
-<span class="font-title-md text-title-md text-on-surface font-semibold block mt-0.5">Mardi 18 Fév. à 15:00</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold block mt-0.5">{{ dateSouhaitee | date:'fullDate':'':'fr-FR' }} à {{ heureSouhaitee.substring(0, 5) }}</span>
 <span class="font-body-sm text-body-sm text-primary flex items-center gap-1 mt-0.5">
 <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> Réservé 15 min
               </span>
@@ -350,8 +323,8 @@
 </div>
 <div>
 <span class="font-label-sm text-label-sm text-on-surface-variant block">Type & Motif</span>
-<span class="font-title-md text-title-md text-on-surface font-semibold block mt-0.5">Présentiel au Cabinet</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant truncate block">Première consultation</span>
+<span class="font-title-md text-title-md text-on-surface font-semibold block mt-0.5">{{ typeConsultation === 'cabinet' ? 'Présentiel au Cabinet' : 'Téléconsultation Vidéo' }}</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate block" [title]="motifPrise">{{ motifPrise }}</span>
 </div>
 </div>
 <!-- Reassurance Features Strip -->
@@ -367,9 +340,16 @@
 </div>
 <!-- Main CTA Action -->
 <div class="flex flex-col gap-spacing-xs pt-spacing-xs">
-<button class="w-full py-spacing-md px-spacing-xl bg-primary hover:bg-on-primary-container text-on-primary rounded-xl font-headline-sm text-headline-sm flex items-center justify-center gap-spacing-sm shadow-md transition-all active:scale-[0.99]" id="confirm-booking-btn" type="button">
-<span class="material-symbols-outlined text-headline-sm">check_circle</span>
-<span>Confirmer mon rendez-vous</span>
+<div *ngIf="errorMessage" class="bg-error/10 text-error p-spacing-sm rounded-lg font-body-sm text-body-sm">
+  {{ errorMessage }}
+</div>
+<div *ngIf="successMessage" class="bg-tertiary/10 text-tertiary p-spacing-sm rounded-lg font-body-sm text-body-sm">
+  {{ successMessage }}
+</div>
+<button (click)="confirmerRdv()" [disabled]="isSubmitting" [ngClass]="{'opacity-70 cursor-not-allowed': isSubmitting}" class="w-full py-spacing-md px-spacing-xl bg-primary hover:bg-on-primary-container text-on-primary rounded-xl font-headline-sm text-headline-sm flex items-center justify-center gap-spacing-sm shadow-md transition-all active:scale-[0.99]" id="confirm-booking-btn" type="button">
+<span *ngIf="isSubmitting" class="material-symbols-outlined animate-spin text-headline-sm">progress_activity</span>
+<span *ngIf="!isSubmitting" class="material-symbols-outlined text-headline-sm">check_circle</span>
+<span>{{ isSubmitting ? 'Confirmation en cours...' : 'Confirmer mon rendez-vous' }}</span>
 </button>
 <p class="font-label-sm text-label-sm text-center text-on-surface-variant mt-1">
               En cliquant sur "Confirmer", vous acceptez les conditions de service MboaCare et confirmez l'exactitude de vos coordonnées médicales.

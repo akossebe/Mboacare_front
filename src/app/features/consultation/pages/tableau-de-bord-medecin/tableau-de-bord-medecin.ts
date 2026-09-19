@@ -25,6 +25,7 @@ export class TableauDeBordMedecin implements OnInit {
   prescriptionsList: PrescriptionResDTO[] = [];
   chargement = false;
   messageNotification = '';
+  currentDate = new Date();
 
   constructor(
     private rdvService: RendezVousService,
@@ -60,6 +61,12 @@ export class TableauDeBordMedecin implements OnInit {
       error: (err) => console.error('Erreur chargement RDV:', err)
     });
 
+    this.prescriptionService.getTous(0, 10).subscribe({
+      next: (res) => {
+        this.prescriptionsList = res.content || [];
+      }
+    });
+
     this.consultationService.getTous(0, 10).subscribe({
       next: (res) => {
         this.consultationsList = res.content || [];
@@ -80,6 +87,21 @@ export class TableauDeBordMedecin implements OnInit {
         setTimeout(() => this.messageNotification = '', 4000);
       },
       error: (err) => console.error('Erreur confirmation RDV:', err)
+    });
+  }
+
+  get enAttenteCount(): number {
+    return this.rendezVousList.filter(r => r.statut === 'EN_ATTENTE').length;
+  }
+
+  signerPrescription(id: number): void {
+    this.prescriptionService.valider(id).subscribe({
+      next: () => {
+        this.messageNotification = `Prescription #${id} signée numériquement (eID).`;
+        this.chargerDonnees();
+        setTimeout(() => this.messageNotification = '', 4000);
+      },
+      error: (err) => console.error('Erreur signature prescription:', err)
     });
   }
 
