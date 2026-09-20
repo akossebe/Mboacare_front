@@ -1,0 +1,108 @@
+<main class="w-full pt-20 bg-background px-4 sm:px-8">
+  <div class="max-w-7xl mx-auto py-8">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-2xl font-bold text-on-surface">Agenda du Médecin n°{{ idMedecin }}</h1>
+        <p class="text-on-surface-variant text-sm">Vue d'ensemble de vos rendez-vous, actualisée automatiquement.</p>
+      </div>
+      <button class="px-4 py-2 bg-primary text-on-primary rounded-lg flex items-center gap-2 text-sm font-medium w-fit"
+              (click)="chargerAgenda()">
+        <span class="material-symbols-outlined">sync</span>
+        Actualiser
+      </button>
+    </div>
+
+    <div *ngIf="messageNotification" class="bg-primary/10 text-primary p-3 rounded-xl text-sm font-medium mb-4">
+      {{ messageNotification }}
+    </div>
+    <div *ngIf="messageErreur" class="bg-error/10 text-error p-3 rounded-xl text-sm font-medium mb-4">
+      {{ messageErreur }}
+    </div>
+
+    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+      <div *ngIf="rendezVousList.length === 0" class="text-center py-8 text-on-surface-variant">
+        Aucun rendez-vous planifié.
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <div *ngFor="let rdv of rendezVousList"
+             class="flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 bg-surface-container-low rounded-lg border-l-4"
+             [ngClass]="{
+               'border-primary': rdv.statut === 'CONFIRME',
+               'border-secondary': rdv.statut === 'EN_ATTENTE',
+               'border-error opacity-60': rdv.statut === 'ANNULE',
+               'border-surface-container-high opacity-60': rdv.statut === 'EFFECTUE'
+             }">
+          <div class="flex flex-col">
+            <span class="font-bold text-on-surface">
+              {{ rdv.dateSouhaitee | date:'longDate':'':'fr-FR' }} à {{ rdv.heureSouhaitee.substring(0, 5) }}
+            </span>
+            <span class="text-on-surface-variant text-sm">
+              Patient n°{{ rdv.idPatient }} • Motif : {{ rdv.motifPrise }}
+            </span>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-3 py-1 rounded-full text-xs font-bold"
+                  [ngClass]="{
+                    'bg-primary/15 text-primary': rdv.statut === 'CONFIRME',
+                    'bg-error/15 text-error': rdv.statut === 'ANNULE',
+                    'bg-surface-container text-on-surface-variant': rdv.statut === 'EFFECTUE',
+                    'bg-secondary/15 text-secondary': rdv.statut === 'EN_ATTENTE'
+                  }">
+              {{ rdv.statut }}
+            </span>
+            <button *ngIf="rdv.statut === 'EN_ATTENTE'" (click)="confirmerRdv(rdv.idRendezVous)"
+                    class="px-3 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-semibold hover:bg-primary/90 transition-colors">
+              Confirmer
+            </button>
+            <button *ngIf="rdv.statut === 'EN_ATTENTE' || rdv.statut === 'CONFIRME'" (click)="ouvrirReport(rdv)"
+                    class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface text-xs font-semibold hover:bg-surface-container-high transition-colors">
+              Reporter
+            </button>
+            <button *ngIf="rdv.statut === 'EN_ATTENTE' || rdv.statut === 'CONFIRME'" (click)="annulerRdv(rdv.idRendezVous)"
+                    class="px-3 py-1.5 rounded-lg text-error text-xs font-semibold hover:bg-error/10 transition-colors">
+              Annuler
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modale de report -->
+  <div *ngIf="rdvAReporter" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-xl max-w-md w-full p-6 shadow-xl flex flex-col gap-4">
+      <div class="flex items-start justify-between">
+        <div class="flex flex-col">
+          <span class="text-lg font-semibold text-on-surface">Reporter le rendez-vous n°{{ rdvAReporter.idRendezVous }}</span>
+          <span class="text-xs text-on-surface-variant">Patient n°{{ rdvAReporter.idPatient }} — le rendez-vous repassera en attente.</span>
+        </div>
+        <button (click)="fermerReport()" class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-1">
+          <label class="text-sm text-on-surface-variant" for="agNouvelleDate">Nouvelle date</label>
+          <input id="agNouvelleDate" type="date" [(ngModel)]="nouvelleDate"
+                 class="p-2 rounded-lg border border-surface-container-high bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary" />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="text-sm text-on-surface-variant" for="agNouvelleHeure">Nouvelle heure</label>
+          <input id="agNouvelleHeure" type="time" [(ngModel)]="nouvelleHeure"
+                 class="p-2 rounded-lg border border-surface-container-high bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary" />
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button (click)="fermerReport()"
+                class="px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-medium transition-colors">
+          Annuler
+        </button>
+        <button (click)="confirmerReport()" [disabled]="reportEnCours"
+                class="px-4 py-2 rounded-xl bg-primary hover:bg-primary/90 text-on-primary text-sm font-semibold transition-colors">
+          {{ reportEnCours ? 'Report en cours…' : 'Confirmer le report' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

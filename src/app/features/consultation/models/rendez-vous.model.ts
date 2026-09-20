@@ -1,4 +1,5 @@
-export type StatutRendezVous = 'EN_ATTENTE' | 'CONFIRME' | 'ANNULE' | 'REPORTE' | 'EFFECTUE';
+// Aligné sur l'enum backend com.Mboacare.Mboacare.enums.StatutRendezVous
+export type StatutRendezVous = 'EN_ATTENTE' | 'CONFIRME' | 'ANNULE' | 'EFFECTUE';
 
 export interface RendezVousReqDTO {
   dateSouhaitee: string; // Format YYYY-MM-DD

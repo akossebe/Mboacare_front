@@ -1,0 +1,234 @@
+<div class="w-full">
+  <main class="relative pt-20 w-full px-4 sm:px-8 bg-background">
+    <div class="flex flex-col w-full pb-16 gap-6 max-w-7xl mx-auto">
+
+      <!-- En-tête -->
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary shadow-sm">
+            <span class="material-symbols-outlined text-2xl">draw</span>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-on-surface tracking-tight">Rédaction d'ordonnance</h1>
+            <p class="text-sm text-on-surface-variant">L'ordonnance est liée à une consultation clôturée.</p>
+          </div>
+        </div>
+        <a routerLink="/medecin/tableau-de-bord"
+           class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors text-sm font-medium shadow-sm">
+          <span class="material-symbols-outlined text-lg">arrow_back</span>
+          Tableau de bord
+        </a>
+      </div>
+
+      <!-- Messages -->
+      <div *ngIf="messageSuccess" class="bg-primary/10 text-primary p-3 rounded-xl text-sm font-medium">
+        {{ messageSuccess }}
+      </div>
+      <div *ngIf="messageError" class="bg-error/10 text-error p-3 rounded-xl text-sm font-medium">
+        {{ messageError }}
+      </div>
+
+      <!-- Sélecteur : aucune consultation ciblée -->
+      <ng-container *ngIf="idConsultation == null">
+        <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+          <h2 class="text-lg font-semibold text-on-surface mb-1">Choisissez une consultation clôturée</h2>
+          <p class="text-sm text-on-surface-variant mb-6">
+            Une ordonnance ne peut être rédigée que pour une consultation clôturée.
+          </p>
+
+          <div *ngIf="chargementListe" class="text-center py-8 text-on-surface-variant">Chargement…</div>
+          <div *ngIf="!chargementListe && consultationsCloturees.length === 0" class="text-center py-8 text-on-surface-variant">
+            Aucune consultation clôturée disponible. Clôturez d'abord une consultation depuis votre
+            <a routerLink="/medecin/tableau-de-bord" class="text-primary hover:underline">tableau de bord</a>.
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <a *ngFor="let c of consultationsCloturees" [routerLink]="['/medecin/rediger-prescription', c.idConsultation]"
+               class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-colors">
+              <div class="flex flex-col">
+                <span class="font-semibold text-on-surface">Consultation n°{{ c.idConsultation }} — Patient n°{{ c.idPatient }}</span>
+                <span class="text-sm text-on-surface-variant">{{ c.motif }}</span>
+                <span class="text-xs text-on-surface-variant">
+                  {{ c.dateConsultation | date:'fullDate':'':'fr-FR' }} • Diagnostic : {{ c.diagnostic }}
+                </span>
+              </div>
+              <span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+            </a>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="idConsultation != null && consultation">
+
+        <!-- Contexte de la consultation (données réelles) -->
+        <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-xl bg-surface-container-high text-primary flex items-center justify-center font-bold">
+                P{{ consultation.idPatient }}
+              </div>
+              <div class="flex flex-col">
+                <span class="font-semibold text-on-surface">
+                  Consultation n°{{ consultation.idConsultation }} — Patient n°{{ consultation.idPatient }}
+                </span>
+                <span class="text-sm text-on-surface-variant">
+                  {{ consultation.dateConsultation | date:'fullDate':'':'fr-FR' }} à {{ consultation.heureConsultation.substring(0, 5) }}
+                  • Médecin n°{{ consultation.idMedecin }}
+                </span>
+              </div>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold"
+                  [ngClass]="consultationCloturee ? 'bg-surface-container text-on-surface-variant' : 'bg-secondary/15 text-secondary'">
+              {{ consultationCloturee ? 'Clôturée' : 'En cours' }}
+            </span>
+          </div>
+          <div class="bg-surface-container-low rounded-xl p-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div>
+              <span class="text-xs text-on-surface-variant block">Motif</span>
+              <span class="text-on-surface">{{ consultation.motif }}</span>
+            </div>
+            <div>
+              <span class="text-xs text-on-surface-variant block">Diagnostic</span>
+              <span class="text-on-surface">{{ consultation.diagnostic || 'Non renseigné' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Consultation non clôturée : rédaction impossible -->
+        <div *ngIf="!consultationCloturee" class="bg-secondary/10 text-secondary p-4 rounded-xl text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined">info</span>
+          <span>
+            Cette consultation est encore en cours : l'ordonnance ne pourra être rédigée qu'après sa clôture.
+            <a [routerLink]="['/medecin/consultation', consultation.idConsultation]" class="underline font-medium">Ouvrir la fiche de consultation</a>
+          </span>
+        </div>
+
+        <!-- Prescription existante -->
+        <div *ngIf="prescriptionActuelle" class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-tertiary">prescriptions</span>
+              <h2 class="text-lg font-semibold text-on-surface">Ordonnance n°{{ prescriptionActuelle.idPrescription }}</h2>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold"
+                  [ngClass]="{
+                    'bg-secondary/15 text-secondary': prescriptionActuelle.statut === 'EMISE',
+                    'bg-primary/15 text-primary': prescriptionActuelle.statut === 'TRANSMISE',
+                    'bg-surface-container text-on-surface-variant': prescriptionActuelle.statut === 'DELIVREE' || prescriptionActuelle.statut === 'EXPIREE'
+                  }">
+              {{ prescriptionActuelle.statut }}
+            </span>
+          </div>
+          <span class="text-sm text-on-surface-variant">
+            Émise le {{ prescriptionActuelle.dateEmission | date:'fullDate':'':'fr-FR' }}
+            <ng-container *ngIf="prescriptionActuelle.idPharmacie"> • Transmise à la pharmacie n°{{ prescriptionActuelle.idPharmacie }}</ng-container>
+          </span>
+
+          <div class="flex flex-col gap-2">
+            <div *ngFor="let med of prescriptionActuelle.lignesMedicaments; let i = index"
+                 class="bg-surface-container-low rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              <div class="w-8 h-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center font-bold text-sm shrink-0">
+                {{ i + 1 }}
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 flex-1 text-sm">
+                <span class="font-semibold text-on-surface">{{ med.nomMedicament }}</span>
+                <span class="text-on-surface-variant">{{ med.posologie }}</span>
+                <span class="text-on-surface-variant">{{ med.duree }}</span>
+                <span class="text-on-surface-variant">{{ med.quantite }} boîte(s)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions sur la prescription -->
+          <div *ngIf="prescriptionActuelle.statut === 'EMISE'"
+               class="flex flex-col sm:flex-row sm:items-end gap-3 pt-3 border-t border-surface-container-high/40">
+            <button (click)="validerPrescription()" [disabled]="isValidating"
+                    class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-semibold transition-colors">
+              <span class="material-symbols-outlined text-lg">fact_check</span>
+              {{ isValidating ? 'Vérification…' : 'Vérifier la conformité' }}
+            </button>
+            <div class="flex items-end gap-2 flex-1">
+              <div class="flex flex-col gap-1">
+                <label class="text-xs text-on-surface-variant" for="idPharmacie">Pharmacie destinataire (n°)</label>
+                <input id="idPharmacie" type="number" min="1" [(ngModel)]="idPharmacie" placeholder="Ex : 1"
+                       class="w-36 px-3 py-2 rounded-xl bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40" />
+              </div>
+              <button (click)="envoyerPharmacie()" [disabled]="isSending"
+                      class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-on-primary text-sm font-semibold transition-colors shadow-sm">
+                <span class="material-symbols-outlined text-lg">send</span>
+                {{ isSending ? 'Envoi…' : 'Envoyer à la pharmacie' }}
+              </button>
+            </div>
+          </div>
+          <p *ngIf="prescriptionActuelle.statut === 'EMISE'" class="text-xs text-on-surface-variant">
+            Le module Pharmacie n'étant pas encore livré, indiquez le numéro de la pharmacie destinataire.
+          </p>
+        </div>
+
+        <!-- Rédaction d'une nouvelle ordonnance -->
+        <div *ngIf="!prescriptionActuelle && consultationCloturee" class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-5">
+          <div>
+            <h2 class="text-lg font-semibold text-on-surface">Lignes de traitement</h2>
+            <p class="text-sm text-on-surface-variant">Ajoutez les médicaments puis enregistrez l'ordonnance.</p>
+          </div>
+
+          <div *ngIf="lignesMedicaments.length === 0" class="text-center p-6 bg-surface-container-low rounded-xl text-on-surface-variant text-sm">
+            Aucun traitement ajouté pour le moment.
+          </div>
+
+          <div *ngFor="let med of lignesMedicaments; let i = index"
+               class="bg-surface-container-low rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+            <div class="w-8 h-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center font-bold text-sm shrink-0">
+              {{ i + 1 }}
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 flex-1 text-sm">
+              <span class="font-semibold text-on-surface">{{ med.nomMedicament }}</span>
+              <span class="text-on-surface-variant">{{ med.posologie }}</span>
+              <span class="text-on-surface-variant">{{ med.duree }}</span>
+              <span class="text-on-surface-variant">{{ med.quantite }} boîte(s)</span>
+            </div>
+            <button (click)="supprimerLigne(i)" aria-label="Supprimer la ligne"
+                    class="p-1.5 text-on-surface-variant hover:text-error hover:bg-surface-container rounded-lg transition-colors self-end sm:self-center">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+
+          <!-- Formulaire d'ajout -->
+          <div class="bg-surface-container-low rounded-xl p-4 border border-primary/20 flex flex-col gap-3">
+            <h3 class="text-sm text-primary font-bold">Ajouter un traitement</h3>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+              <input [(ngModel)]="nouveauMedicament.nomMedicament" placeholder="Nom du médicament"
+                     class="md:col-span-2 w-full px-3 py-2 bg-surface-container-lowest text-on-surface rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/40">
+              <input [(ngModel)]="nouveauMedicament.posologie" placeholder="Posologie (ex : 1 cp matin)"
+                     class="w-full px-3 py-2 bg-surface-container-lowest text-on-surface rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/40">
+              <input [(ngModel)]="nouveauMedicament.duree" placeholder="Durée (ex : 1 mois)"
+                     class="w-full px-3 py-2 bg-surface-container-lowest text-on-surface rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/40">
+              <input type="number" min="1" [(ngModel)]="nouveauMedicament.quantite" placeholder="Qté"
+                     class="w-full px-3 py-2 bg-surface-container-lowest text-on-surface rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/40">
+            </div>
+            <button (click)="ajouterLigne()"
+                    class="self-start flex items-center gap-1.5 px-4 py-2 bg-surface-container text-on-surface rounded-xl text-sm font-medium hover:bg-surface-container-high transition-colors">
+              <span class="material-symbols-outlined text-lg">add_circle</span>
+              Ajouter cette ligne
+            </button>
+          </div>
+
+          <button (click)="enregistrerPrescription()" [disabled]="isSaving || lignesMedicaments.length === 0"
+                  [ngClass]="{ 'opacity-60 cursor-not-allowed': isSaving || lignesMedicaments.length === 0 }"
+                  class="w-full sm:w-auto self-end flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-on-primary rounded-xl text-base font-semibold transition-all shadow-md">
+            <span class="material-symbols-outlined">send_and_archive</span>
+            {{ isSaving ? 'Enregistrement…' : 'Enregistrer l\'ordonnance' }}
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Consultation introuvable -->
+      <div *ngIf="idConsultation != null && !consultation && messageError"
+           class="bg-surface-container-lowest rounded-xl p-8 shadow-sm text-center flex flex-col items-center gap-3">
+        <span class="material-symbols-outlined text-4xl text-on-surface-variant">search_off</span>
+        <p class="text-on-surface-variant">Cette consultation n'a pas pu être chargée.</p>
+        <a routerLink="/medecin/rediger-prescription" class="text-primary hover:underline text-sm">Choisir une consultation clôturée</a>
+      </div>
+    </div>
+  </main>
+</div>

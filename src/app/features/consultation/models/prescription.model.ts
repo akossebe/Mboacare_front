@@ -1,4 +1,5 @@
-export type StatutPrescription = 'CREEE' | 'VALIDEE' | 'ENVOYEE_PHARMACIE' | 'DELIVREE';
+// Aligné sur l'enum backend com.Mboacare.Mboacare.enums.StatutPrescription
+export type StatutPrescription = 'EMISE' | 'TRANSMISE' | 'DELIVREE' | 'EXPIREE';
 
 export interface LigneMedicamentDTO {
   nomMedicament: string;

@@ -1,4 +1,5 @@
-export type StatutConsultation = 'PLANIFIEE' | 'EN_COURS' | 'TERMINEE' | 'ANNULEE';
+// Aligné sur l'enum backend com.Mboacare.Mboacare.enums.StatutConsultation
+export type StatutConsultation = 'EN_COURS' | 'CLOTUREE';
 
 export interface ConsultationReqDTO {
   idRendezVous: number;

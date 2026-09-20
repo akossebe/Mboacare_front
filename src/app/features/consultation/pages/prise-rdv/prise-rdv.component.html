@@ -1,0 +1,172 @@
+<main class="w-full pt-20 bg-background">
+  <div class="flex flex-col w-full">
+
+    <!-- En-tête -->
+    <section class="w-full bg-surface-container-lowest shadow-sm py-6 px-4 sm:px-8 mb-8">
+      <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="p-2 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-3xl">event_available</span>
+          </span>
+          <div>
+            <h1 class="text-2xl font-bold text-on-surface">Prendre rendez-vous en ligne</h1>
+            <p class="text-sm text-on-surface-variant">Votre demande sera confirmée par le médecin depuis son tableau de bord.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-8 w-full pb-16 flex flex-col gap-8">
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- Colonne gauche : médecin + motif -->
+        <div class="lg:col-span-5 flex flex-col gap-6">
+
+          <!-- Choix du médecin -->
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">stethoscope</span>
+              <h3 class="text-lg font-semibold text-on-surface">Votre médecin</h3>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="text-sm text-on-surface-variant" for="idMedecin">Numéro du médecin</label>
+              <input id="idMedecin" type="number" min="1" [(ngModel)]="idMedecin" (change)="onMedecinChange()"
+                     class="w-full px-4 py-3 rounded-xl bg-surface-container-low text-on-surface text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-primary/40" />
+              <p class="text-xs text-on-surface-variant">
+                L'annuaire des médecins sera disponible avec le module Profil utilisateur.
+                En attendant, indiquez le numéro du médecin communiqué par votre établissement.
+              </p>
+            </div>
+          </div>
+
+          <!-- Type et motif -->
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">clinical_notes</span>
+              <h3 class="text-lg font-semibold text-on-surface">Motif de consultation</h3>
+            </div>
+
+            <div class="flex items-center gap-2 bg-surface-container-low p-1.5 rounded-xl">
+              <button type="button" (click)="typeConsultation = 'cabinet'"
+                      [ngClass]="typeConsultation === 'cabinet' ? 'bg-surface-container-lowest text-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container'"
+                      class="flex-1 py-2 px-3 rounded-lg text-sm font-medium flex items-center justify-center gap-1.5 transition-colors">
+                <span class="material-symbols-outlined text-lg">domain</span>
+                <span>Au cabinet</span>
+              </button>
+              <button type="button" (click)="typeConsultation = 'video'"
+                      [ngClass]="typeConsultation === 'video' ? 'bg-surface-container-lowest text-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container'"
+                      class="flex-1 py-2 px-3 rounded-lg text-sm font-medium flex items-center justify-center gap-1.5 transition-colors">
+                <span class="material-symbols-outlined text-lg">videocam</span>
+                <span>Téléconsultation</span>
+              </button>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <label class="text-sm text-on-surface-variant" for="motif">Décrivez le motif de votre visite</label>
+              <textarea id="motif" [(ngModel)]="motifPrise" rows="3"
+                        placeholder="Ex : contrôle annuel, renouvellement d'ordonnance, douleurs…"
+                        class="w-full p-3 rounded-xl bg-surface-container-low text-on-surface placeholder-on-surface-variant/60 focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonne droite : date, créneaux, récapitulatif -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-6">
+            <div>
+              <span class="text-xs text-secondary uppercase font-semibold tracking-wider">Disponibilités vérifiées auprès du serveur</span>
+              <h3 class="text-lg font-semibold text-on-surface">Choisissez votre date et créneau</h3>
+            </div>
+
+            <!-- Jours -->
+            <div class="flex flex-col gap-4">
+              <div class="grid grid-cols-7 gap-2">
+                <button *ngFor="let j of joursDisponibles" type="button" (click)="choisirDate(j.dateFull)"
+                        [ngClass]="dateSouhaitee === j.dateFull ? 'bg-secondary text-on-secondary shadow-md' : 'bg-surface-container-low hover:bg-surface-container'"
+                        class="flex flex-col items-center p-2 rounded-xl transition-all min-w-0">
+                  <span class="text-xs uppercase"
+                        [ngClass]="dateSouhaitee === j.dateFull ? 'text-on-secondary/80' : 'text-on-surface-variant'">{{ j.jourNom }}</span>
+                  <span class="text-lg font-semibold"
+                        [ngClass]="dateSouhaitee === j.dateFull ? 'text-on-secondary' : 'text-on-surface'">{{ j.jourMois }}</span>
+                </button>
+              </div>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-2 bg-surface-container-low p-3 rounded-xl">
+                <label class="text-sm font-semibold text-on-surface" for="dateLibre">Ou choisir une autre date :</label>
+                <input id="dateLibre" type="date" [(ngModel)]="dateSouhaitee" [min]="dateMinimale" (change)="onDateLibreChange()"
+                       class="p-2 rounded-lg border border-surface-container-high bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary" />
+              </div>
+            </div>
+
+            <!-- Créneaux -->
+            <div>
+              <div class="flex items-center gap-2 mb-3 text-on-surface">
+                <span class="material-symbols-outlined text-primary text-lg">schedule</span>
+                <span class="text-base font-medium">Créneaux du {{ dateSouhaitee | date:'fullDate':'':'fr-FR' }}</span>
+                <span *ngIf="chargementCreneaux" class="material-symbols-outlined animate-spin text-lg text-on-surface-variant">progress_activity</span>
+              </div>
+              <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                <button *ngFor="let h of heuresOuverture" type="button" (click)="choisirHeure(h)"
+                        [disabled]="estOccupe(h)"
+                        [ngClass]="estOccupe(h)
+                          ? 'bg-surface-container text-on-surface-variant/50 cursor-not-allowed line-through'
+                          : (heureSouhaitee === h ? 'bg-secondary text-on-secondary shadow-md' : 'bg-surface-container-low text-on-surface hover:bg-surface-container-high')"
+                        class="py-3 px-2 rounded-xl text-base font-medium transition-all text-center">
+                  <span>{{ h.substring(0, 5) }}</span>
+                  <span *ngIf="estOccupe(h)" class="block text-[10px]">Occupé</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Récapitulatif -->
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4">
+            <div class="flex items-center gap-2 pb-2 border-b border-surface-container-high/40">
+              <span class="material-symbols-outlined text-primary">fact_check</span>
+              <h3 class="text-lg font-semibold text-on-surface">Récapitulatif de votre demande</h3>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-surface-container-low p-4 rounded-xl">
+              <div>
+                <span class="text-xs text-on-surface-variant block">Date & heure</span>
+                <span class="text-sm text-on-surface font-semibold block mt-0.5">
+                  {{ dateSouhaitee | date:'fullDate':'':'fr-FR' }}
+                  <ng-container *ngIf="heureSouhaitee"> à {{ heureSouhaitee.substring(0, 5) }}</ng-container>
+                  <ng-container *ngIf="!heureSouhaitee"> — créneau à choisir</ng-container>
+                </span>
+              </div>
+              <div>
+                <span class="text-xs text-on-surface-variant block">Médecin</span>
+                <span class="text-sm text-on-surface font-semibold block mt-0.5">Médecin n°{{ idMedecin }}</span>
+              </div>
+              <div>
+                <span class="text-xs text-on-surface-variant block">Type & motif</span>
+                <span class="text-sm text-on-surface font-semibold block mt-0.5">{{ typeConsultation === 'cabinet' ? 'Au cabinet' : 'Téléconsultation' }}</span>
+                <span class="text-xs text-on-surface-variant truncate block" [title]="motifPrise">{{ motifPrise || 'Motif à renseigner' }}</span>
+              </div>
+            </div>
+
+            <div *ngIf="errorMessage" class="bg-error/10 text-error p-3 rounded-lg text-sm">
+              {{ errorMessage }}
+            </div>
+            <div *ngIf="successMessage" class="bg-primary/10 text-primary p-3 rounded-lg text-sm">
+              {{ successMessage }}
+            </div>
+
+            <button type="button" (click)="confirmerRdv()" [disabled]="isSubmitting"
+                    [ngClass]="{ 'opacity-70 cursor-not-allowed': isSubmitting }"
+                    class="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-on-primary rounded-xl text-lg font-semibold flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.99]">
+              <span *ngIf="isSubmitting" class="material-symbols-outlined animate-spin">progress_activity</span>
+              <span *ngIf="!isSubmitting" class="material-symbols-outlined">check_circle</span>
+              <span>{{ isSubmitting ? 'Envoi en cours…' : 'Demander ce rendez-vous' }}</span>
+            </button>
+            <p class="text-xs text-center text-on-surface-variant">
+              Le rendez-vous sera créé avec le statut « En attente » puis confirmé par le médecin.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

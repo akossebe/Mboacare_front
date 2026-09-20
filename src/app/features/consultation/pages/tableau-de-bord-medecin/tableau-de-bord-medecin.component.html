@@ -1,0 +1,234 @@
+<div class="w-full">
+  <main class="relative pt-20 w-full px-4 sm:px-8 bg-background">
+    <div class="flex flex-col w-full gap-8 pb-16 max-w-7xl mx-auto">
+
+      <!-- En-tête praticien -->
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-4xl">stethoscope</span>
+          </div>
+          <div class="flex flex-col">
+            <h1 class="text-2xl font-bold text-on-surface">Espace Médecin n°{{ idMedecin }}</h1>
+            <span class="text-sm text-on-surface-variant flex items-center gap-1">
+              <span class="material-symbols-outlined text-base text-secondary">calendar_today</span>
+              {{ currentDate | date:'fullDate':'':'fr-FR' }}
+            </span>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <a routerLink="/medecin/agenda"
+             class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors text-sm font-medium">
+            <span class="material-symbols-outlined text-lg text-primary">calendar_month</span>
+            Mon agenda
+          </a>
+          <a routerLink="/medecin/rediger-prescription"
+             class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors text-sm font-medium">
+            <span class="material-symbols-outlined text-lg text-secondary">prescriptions</span>
+            Ordonnances
+          </a>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div *ngIf="messageNotification" class="bg-primary/10 text-primary p-3 rounded-xl text-sm font-medium">
+        {{ messageNotification }}
+      </div>
+      <div *ngIf="messageErreur" class="bg-error/10 text-error p-3 rounded-xl text-sm font-medium">
+        {{ messageErreur }}
+      </div>
+
+      <!-- Statistiques (données réelles du serveur) -->
+      <div *ngIf="statsErreur" class="bg-error/10 text-error p-4 rounded-xl text-sm">
+        Impossible de charger les statistiques. Vérifiez que le serveur est démarré.
+      </div>
+      <div *ngIf="stats" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-6 bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="text-xs uppercase tracking-wider text-on-surface-variant">Rendez-vous total</span>
+            <span class="text-4xl font-bold text-on-surface mt-1">{{ stats.nombreRendezVousTotal }}</span>
+            <span class="mt-2 inline-flex items-center px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs w-fit">
+              Taux d'annulation : {{ stats.tauxAnnulation | number:'1.0-1' }}%
+            </span>
+          </div>
+          <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-3xl">schedule</span>
+          </div>
+        </div>
+        <div class="p-6 bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="text-xs uppercase tracking-wider text-on-surface-variant">Consultations</span>
+            <span class="text-4xl font-bold text-secondary mt-1">{{ stats.nombreConsultations }}</span>
+            <span class="mt-2 inline-flex items-center px-2 py-0.5 rounded-full bg-secondary/10 text-secondary text-xs w-fit">
+              Enregistrées au dossier
+            </span>
+          </div>
+          <div class="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined text-3xl">stethoscope</span>
+          </div>
+        </div>
+        <div class="p-6 bg-surface-container-lowest rounded-xl shadow-sm flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="text-xs uppercase tracking-wider text-on-surface-variant">RDV annulés</span>
+            <span class="text-4xl font-bold text-error mt-1">{{ stats.nombreRendezVousAnnules }}</span>
+            <span class="mt-2 inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-xs w-fit">
+              Sur l'ensemble des demandes
+            </span>
+          </div>
+          <div class="w-14 h-14 rounded-xl bg-error/10 flex items-center justify-center text-error">
+            <span class="material-symbols-outlined text-3xl">event_busy</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+
+        <!-- Liste des rendez-vous -->
+        <div class="xl:col-span-8 flex flex-col gap-4">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">schedule</span>
+            <h2 class="text-xl font-semibold text-on-surface">Mes rendez-vous</h2>
+          </div>
+
+          <div class="space-y-4">
+            <div *ngFor="let rdv of rendezVousList" class="bg-surface-container-lowest rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
+                 [ngClass]="{ 'opacity-70': rdv.statut === 'ANNULE' }">
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-xl bg-surface-container-high flex items-center justify-center text-primary font-bold shrink-0">
+                    P{{ rdv.idPatient }}
+                  </div>
+                  <div class="flex flex-col">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span class="font-semibold text-on-surface">Patient n°{{ rdv.idPatient }}</span>
+                      <span class="px-2 py-0.5 rounded-full text-xs font-semibold"
+                            [ngClass]="{
+                              'bg-primary/15 text-primary': rdv.statut === 'CONFIRME',
+                              'bg-error/15 text-error': rdv.statut === 'ANNULE',
+                              'bg-surface-container text-on-surface-variant': rdv.statut === 'EFFECTUE',
+                              'bg-secondary/15 text-secondary': rdv.statut === 'EN_ATTENTE'
+                            }">
+                        {{ rdv.statut }}
+                      </span>
+                      <span *ngIf="rdv.motifPrise?.includes('[VIDEO]')"
+                            class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary text-xs flex items-center gap-1">
+                        <span class="material-symbols-outlined text-xs">videocam</span> Téléconsultation
+                      </span>
+                    </div>
+                    <span class="text-sm text-on-surface-variant mt-0.5">{{ rdv.motifPrise }}</span>
+                    <span class="text-sm text-on-surface font-medium mt-0.5">
+                      {{ rdv.dateSouhaitee | date:'fullDate':'':'fr-FR' }} à {{ rdv.heureSouhaitee.substring(0, 5) }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 self-end md:self-center">
+                  <button *ngIf="rdv.statut === 'EN_ATTENTE'" (click)="confirmerRdv(rdv.idRendezVous)"
+                          class="flex items-center gap-1 px-4 py-2 rounded-xl bg-primary text-on-primary hover:bg-primary/90 transition-all text-sm font-medium shadow-sm">
+                    <span class="material-symbols-outlined text-lg">check</span> Confirmer
+                  </button>
+                  <button *ngIf="rdv.statut === 'CONFIRME'" (click)="demarrerConsultation(rdv)"
+                          class="flex items-center gap-1 px-4 py-2 rounded-xl bg-secondary text-on-secondary hover:bg-secondary/90 transition-all text-sm font-medium shadow-sm">
+                    <span class="material-symbols-outlined text-lg">stethoscope</span> Démarrer la consultation
+                  </button>
+                  <button *ngIf="rdv.statut === 'EFFECTUE' && consultationDuRdv(rdv.idRendezVous)" (click)="ouvrirConsultation(rdv)"
+                          class="flex items-center gap-1 px-4 py-2 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high transition-all text-sm font-medium">
+                    <span class="material-symbols-outlined text-lg">folder_open</span> Voir la consultation
+                  </button>
+                  <button *ngIf="rdv.statut === 'EN_ATTENTE' || rdv.statut === 'CONFIRME'" (click)="annulerRdv(rdv.idRendezVous)"
+                          class="flex items-center gap-1 px-3 py-2 rounded-xl text-on-surface-variant hover:text-error hover:bg-error/10 transition-colors text-sm">
+                    <span class="material-symbols-outlined text-lg">cancel</span> Annuler
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="rendezVousList.length === 0 && !chargement"
+                 class="p-8 text-center bg-surface-container-lowest rounded-xl shadow-sm text-on-surface-variant">
+              Aucun rendez-vous pour le moment.
+            </div>
+            <div *ngIf="chargement" class="p-8 text-center bg-surface-container-lowest rounded-xl shadow-sm text-on-surface-variant">
+              Chargement…
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonne latérale -->
+        <div class="xl:col-span-4 flex flex-col gap-6">
+
+          <!-- Demandes en attente -->
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+            <div class="flex items-center justify-between pb-3 border-b border-surface-container-high/60">
+              <h3 class="text-lg font-semibold text-on-surface">Demandes en attente</h3>
+              <span class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-xs font-semibold">
+                {{ enAttenteCount }}
+              </span>
+            </div>
+            <div class="mt-4 space-y-3">
+              <ng-container *ngFor="let rdv of rendezVousList">
+                <div *ngIf="rdv.statut === 'EN_ATTENTE'"
+                     class="p-3 rounded-xl bg-surface-container-low flex items-center justify-between gap-2">
+                  <div class="flex flex-col min-w-0">
+                    <span class="text-sm font-semibold text-on-surface">Patient n°{{ rdv.idPatient }}</span>
+                    <span class="text-xs text-on-surface-variant truncate">
+                      {{ rdv.dateSouhaitee | date:'shortDate' }} {{ rdv.heureSouhaitee.substring(0, 5) }} • {{ rdv.motifPrise }}
+                    </span>
+                  </div>
+                  <button (click)="confirmerRdv(rdv.idRendezVous)"
+                          class="shrink-0 px-3 py-1.5 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors text-xs font-semibold">
+                    Accepter
+                  </button>
+                </div>
+              </ng-container>
+              <div *ngIf="enAttenteCount === 0" class="text-center text-on-surface-variant text-sm py-2">
+                Aucune demande en attente.
+              </div>
+            </div>
+          </div>
+
+          <!-- Dernières ordonnances -->
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+            <div class="flex items-center justify-between pb-3 border-b border-surface-container-high/60">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg text-tertiary">prescriptions</span>
+                <h3 class="text-lg font-semibold text-on-surface">Mes ordonnances</h3>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-tertiary/15 text-tertiary text-xs font-semibold">
+                {{ prescriptionsList.length }}
+              </span>
+            </div>
+            <div class="mt-4 space-y-3">
+              <div *ngFor="let pres of prescriptionsList" class="p-3 rounded-xl bg-surface-container-low flex flex-col gap-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold text-on-surface">Ordonnance n°{{ pres.idPrescription }}</span>
+                  <span class="px-2 py-0.5 rounded-full text-xs font-semibold"
+                        [ngClass]="{
+                          'bg-secondary/15 text-secondary': pres.statut === 'EMISE',
+                          'bg-primary/15 text-primary': pres.statut === 'TRANSMISE',
+                          'bg-surface-container text-on-surface-variant': pres.statut === 'DELIVREE' || pres.statut === 'EXPIREE'
+                        }">
+                    {{ pres.statut }}
+                  </span>
+                </div>
+                <span class="text-xs text-on-surface-variant">
+                  Consultation n°{{ pres.idConsultation }} • {{ pres.dateEmission | date:'shortDate' }}
+                </span>
+                <span *ngIf="pres.lignesMedicaments?.length" class="text-xs text-on-surface-variant">
+                  {{ pres.lignesMedicaments[0].nomMedicament }}
+                  <span *ngIf="pres.lignesMedicaments.length > 1">+ {{ pres.lignesMedicaments.length - 1 }} autre(s)</span>
+                </span>
+                <a [routerLink]="['/medecin/rediger-prescription', pres.idConsultation]"
+                   class="text-xs text-primary font-medium hover:underline mt-1 w-fit">
+                  Ouvrir
+                </a>
+              </div>
+              <div *ngIf="prescriptionsList.length === 0" class="text-center text-on-surface-variant text-sm py-2">
+                Aucune ordonnance émise.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

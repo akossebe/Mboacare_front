@@ -1,0 +1,249 @@
+<div class="w-full">
+  <main class="relative pt-20 w-full px-4 sm:px-8 bg-background">
+    <div class="flex flex-col w-full pb-16 gap-6 max-w-7xl mx-auto">
+
+      <!-- Notifications -->
+      <div *ngIf="notification" class="bg-primary/10 text-primary p-3 rounded-xl text-sm font-medium">
+        {{ notification }}
+      </div>
+      <div *ngIf="erreur" class="bg-error/10 text-error p-3 rounded-xl text-sm font-medium">
+        {{ erreur }}
+      </div>
+
+      <!-- Sélecteur : aucune consultation dans l'URL -->
+      <ng-container *ngIf="idConsultation == null">
+        <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+          <h1 class="text-2xl font-bold text-on-surface mb-1">Fiches de consultation</h1>
+          <p class="text-sm text-on-surface-variant mb-6">
+            Sélectionnez une consultation, ou démarrez-en une nouvelle depuis un rendez-vous confirmé sur votre
+            <a routerLink="/medecin/tableau-de-bord" class="text-primary hover:underline">tableau de bord</a>.
+          </p>
+
+          <div *ngIf="chargementListe" class="text-center py-8 text-on-surface-variant">Chargement…</div>
+          <div *ngIf="!chargementListe && consultationsDisponibles.length === 0" class="text-center py-8 text-on-surface-variant">
+            Aucune consultation enregistrée pour le moment.
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <a *ngFor="let c of consultationsDisponibles" [routerLink]="['/medecin/consultation', c.idConsultation]"
+               class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-colors">
+              <div class="flex flex-col">
+                <span class="font-semibold text-on-surface">Consultation n°{{ c.idConsultation }} — Patient n°{{ c.idPatient }}</span>
+                <span class="text-sm text-on-surface-variant">{{ c.motif }}</span>
+                <span class="text-xs text-on-surface-variant">
+                  {{ c.dateConsultation | date:'fullDate':'':'fr-FR' }} à {{ c.heureConsultation.substring(0, 5) }}
+                </span>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs font-bold w-fit"
+                    [ngClass]="c.statut === 'CLOTUREE' ? 'bg-surface-container text-on-surface-variant' : 'bg-secondary/15 text-secondary'">
+                {{ c.statut === 'CLOTUREE' ? 'Clôturée' : 'En cours' }}
+              </span>
+            </a>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Fiche de consultation -->
+      <ng-container *ngIf="idConsultation != null && consultation">
+
+        <!-- En-tête -->
+        <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div class="flex items-center gap-4 min-w-0">
+              <div class="w-16 h-16 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold text-xl shrink-0">
+                P{{ consultation.idPatient }}
+              </div>
+              <div class="flex flex-col gap-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-xl font-bold text-on-surface">Consultation n°{{ consultation.idConsultation }}</span>
+                  <span class="px-3 py-0.5 rounded-full text-xs font-bold"
+                        [ngClass]="estCloturee ? 'bg-surface-container text-on-surface-variant' : 'bg-secondary/15 text-secondary'">
+                    {{ estCloturee ? 'Clôturée' : 'En cours' }}
+                  </span>
+                </div>
+                <span class="text-sm text-on-surface-variant">
+                  Patient n°{{ consultation.idPatient }} • Rendez-vous n°{{ consultation.idRendezVous }}
+                </span>
+                <span class="text-sm text-on-surface-variant">
+                  {{ consultation.dateConsultation | date:'fullDate':'':'fr-FR' }} à {{ consultation.heureConsultation.substring(0, 5) }}
+                </span>
+              </div>
+            </div>
+            <a routerLink="/medecin/tableau-de-bord"
+               class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors text-sm font-medium w-fit">
+              <span class="material-symbols-outlined text-lg">arrow_back</span>
+              Retour au tableau de bord
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+          <!-- Colonne principale -->
+          <div class="lg:col-span-8 flex flex-col gap-6">
+
+            <!-- Motif -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-3">
+              <div class="flex items-center gap-2">
+                <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary text-sm font-bold">1</span>
+                <span class="text-lg font-semibold text-on-surface">Motif de consultation</span>
+              </div>
+              <div class="bg-surface-container-low rounded-xl p-4 flex items-start gap-2">
+                <span class="material-symbols-outlined text-secondary mt-0.5">chat_bubble_outline</span>
+                <p class="text-on-surface font-medium leading-relaxed">
+                  « {{ consultation.motif || 'Aucun motif renseigné' }} »
+                </p>
+              </div>
+            </div>
+
+            <!-- Diagnostic -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary text-sm font-bold">2</span>
+                  <span class="text-lg font-semibold text-on-surface">Diagnostic médical</span>
+                </div>
+                <span *ngIf="estCloturee" class="text-xs text-on-surface-variant flex items-center gap-1">
+                  <span class="material-symbols-outlined text-sm">lock</span> Lecture seule (consultation clôturée)
+                </span>
+              </div>
+              <div class="bg-surface-container-low rounded-xl p-4">
+                <textarea [(ngModel)]="diagnostic" [disabled]="estCloturee" rows="3"
+                          placeholder="Saisissez le diagnostic médical (obligatoire pour clôturer la consultation)…"
+                          class="w-full bg-transparent border-none resize-none focus:outline-none text-on-surface leading-relaxed disabled:text-on-surface-variant"></textarea>
+              </div>
+            </div>
+
+            <!-- Observations -->
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-3">
+              <div class="flex items-center gap-2">
+                <span class="flex items-center justify-center w-7 h-7 rounded-lg bg-surface-container-high text-primary text-sm font-bold">3</span>
+                <span class="text-lg font-semibold text-on-surface">Observations & conduite à tenir</span>
+              </div>
+              <div class="bg-surface-container-low rounded-xl p-4">
+                <textarea [(ngModel)]="observations" [disabled]="estCloturee" rows="4"
+                          placeholder="Observations, examen clinique, conduite à tenir…"
+                          class="w-full bg-transparent border-none resize-none focus:outline-none text-on-surface leading-relaxed disabled:text-on-surface-variant"></textarea>
+              </div>
+              <button *ngIf="!estCloturee" (click)="sauvegarderDiagnostic()" [disabled]="isSaving"
+                      class="self-end flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-medium transition-colors">
+                <span class="material-symbols-outlined text-lg">save</span>
+                {{ isSaving ? 'Enregistrement…' : 'Enregistrer le diagnostic et les observations' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Colonne latérale : actes -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4">
+              <span class="text-lg font-semibold text-on-surface">Actes & documents</span>
+
+              <a *ngIf="estCloturee" [routerLink]="['/medecin/rediger-prescription', consultation.idConsultation]"
+                 class="w-full text-left bg-surface-container-low hover:bg-surface-container transition-all p-4 rounded-xl flex items-center justify-between group">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+                    <span class="material-symbols-outlined">prescriptions</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-sm font-semibold text-on-surface group-hover:text-primary transition-colors">Rédiger l'ordonnance</span>
+                    <span class="text-xs text-on-surface-variant">Médicaments & posologie</span>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+              </a>
+              <div *ngIf="!estCloturee"
+                   class="w-full bg-surface-container-low p-4 rounded-xl flex items-center gap-3 opacity-60">
+                <div class="w-10 h-10 rounded-lg bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+                  <span class="material-symbols-outlined">prescriptions</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-sm font-semibold text-on-surface-variant">Rédiger l'ordonnance</span>
+                  <span class="text-xs text-on-surface-variant">Disponible après la clôture de la consultation</span>
+                </div>
+              </div>
+
+              <button *ngIf="estCloturee" (click)="telechargerCompteRendu()"
+                      class="w-full text-left bg-surface-container-low hover:bg-surface-container transition-all p-4 rounded-xl flex items-center justify-between group">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-secondary text-on-secondary flex items-center justify-center">
+                    <span class="material-symbols-outlined">download</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-sm font-semibold text-on-surface group-hover:text-secondary transition-colors">Compte-rendu PDF</span>
+                    <span class="text-xs text-on-surface-variant">Généré par le serveur</span>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barre de clôture -->
+        <div *ngIf="!estCloturee"
+             class="sticky bottom-4 z-30 bg-surface-container-lowest/95 backdrop-blur-md rounded-xl p-4 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="hidden sm:flex w-10 h-10 rounded-xl bg-primary/10 items-center justify-center text-primary">
+              <span class="material-symbols-outlined">medical_services</span>
+            </div>
+            <div>
+              <span class="text-sm font-bold text-on-surface">Clôture de la consultation</span>
+              <p class="text-xs text-on-surface-variant">
+                Le diagnostic est obligatoire. Une fois clôturée, la fiche passe en lecture seule.
+              </p>
+            </div>
+          </div>
+          <button (click)="ouvrirModalCloture()"
+                  class="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-on-primary text-sm font-semibold transition-all shadow-md">
+            <span class="material-symbols-outlined text-lg">check_circle</span>
+            Clôturer la consultation
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Consultation introuvable -->
+      <div *ngIf="idConsultation != null && !consultation && erreur"
+           class="bg-surface-container-lowest rounded-xl p-8 shadow-sm text-center flex flex-col items-center gap-3">
+        <span class="material-symbols-outlined text-4xl text-on-surface-variant">search_off</span>
+        <p class="text-on-surface-variant">Cette consultation n'a pas pu être chargée.</p>
+        <a routerLink="/medecin/consultation" class="text-primary hover:underline text-sm">Voir toutes les consultations</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modale de clôture -->
+  <div *ngIf="showClotureModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-xl max-w-lg w-full p-6 shadow-xl flex flex-col gap-5">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-2xl">verified</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-lg font-semibold text-on-surface">Confirmer la clôture</span>
+            <span class="text-xs text-on-surface-variant">Consultation n°{{ consultation?.idConsultation }} — Patient n°{{ consultation?.idPatient }}</span>
+          </div>
+        </div>
+        <button (click)="fermerModalCloture()" class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="text-sm text-on-surface-variant flex flex-col gap-2">
+        <p>Le diagnostic et les observations seront enregistrés, puis la consultation sera définitivement clôturée.</p>
+        <p>Après clôture, vous pourrez rédiger l'ordonnance et générer le compte-rendu PDF.</p>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-1">
+        <button (click)="fermerModalCloture()"
+                class="px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-medium transition-colors">
+          Retour à la fiche
+        </button>
+        <button [disabled]="isClosing" (click)="confirmerCloture()"
+                class="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-primary hover:bg-primary/90 text-on-primary text-sm font-semibold transition-all shadow-md">
+          <span class="material-symbols-outlined text-lg">task_alt</span>
+          <span *ngIf="!isClosing">Clôturer la consultation</span>
+          <span *ngIf="isClosing">Clôture en cours…</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
