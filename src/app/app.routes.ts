@@ -8,10 +8,15 @@ import { HistoriqueMedicalComponent } from './features/consultation/pages/histor
 import { ConsultationDetail } from './features/consultation/pages/consultation-detail/consultation-detail.component';
 import { RedigerPrescription } from './features/consultation/pages/rediger-prescription/rediger-prescription.component';
 import { AgendaMedecin } from './features/consultation/pages/agenda-medecin/agenda-medecin.component';
+import { Inscription } from './features/profil-utilisateur/pages/inscription/inscription.component';
+import { Connexion } from './features/profil-utilisateur/pages/connexion/connexion.component';
 
 export const routes: Routes = [
 
-  { path: '', redirectTo: 'patient/tableau-de-bord', pathMatch: 'full' },
+  { path: '', redirectTo: 'inscription', pathMatch: 'full' },
+  
+  { path: 'inscription', component: Inscription },
+  { path: 'connexion', component: Connexion },
 
   {
     path: 'patient',
@@ -40,8 +45,7 @@ export const routes: Routes = [
 
   // Anciennes URL raccourcies
   { path: 'rdv', redirectTo: 'patient/prise-rdv', pathMatch: 'full' },
-  { path: 'prise-rdv', redirectTo: 'patient/prise-rdv', pathMatch: 'full' },
   { path: 'historique', redirectTo: 'patient/historique-medical', pathMatch: 'full' },
 
-  { path: '**', redirectTo: 'patient/tableau-de-bord' }
+  { path: '**', redirectTo: 'inscription' }
 ];

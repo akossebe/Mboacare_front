@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { RendezVousService } from '../../services/rendez-vous.service';
 import { ContexteUtilisateurService } from '../../services/contexte-utilisateur.service';
 import { RendezVousReqDTO } from '../../models/rendez-vous.model';
+import { MedecinProfile, MEDECINS_MOCK } from '../../models/medecin-profile.model';
 
 interface JourCalendrier {
   dateFull: string;
@@ -22,6 +23,9 @@ interface JourCalendrier {
 export class PriseRdv implements OnInit {
   idPatient: number;
   idMedecin: number;
+  
+  medecins: MedecinProfile[] = MEDECINS_MOCK;
+  medecinSelectionne: MedecinProfile | null = null;
 
   joursDisponibles: JourCalendrier[] = [];
   dateSouhaitee = '';
@@ -116,8 +120,16 @@ export class PriseRdv implements OnInit {
     this.chargerCreneauxOccupes();
   }
 
+  choisirMedecin(medecin: MedecinProfile): void {
+    this.medecinSelectionne = medecin;
+    this.idMedecin = medecin.id;
+    this.heureSouhaitee = '';
+    this.chargerCreneauxOccupes();
+  }
+
   onMedecinChange(): void {
     if (this.idMedecin && this.idMedecin > 0) {
+      this.medecinSelectionne = this.medecins.find(m => m.id === this.idMedecin) || null;
       this.heureSouhaitee = '';
       this.chargerCreneauxOccupes();
     }

@@ -24,19 +24,27 @@
         <div class="lg:col-span-5 flex flex-col gap-6">
 
           <!-- Choix du médecin -->
-          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4">
-            <div class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-primary">stethoscope</span>
-              <h3 class="text-lg font-semibold text-on-surface">Votre médecin</h3>
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-5">
+            <div>
+              <span class="text-xs text-secondary uppercase font-semibold tracking-wider">Sélection</span>
+              <h3 class="text-lg font-semibold text-on-surface">Choisissez un médecin</h3>
             </div>
-            <div class="flex flex-col gap-2">
-              <label class="text-sm text-on-surface-variant" for="idMedecin">Numéro du médecin</label>
-              <input id="idMedecin" type="number" min="1" [(ngModel)]="idMedecin" (change)="onMedecinChange()"
-                     class="w-full px-4 py-3 rounded-xl bg-surface-container-low text-on-surface text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-primary/40" />
-              <p class="text-xs text-on-surface-variant">
-                L'annuaire des médecins sera disponible avec le module Profil utilisateur.
-                En attendant, indiquez le numéro du médecin communiqué par votre établissement.
-              </p>
+
+            <div class="grid grid-cols-1 gap-3 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+              <div *ngFor="let medecin of medecins" 
+                   (click)="choisirMedecin(medecin)"
+                   [ngClass]="idMedecin === medecin.id ? 'border-primary bg-primary/5' : 'border-surface-container-high hover:border-primary/50 bg-surface-container-low'"
+                   class="cursor-pointer border-2 rounded-xl p-3 flex gap-4 items-center transition-all">
+                <img [src]="medecin.photoUrl" [alt]="medecin.nom" class="w-16 h-16 rounded-full object-cover shadow-sm">
+                <div class="flex-1">
+                  <h4 class="font-bold text-on-surface">{{ medecin.nom }}</h4>
+                  <span class="text-xs font-semibold text-primary block mb-1">{{ medecin.specialite }}</span>
+                  <p class="text-xs text-on-surface-variant line-clamp-2">{{ medecin.bio }}</p>
+                </div>
+                <div class="text-primary" *ngIf="idMedecin === medecin.id">
+                  <span class="material-symbols-outlined">check_circle</span>
+                </div>
+              </div>
             </div>
           </div>
 

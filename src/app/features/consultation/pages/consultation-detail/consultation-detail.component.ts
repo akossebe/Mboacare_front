@@ -34,7 +34,7 @@ export class ConsultationDetail implements OnInit {
     private consultationService: ConsultationService,
     private contexte: ContexteUtilisateurService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
