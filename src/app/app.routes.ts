@@ -10,6 +10,8 @@ import { RedigerPrescription } from './features/consultation/pages/rediger-presc
 import { AgendaMedecin } from './features/consultation/pages/agenda-medecin/agenda-medecin.component';
 import { Inscription } from './features/profil-utilisateur/pages/inscription/inscription.component';
 import { Connexion } from './features/profil-utilisateur/pages/connexion/connexion.component';
+import { PharmacienLayout } from './layouts/pharmacien-layout/pharmacien-layout.component';
+import { GestionStockComponent } from './features/pharmacie/pages/gestion-stock/gestion-stock.component';
 
 export const routes: Routes = [
 
@@ -46,6 +48,15 @@ export const routes: Routes = [
   // Anciennes URL raccourcies
   { path: 'rdv', redirectTo: 'patient/prise-rdv', pathMatch: 'full' },
   { path: 'historique', redirectTo: 'patient/historique-medical', pathMatch: 'full' },
+
+  {
+    path: 'pharmacien',
+    component: PharmacienLayout,
+    children: [
+      { path: '', redirectTo: 'gestion-stock', pathMatch: 'full' },
+      { path: 'gestion-stock', component: GestionStockComponent }
+    ]
+  },
 
   { path: '**', redirectTo: 'inscription' }
 ];

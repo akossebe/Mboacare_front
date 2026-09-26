@@ -1,1 +1,113 @@
-<p>gestion-stock works!</p>
+<main class="w-full pt-20 bg-background px-8 min-h-screen">
+  <div class="max-w-7xl mx-auto py-8">
+    
+    <!-- En-tête -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1 style="font-size: 1.5rem; font-weight: 700; color: #0b1c30;">Gestion des Stocks (Pharmacie)</h1>
+          <p style="color: #6c7a71; font-size: 0.875rem;">
+            Gérez l'inventaire des médicaments, ajoutez de nouvelles références et mettez à jour les quantités.
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <span class="badge badge-neutral">{{ stocks.length }} Articles en stock</span>
+          <button (click)="openAddModal()" class="btn btn-outline" style="background-color: #10B981; color: white; border: none;">
+            <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 4px;">add_circle</span> 
+            Nouveau Stock
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert Message -->
+    <div *ngIf="message" [ngClass]="{'bg-green-100 text-green-800 border-green-300': message.type === 'success', 'bg-red-100 text-red-800 border-red-300': message.type === 'error'}" 
+         style="padding: 1rem; border-radius: 0.5rem; border: 1px solid; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+      <span class="material-symbols-outlined">{{ message.type === 'success' ? 'check_circle' : 'error' }}</span>
+      {{ message.text }}
+    </div>
+
+    <!-- Chargement -->
+    <div *ngIf="loading" style="text-align: center; padding: 3rem; color: #6c7a71;">
+      <span class="material-symbols-outlined" style="font-size: 32px; animation: spin 1s linear infinite;">autorenew</span>
+      <p>Chargement de l'inventaire...</p>
+    </div>
+
+    <!-- Etat vide -->
+    <div *ngIf="!loading && stocks.length === 0" class="card" style="text-align: center; padding: 4rem 2rem;">
+      <span class="material-symbols-outlined" style="font-size: 48px; color: #cbd5e1; margin-bottom: 1rem;">inventory_2</span>
+      <h3 style="font-size: 1.125rem; font-weight: 600; color: #334155;">L'inventaire est vide</h3>
+      <p style="color: #64748b; margin-bottom: 1.5rem;">Commencez par ajouter des médicaments à votre stock.</p>
+      <button (click)="openAddModal()" class="btn btn-outline">Ajouter le premier article</button>
+    </div>
+
+    <!-- Grille des stocks -->
+    <div *ngIf="!loading && stocks.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div *ngFor="let stock of stocks" class="card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <span class="badge" [ngClass]="{'badge-success': stock.quantite > 10, 'bg-red-100 text-red-800': stock.quantite <= 10}">
+              {{ stock.quantite > 10 ? 'En Stock' : 'Stock Faible' }}
+            </span>
+            <span style="font-size: 0.75rem; color: #94a3b8; font-family: monospace;">#{{ stock.idStock.substring(0,6).toUpperCase() }}</span>
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem; word-break: break-word;">{{ stock.nom }}</h3>
+          
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: #475569; margin-bottom: 1.5rem; background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem;">
+            <span class="material-symbols-outlined" style="color: #10B981;">medication</span>
+            <span style="font-size: 1.5rem; font-weight: 700; color: #0f172a;">{{ stock.quantite }}</span> 
+            <span style="font-size: 0.875rem;">unités</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+          <button (click)="openEditModal(stock)" class="btn btn-outline" style="flex: 1; display: flex; justify-content: center;">
+            <span class="material-symbols-outlined" style="font-size: 16px; margin-right: 4px;">edit</span> Éditer
+          </button>
+          <button (click)="deleteStock(stock.idStock)" class="btn btn-outline" style="color: #ef4444; border-color: #fca5a5;">
+            <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal d'ajout/modification -->
+  <div *ngIf="showModal" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50;">
+    <div class="card" style="width: 100%; max-width: 28rem; padding: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">
+          {{ isEditMode ? 'Modifier le Stock' : 'Ajouter au Stock' }}
+        </h2>
+        <button (click)="closeModal()" style="background: none; border: none; cursor: pointer; color: #64748b;">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Nom du médicament</label>
+          <input type="text" formControlName="nom" placeholder="Ex: Paracétamol 500mg" 
+                 style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; outline: none;"
+                 [ngStyle]="{'border-color': stockForm.get('nom')?.invalid && stockForm.get('nom')?.touched ? '#ef4444' : '#cbd5e1'}">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Quantité (unités)</label>
+          <input type="number" formControlName="quantite" min="0" 
+                 style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; outline: none;"
+                 [ngStyle]="{'border-color': stockForm.get('quantite')?.invalid && stockForm.get('quantite')?.touched ? '#ef4444' : '#cbd5e1'}">
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button type="button" (click)="closeModal()" class="btn btn-outline" style="border: none; color: #64748b;">Annuler</button>
+          <button type="submit" [disabled]="stockForm.invalid" class="btn btn-outline" 
+                  [ngStyle]="{'background-color': stockForm.invalid ? '#cbd5e1' : '#10B981', 'color': 'white', 'border': 'none', 'opacity': stockForm.invalid ? '0.7' : '1'}">
+            {{ isEditMode ? 'Enregistrer' : 'Ajouter' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
