@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
-import { FooterComponent } from '../../shared/components/footer/footer.component';
-import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { Navbar } from '../../shared/components/navbar/navbar.component';
+import { Footer } from '../../shared/components/footer/footer.component';
+import { Loader } from '../../shared/components/loader/loader.component';
 
 @Component({
   selector: 'app-pharmacien-layout',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, FooterComponent, LoaderComponent],
+  imports: [RouterOutlet, Navbar, Footer, Loader],
   templateUrl: './pharmacien-layout.component.html',
   styleUrls: ['./pharmacien-layout.component.css'],
 })
