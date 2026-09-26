@@ -1,1 +1,129 @@
-<p>liste-pharmacies works!</p>
+<main class="w-full pt-20 bg-background px-8 min-h-screen">
+  <div class="max-w-7xl mx-auto py-8">
+    
+    <div class="card" style="margin-bottom: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1 style="font-size: 1.5rem; font-weight: 700; color: #0b1c30;">Réseau des Pharmacies</h1>
+          <p style="color: #6c7a71; font-size: 0.875rem;">
+            Consultez et gérez la liste des pharmacies partenaires connectées au système MboaCare.
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <span class="badge badge-neutral">{{ pharmacies.length }} Pharmacies Actives</span>
+          <button (click)="openAddModal()" class="btn btn-outline" style="background-color: #0369A1; color: white; border: none;">
+            <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 4px;">storefront</span> 
+            Ajouter une Pharmacie
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert -->
+    <div *ngIf="message" [ngClass]="{'bg-green-100 text-green-800 border-green-300': message.type === 'success', 'bg-red-100 text-red-800 border-red-300': message.type === 'error'}" 
+         style="padding: 1rem; border-radius: 0.5rem; border: 1px solid; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+      <span class="material-symbols-outlined">{{ message.type === 'success' ? 'check_circle' : 'error' }}</span>
+      {{ message.text }}
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" style="text-align: center; padding: 3rem; color: #6c7a71;">
+      <span class="material-symbols-outlined" style="font-size: 32px; animation: spin 1s linear infinite;">autorenew</span>
+      <p>Chargement du réseau...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && pharmacies.length === 0" class="card" style="text-align: center; padding: 4rem 2rem;">
+      <span class="material-symbols-outlined" style="font-size: 48px; color: #cbd5e1; margin-bottom: 1rem;">location_off</span>
+      <h3 style="font-size: 1.125rem; font-weight: 600; color: #334155;">Aucune pharmacie dans le réseau</h3>
+      <p style="color: #64748b; margin-bottom: 1.5rem;">Le réseau est vide. Veuillez enregistrer la première pharmacie.</p>
+    </div>
+
+    <!-- Grid -->
+    <div *ngIf="!loading && pharmacies.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+      <div *ngFor="let p of pharmacies" class="card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; border-top: 4px solid #10B981;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: #10B981;">
+                <span class="material-symbols-outlined">local_pharmacy</span>
+                <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin: 0;">{{ p.nom }}</h3>
+            </div>
+            <span class="badge badge-success">Certifiée</span>
+          </div>
+          
+          <div style="margin-bottom: 1.5rem; color: #475569; font-size: 0.875rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #94a3b8;">location_on</span>
+                <span>{{ p.quartier }}, {{ p.ville }}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #94a3b8;">mail</span>
+                <span>{{ p.email }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+          <button (click)="openEditModal(p)" class="btn btn-outline" style="flex: 1; display: flex; justify-content: center;">
+            <span class="material-symbols-outlined" style="font-size: 16px; margin-right: 4px;">edit</span> Informations
+          </button>
+          <button (click)="deletePharmacie(p.idPharmaci)" class="btn btn-outline" style="color: #ef4444; border-color: #fca5a5;">
+            <span class="material-symbols-outlined" style="font-size: 16px;">delete_forever</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="showModal" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50;">
+    <div class="card" style="width: 100%; max-width: 32rem; padding: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.25rem; font-weight: 700; color: #0f172a;">
+          {{ isEditMode ? 'Modifier la Pharmacie' : 'Enregistrer une Pharmacie' }}
+        </h2>
+        <button (click)="closeModal()" style="background: none; border: none; cursor: pointer; color: #64748b;">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form [formGroup]="pharmacieForm" (ngSubmit)="onSubmit()">
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Nom de l'établissement</label>
+          <input type="text" formControlName="nom" placeholder="Ex: Pharmacie de la Paix" 
+                 style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; outline: none;"
+                 [ngStyle]="{'border-color': pharmacieForm.get('nom')?.invalid && pharmacieForm.get('nom')?.touched ? '#ef4444' : '#cbd5e1'}">
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Adresse Email Professionnelle</label>
+          <input type="email" formControlName="email" placeholder="contact@pharmacie.com" 
+                 style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; outline: none;"
+                 [ngStyle]="{'border-color': pharmacieForm.get('email')?.invalid && pharmacieForm.get('email')?.touched ? '#ef4444' : '#cbd5e1'}">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="flex: 1;">
+            <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Ville</label>
+            <input type="text" formControlName="ville" placeholder="Ex: Douala" 
+                    style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; outline: none;">
+            </div>
+            <div style="flex: 1;">
+            <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Quartier</label>
+            <input type="text" formControlName="quartier" placeholder="Ex: Akwa" 
+                    style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; outline: none;">
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button type="button" (click)="closeModal()" class="btn btn-outline" style="border: none; color: #64748b;">Annuler</button>
+          <button type="submit" [disabled]="pharmacieForm.invalid" class="btn btn-outline" 
+                  [ngStyle]="{'background-color': pharmacieForm.invalid ? '#cbd5e1' : '#0369A1', 'color': 'white', 'border': 'none', 'opacity': pharmacieForm.invalid ? '0.7' : '1'}">
+            {{ isEditMode ? 'Mettre à jour' : 'Enregistrer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
