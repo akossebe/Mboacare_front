@@ -10,7 +10,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.component.css',
 })
 export class Navbar {
-  @Input() role: 'patient' | 'medecin' | 'global' = 'global';
+  @Input() role: 'patient' | 'medecin' | 'pharmacien' | 'global' = 'global';
   menuOuvert = false;
 
   toggleMenu(): void {

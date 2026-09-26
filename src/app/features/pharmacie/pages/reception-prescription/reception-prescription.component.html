@@ -1,1 +1,111 @@
-<p>reception-prescription works!</p>
+<main class="w-full pt-20 bg-background px-8 min-h-screen">
+  <div class="max-w-7xl mx-auto py-8">
+    
+    <div class="card" style="margin-bottom: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1 style="font-size: 1.5rem; font-weight: 700; color: #0b1c30;">Réception des Ordonnances</h1>
+          <p style="color: #6c7a71; font-size: 0.875rem;">
+            Consultez les ordonnances électroniques (e-Prescriptions) envoyées par les médecins.
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button (click)="loadPrescriptions()" class="btn btn-outline" style="color: #0369A1; border-color: #bae6fd;">
+            <span class="material-symbols-outlined" style="font-size: 18px; margin-right: 4px;">refresh</span> 
+            Actualiser
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert -->
+    <div *ngIf="message" [ngClass]="{'bg-green-100 text-green-800 border-green-300': message.type === 'success', 'bg-red-100 text-red-800 border-red-300': message.type === 'error'}" 
+         style="padding: 1rem; border-radius: 0.5rem; border: 1px solid; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+      <span class="material-symbols-outlined">{{ message.type === 'success' ? 'check_circle' : 'error' }}</span>
+      {{ message.text }}
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" style="text-align: center; padding: 3rem; color: #6c7a71;">
+      <span class="material-symbols-outlined" style="font-size: 32px; animation: spin 1s linear infinite;">autorenew</span>
+      <p>Chargement des ordonnances...</p>
+    </div>
+
+    <div *ngIf="!loading && prescriptions.length === 0" class="card" style="text-align: center; padding: 4rem 2rem;">
+      <span class="material-symbols-outlined" style="font-size: 48px; color: #cbd5e1; margin-bottom: 1rem;">receipt_long</span>
+      <h3 style="font-size: 1.125rem; font-weight: 600; color: #334155;">Aucune ordonnance reçue</h3>
+      <p style="color: #64748b;">Vous êtes à jour. Les prescriptions électroniques apparaîtront ici.</p>
+    </div>
+
+    <div *ngIf="!loading && prescriptions.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+      <div *ngFor="let p of prescriptions" class="card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <div style="font-size: 0.875rem; color: #64748b; font-weight: 600;">
+                #ORD-{{ p.idPrescription }}
+            </div>
+            <span class="badge" [ngClass]="getBadgeClass(p.statut)">{{ p.statut }}</span>
+          </div>
+          
+          <h3 style="font-size: 1.125rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">
+            Consultation N°{{ p.idConsultation }}
+          </h3>
+          
+          <div style="margin-bottom: 1.5rem; color: #475569; font-size: 0.875rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #94a3b8;">event</span>
+                <span>Émise le {{ p.dateEmission | date:'shortDate' }}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #94a3b8;">vaccines</span>
+                <span>{{ p.lignesMedicaments?.length || 0 }} médicament(s) prescrit(s)</span>
+            </div>
+          </div>
+        </div>
+
+        <button (click)="viewDetails(p)" class="btn btn-outline" style="width: 100%; display: flex; justify-content: center; background: #f8fafc;">
+          Ouvrir l'ordonnance
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal Details -->
+  <div *ngIf="selectedPrescription" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 50;">
+    <div class="card" style="width: 100%; max-width: 40rem; padding: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0;">
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #0f172a;">
+          Ordonnance #ORD-{{ selectedPrescription.idPrescription }}
+        </h2>
+        <button (click)="closeDetails()" style="background: none; border: none; cursor: pointer; color: #64748b;">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div style="margin-bottom: 2rem;">
+        <h4 style="font-weight: 600; color: #334155; margin-bottom: 1rem;">Liste des médicaments à délivrer :</h4>
+        
+        <div *ngIf="selectedPrescription.lignesMedicaments?.length === 0" style="color: #64748b;">
+            Aucun médicament précisé sur cette ordonnance.
+        </div>
+
+        <div *ngFor="let m of selectedPrescription.lignesMedicaments" style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.75rem; border-left: 4px solid #0369A1;">
+            <div style="font-weight: 700; color: #0f172a; font-size: 1.125rem;">{{ m.nomMedicament }}</div>
+            <div style="color: #475569; font-size: 0.875rem; margin-top: 0.25rem;">
+                <strong>Posologie:</strong> {{ m.posologie }}<br/>
+                <strong>Durée:</strong> {{ m.duree }} &mdash; <strong>Quantité:</strong> {{ m.quantite }}
+            </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+        <button (click)="closeDetails()" class="btn btn-outline" style="border: none; color: #64748b;">Fermer</button>
+        <button *ngIf="selectedPrescription.statut !== 'DELIVREE'" (click)="delivrerPrescription(selectedPrescription.idPrescription)" class="btn btn-outline" 
+                style="background-color: #10B981; color: white; border: none;">
+          Marquer comme Délivrée
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

@@ -13,6 +13,7 @@ import { Connexion } from './features/profil-utilisateur/pages/connexion/connexi
 import { PharmacienLayout } from './layouts/pharmacien-layout/pharmacien-layout.component';
 import { GestionStockComponent } from './features/pharmacie/pages/gestion-stock/gestion-stock.component';
 import { ListePharmaciesComponent } from './features/pharmacie/pages/liste-pharmacies/liste-pharmacies.component';
+import { ReceptionPrescriptionComponent } from './features/pharmacie/pages/reception-prescription/reception-prescription.component';
 
 export const routes: Routes = [
 
@@ -56,7 +57,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'gestion-stock', pathMatch: 'full' },
       { path: 'gestion-stock', component: GestionStockComponent },
-      { path: 'liste-pharmacies', component: ListePharmaciesComponent }
+      { path: 'liste-pharmacies', component: ListePharmaciesComponent },
+      { path: 'reception-prescription', component: ReceptionPrescriptionComponent }
     ]
   },
 
