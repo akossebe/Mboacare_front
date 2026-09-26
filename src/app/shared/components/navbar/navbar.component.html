@@ -1,6 +1,7 @@
 <header class="sticky top-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-xl border-b border-surface-container shadow-sm">
   <div class="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
     
+    <!-- Logo -->
     <div class="flex items-center gap-3">
       <a routerLink="/" (click)="menuOuvert = false" class="flex items-center gap-2 text-decoration-none">
         <img src="logo.svg" alt="MboaCare Logo" class="w-9 h-9 rounded-xl shadow-sm object-contain" />
@@ -12,75 +13,84 @@
       </span>
     </div>
 
-    
-    <nav class="hidden md:flex items-center gap-1 lg:gap-2">
+    <!-- Navigation Desktop (Dropdowns) -->
+    <nav class="hidden md:flex items-center gap-2 lg:gap-4 relative">
       
-      <a routerLink="/patient/tableau-de-bord" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">person</span>
-        Espace Patient
-      </a>
+      <!-- Dropdown Patient -->
+      <div class="relative">
+        <button (click)="toggleDropdown('patient', $event)" 
+                class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all"
+                [ngClass]="dropdownPatient ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'">
+          <span class="material-symbols-outlined text-base">person</span>
+          Espace Patient
+          <span class="material-symbols-outlined text-[18px] transition-transform" [class.rotate-180]="dropdownPatient">expand_more</span>
+        </button>
+        <!-- Menu Patient -->
+        <div *ngIf="dropdownPatient" class="absolute top-full mt-2 w-56 bg-surface-container-lowest rounded-xl shadow-lg border border-surface-container overflow-hidden py-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+          <a routerLink="/patient/tableau-de-bord" (click)="dropdownPatient = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-primary">dashboard</span> Tableau de bord
+          </a>
+          <a routerLink="/patient/prise-rdv" (click)="dropdownPatient = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-primary">calendar_month</span> Prise de RDV
+          </a>
+          <a routerLink="/patient/historique-medical" (click)="dropdownPatient = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-primary">medical_information</span> Historique Médical
+          </a>
+        </div>
+      </div>
 
-      
-      <a routerLink="/patient/prise-rdv" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">calendar_month</span>
-        Prise de RDV
-      </a>
+      <!-- Dropdown Médecin -->
+      <div class="relative">
+        <button (click)="toggleDropdown('medecin', $event)" 
+                class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all"
+                [ngClass]="dropdownMedecin ? 'bg-secondary/10 text-secondary' : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'">
+          <span class="material-symbols-outlined text-base">stethoscope</span>
+          Espace Médecin
+          <span class="material-symbols-outlined text-[18px] transition-transform" [class.rotate-180]="dropdownMedecin">expand_more</span>
+        </button>
+        <!-- Menu Médecin -->
+        <div *ngIf="dropdownMedecin" class="absolute top-full mt-2 w-56 bg-surface-container-lowest rounded-xl shadow-lg border border-surface-container overflow-hidden py-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+          <a routerLink="/medecin/tableau-de-bord" (click)="dropdownMedecin = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-secondary">dashboard</span> Tableau de bord
+          </a>
+          <a routerLink="/medecin/consultation" (click)="dropdownMedecin = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-secondary">assignment</span> Consultation
+          </a>
+          <a routerLink="/medecin/rediger-prescription" (click)="dropdownMedecin = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-secondary">prescriptions</span> Ordonnances
+          </a>
+        </div>
+      </div>
 
-      <a routerLink="/patient/historique-medical" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">medical_information</span>
-        Historique Médical
-      </a>
+      <!-- Dropdown Pharmacien -->
+      <div class="relative">
+        <button (click)="toggleDropdown('pharmacien', $event)" 
+                class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all"
+                [ngClass]="dropdownPharmacien ? 'bg-tertiary/10 text-tertiary' : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'">
+          <span class="material-symbols-outlined text-base">local_pharmacy</span>
+          Espace Pharmacien
+          <span class="material-symbols-outlined text-[18px] transition-transform" [class.rotate-180]="dropdownPharmacien">expand_more</span>
+        </button>
+        <!-- Menu Pharmacien -->
+        <div *ngIf="dropdownPharmacien" class="absolute top-full mt-2 w-64 bg-surface-container-lowest rounded-xl shadow-lg border border-surface-container overflow-hidden py-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+          <a routerLink="/pharmacien/tableau-de-bord" (click)="dropdownPharmacien = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-tertiary">dashboard</span> Tableau de bord
+          </a>
+          <a routerLink="/pharmacien/gestion-stock" (click)="dropdownPharmacien = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-tertiary">inventory_2</span> Gestion des Stocks
+          </a>
+          <a routerLink="/pharmacien/liste-pharmacies" (click)="dropdownPharmacien = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-tertiary">storefront</span> Réseau des Pharmacies
+          </a>
+          <a routerLink="/pharmacien/reception-prescription" (click)="dropdownPharmacien = false" class="flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[20px] text-tertiary">receipt_long</span> Ordonnances
+          </a>
+        </div>
+      </div>
 
-      <div class="h-5 w-[1px] bg-outline-variant/50 mx-1"></div>
-
-      
-      <a routerLink="/medecin/tableau-de-bord" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">stethoscope</span>
-        Espace Médecin
-      </a>
-
-      <a routerLink="/medecin/consultation" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">assignment</span>
-        Consultation
-      </a>
-
-      <a routerLink="/medecin/rediger-prescription" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">prescriptions</span>
-        Ordonnances
-      </a>
-    
-      <div class="h-5 w-[1px] bg-outline-variant/50 mx-1"></div>
-      
-      <!-- Pharmacien -->
-      <a routerLink="/pharmacien/tableau-de-bord" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">dashboard</span>
-        Tableau de bord
-      </a>
-      <a routerLink="/pharmacien/gestion-stock" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">inventory_2</span>
-        Stocks
-      </a>
-      <a routerLink="/pharmacien/liste-pharmacies" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">storefront</span>
-        Réseau
-      </a>
-      <a routerLink="/pharmacien/reception-prescription" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="px-3 py-2 rounded-lg text-sm font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-base">receipt_long</span>
-        Ordonnances
-      </a>
     </nav>
 
-    
+    <!-- Boutons Droite -->
     <div class="flex items-center gap-2 sm:gap-3">
       
       <a routerLink="/patient/prise-rdv" (click)="menuOuvert = false" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-primary text-on-primary text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-all shadow-sm">
@@ -88,84 +98,61 @@
         <span class="hidden sm:inline">Prendre</span><span>RDV</span>
       </a>
 
-      
-      <div class="hidden sm:flex items-center gap-2 border-l border-surface-container pl-2" title="Connexion disponible avec le module Profil utilisateur">
+      <div class="hidden sm:flex items-center gap-2 border-l border-surface-container pl-2" title="Connexion">
         <span class="material-symbols-outlined text-3xl text-on-surface-variant">account_circle</span>
       </div>
 
-      
+      <!-- Hamburger Mobile -->
       <button (click)="toggleMenu()" aria-label="Menu principal" class="md:hidden p-2 rounded-xl text-on-surface hover:bg-surface-container transition-colors" type="button">
         <span class="material-symbols-outlined text-2xl">{{ menuOuvert ? 'close' : 'menu' }}</span>
       </button>
     </div>
   </div>
 
-  
+  <!-- Menu Mobile Accordéon -->
   @if (menuOuvert) {
-    <div class="md:hidden bg-surface-container-lowest border-b border-surface-container px-4 pt-2 pb-6 space-y-2 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
-      <div class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-3 pt-2">Espace Patient</div>
-      <a routerLink="/patient/tableau-de-bord" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg">person</span>
-        Tableau de bord Patient
-      </a>
-
-      <a routerLink="/patient/prise-rdv" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg text-primary">calendar_month</span>
-        <span class="font-semibold text-primary">Prise de RDV en Ligne</span>
-      </a>
-
-      <a routerLink="/patient/historique-medical" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg">medical_information</span>
-        Historique Médical & Dossier
-      </a>
-
-      <div class="border-t border-surface-container my-2"></div>
-
-      <div class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-3 pt-1">Espace Médecin</div>
-      <a routerLink="/medecin/tableau-de-bord" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg">stethoscope</span>
-        Tableau de bord Médecin
-      </a>
-
-      <a routerLink="/medecin/consultation" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg">assignment</span>
-        Fiche de Consultation Clinique
-      </a>
-
-      <a routerLink="/medecin/rediger-prescription" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg">prescriptions</span>
-        Rédaction d'Ordonnance
-      </a>
-    
-      <div class="border-t border-surface-container my-2"></div>
+    <div class="md:hidden bg-surface-container-lowest border-b border-surface-container px-4 pt-2 pb-6 space-y-4 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
       
-      <div class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-3 pt-1">Espace Pharmacien</div>
-      <a routerLink="/pharmacien/tableau-de-bord" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg">dashboard</span>
-        Tableau de bord
-      </a>
-      <a routerLink="/pharmacien/gestion-stock" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg">inventory_2</span>
-        Gestion des Stocks
-      </a>
-      <a routerLink="/pharmacien/liste-pharmacies" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg">storefront</span>
-        Réseau des Pharmacies
-      </a>
-      <a routerLink="/pharmacien/reception-prescription" (click)="menuOuvert = false" routerLinkActive="bg-primary-container text-on-primary font-semibold"
-         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">
-        <span class="material-symbols-outlined text-lg">receipt_long</span>
-        Réception d'Ordonnances
-      </a>
+      <!-- Patient Mobile -->
+      <div>
+        <button (click)="toggleDropdown('patient', $event)" class="w-full flex items-center justify-between text-sm font-bold uppercase tracking-wider px-3 py-2 bg-primary/10 text-primary rounded-xl">
+          Espace Patient
+          <span class="material-symbols-outlined" [class.rotate-180]="dropdownPatient">expand_more</span>
+        </button>
+        <div *ngIf="dropdownPatient" class="pl-4 mt-2 space-y-1 border-l-2 border-primary/20 ml-4">
+          <a routerLink="/patient/tableau-de-bord" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Tableau de bord</a>
+          <a routerLink="/patient/prise-rdv" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Prise de RDV</a>
+          <a routerLink="/patient/historique-medical" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Historique Médical</a>
+        </div>
+      </div>
+
+      <!-- Medecin Mobile -->
+      <div>
+        <button (click)="toggleDropdown('medecin', $event)" class="w-full flex items-center justify-between text-sm font-bold uppercase tracking-wider px-3 py-2 bg-secondary/10 text-secondary rounded-xl">
+          Espace Médecin
+          <span class="material-symbols-outlined" [class.rotate-180]="dropdownMedecin">expand_more</span>
+        </button>
+        <div *ngIf="dropdownMedecin" class="pl-4 mt-2 space-y-1 border-l-2 border-secondary/20 ml-4">
+          <a routerLink="/medecin/tableau-de-bord" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Tableau de bord</a>
+          <a routerLink="/medecin/consultation" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Consultation</a>
+          <a routerLink="/medecin/rediger-prescription" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Ordonnances</a>
+        </div>
+      </div>
+
+      <!-- Pharmacien Mobile -->
+      <div>
+        <button (click)="toggleDropdown('pharmacien', $event)" class="w-full flex items-center justify-between text-sm font-bold uppercase tracking-wider px-3 py-2 bg-tertiary/10 text-tertiary rounded-xl">
+          Espace Pharmacien
+          <span class="material-symbols-outlined" [class.rotate-180]="dropdownPharmacien">expand_more</span>
+        </button>
+        <div *ngIf="dropdownPharmacien" class="pl-4 mt-2 space-y-1 border-l-2 border-tertiary/20 ml-4">
+          <a routerLink="/pharmacien/tableau-de-bord" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Tableau de bord</a>
+          <a routerLink="/pharmacien/gestion-stock" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Gestion des Stocks</a>
+          <a routerLink="/pharmacien/liste-pharmacies" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Réseau des Pharmacies</a>
+          <a routerLink="/pharmacien/reception-prescription" (click)="menuOuvert = false" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-on-surface hover:bg-surface-container transition-all">Réception d'Ordonnances</a>
+        </div>
+      </div>
+
     </div>
   }
 </header>
