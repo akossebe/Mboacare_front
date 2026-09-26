@@ -14,53 +14,55 @@ import { PharmacienLayout } from './layouts/pharmacien-layout/pharmacien-layout.
 import { GestionStockComponent } from './features/pharmacie/pages/gestion-stock/gestion-stock.component';
 import { ListePharmaciesComponent } from './features/pharmacie/pages/liste-pharmacies/liste-pharmacies.component';
 import { ReceptionPrescriptionComponent } from './features/pharmacie/pages/reception-prescription/reception-prescription.component';
+import { TableauDeBordPharmacienComponent } from './features/pharmacie/pages/tableau-de-bord-pharmacien/tableau-de-bord-pharmacien.component';
 
 export const routes: Routes = [
 
-  { path: '', redirectTo: 'inscription', pathMatch: 'full' },
-  
-  { path: 'inscription', component: Inscription },
-  { path: 'connexion', component: Connexion },
+    { path: '', redirectTo: 'inscription', pathMatch: 'full' },
 
-  {
-    path: 'patient',
-    component: PatientLayout,
-    children: [
-      { path: '', redirectTo: 'tableau-de-bord', pathMatch: 'full' },
-      { path: 'tableau-de-bord', component: TableauDeBordPatient },
-      { path: 'prise-rdv', component: PriseRdv },
-      { path: 'historique-medical', component: HistoriqueMedicalComponent },
-    ]
-  },
+    { path: 'inscription', component: Inscription },
+    { path: 'connexion', component: Connexion },
 
-  {
-    path: 'medecin',
-    component: MedecinLayout,
-    children: [
-      { path: '', redirectTo: 'tableau-de-bord', pathMatch: 'full' },
-      { path: 'tableau-de-bord', component: TableauDeBordMedecin },
-      { path: 'consultation', component: ConsultationDetail },
-      { path: 'consultation/:id', component: ConsultationDetail },
-      { path: 'rediger-prescription', component: RedigerPrescription },
-      { path: 'rediger-prescription/:idConsultation', component: RedigerPrescription },
-      { path: 'agenda', component: AgendaMedecin },
-    ]
-  },
+    {
+        path: 'patient',
+        component: PatientLayout,
+        children: [
+            { path: '', redirectTo: 'tableau-de-bord', pathMatch: 'full' },
+            { path: 'tableau-de-bord', component: TableauDeBordPatient },
+            { path: 'prise-rdv', component: PriseRdv },
+            { path: 'historique-medical', component: HistoriqueMedicalComponent },
+        ]
+    },
 
-  // Anciennes URL raccourcies
-  { path: 'rdv', redirectTo: 'patient/prise-rdv', pathMatch: 'full' },
-  { path: 'historique', redirectTo: 'patient/historique-medical', pathMatch: 'full' },
+    {
+        path: 'medecin',
+        component: MedecinLayout,
+        children: [
+            { path: '', redirectTo: 'tableau-de-bord', pathMatch: 'full' },
+            { path: 'tableau-de-bord', component: TableauDeBordMedecin },
+            { path: 'consultation', component: ConsultationDetail },
+            { path: 'consultation/:id', component: ConsultationDetail },
+            { path: 'rediger-prescription', component: RedigerPrescription },
+            { path: 'rediger-prescription/:idConsultation', component: RedigerPrescription },
+            { path: 'agenda', component: AgendaMedecin },
+        ]
+    },
 
-  {
-    path: 'pharmacien',
-    component: PharmacienLayout,
-    children: [
-      { path: '', redirectTo: 'gestion-stock', pathMatch: 'full' },
-      { path: 'gestion-stock', component: GestionStockComponent },
-      { path: 'liste-pharmacies', component: ListePharmaciesComponent },
-      { path: 'reception-prescription', component: ReceptionPrescriptionComponent }
-    ]
-  },
+    // Anciennes URL raccourcies
+    { path: 'rdv', redirectTo: 'patient/prise-rdv', pathMatch: 'full' },
+    { path: 'historique', redirectTo: 'patient/historique-medical', pathMatch: 'full' },
 
-  { path: '**', redirectTo: 'inscription' }
+    {
+        path: 'pharmacien',
+        component: PharmacienLayout,
+        children: [
+            { path: '', redirectTo: 'tableau-de-bord', pathMatch: 'full' },
+            { path: 'tableau-de-bord', component: TableauDeBordPharmacienComponent },
+            { path: 'gestion-stock', component: GestionStockComponent },
+            { path: 'liste-pharmacies', component: ListePharmaciesComponent },
+            { path: 'reception-prescription', component: ReceptionPrescriptionComponent }
+        ]
+    },
+
+    { path: '**', redirectTo: 'inscription' }
 ];

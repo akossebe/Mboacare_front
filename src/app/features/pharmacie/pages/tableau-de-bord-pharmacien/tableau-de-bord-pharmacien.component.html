@@ -1,0 +1,167 @@
+<div class="w-full pt-6 bg-background px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto space-y-6 pb-12">
+    
+    <!-- En-tête -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="material-symbols-outlined text-primary text-2xl">local_pharmacy</span>
+          <h1 class="text-2xl font-bold tracking-tight text-on-surface">Espace Pharmacien</h1>
+        </div>
+        <p class="text-sm text-on-surface-variant">Vue d'ensemble de vos stocks, du réseau et des ordonnances.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button (click)="chargerDonnees()" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors font-medium text-sm">
+          <span class="material-symbols-outlined text-lg" [class.animate-spin]="chargement">refresh</span>
+          Actualiser
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="chargement" class="flex justify-center items-center py-20 text-on-surface-variant">
+      <span class="material-symbols-outlined text-4xl animate-spin">autorenew</span>
+    </div>
+
+    <div *ngIf="!chargement" class="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      
+      <!-- Stats Cards -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Total Médicaments -->
+        <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-surface-container/50 flex flex-col gap-3 relative overflow-hidden group">
+          <div class="absolute -right-6 -top-6 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-110 transition-transform"></div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-on-surface-variant">Articles en Stock</span>
+            <div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined">inventory_2</span>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-3xl font-bold text-on-surface">{{ stocks.length }}</span>
+            <span class="text-xs font-medium text-primary">références</span>
+          </div>
+          <a routerLink="/pharmacien/gestion-stock" class="text-xs font-semibold text-primary hover:underline flex items-center gap-1 mt-1">
+            Gérer les stocks <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- Ruptures / Stocks faibles -->
+        <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-surface-container/50 flex flex-col gap-3 relative overflow-hidden group">
+          <div class="absolute -right-6 -top-6 w-24 h-24 bg-error/5 rounded-full group-hover:scale-110 transition-transform"></div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-on-surface-variant">Alertes Stock</span>
+            <div class="w-10 h-10 rounded-xl bg-error/10 text-error flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined">warning</span>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-3xl font-bold text-on-surface">{{ stocksFaibles }}</span>
+            <span class="text-xs font-medium text-error">produits &le; 10 unités</span>
+          </div>
+        </div>
+
+        <!-- Ordonnances -->
+        <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-surface-container/50 flex flex-col gap-3 relative overflow-hidden group">
+          <div class="absolute -right-6 -top-6 w-24 h-24 bg-secondary/5 rounded-full group-hover:scale-110 transition-transform"></div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-on-surface-variant">Ordonnances à traiter</span>
+            <div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined">receipt_long</span>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-3xl font-bold text-on-surface">{{ ordonnancesEnAttente }}</span>
+            <span class="text-xs font-medium text-secondary">en attente</span>
+          </div>
+          <a routerLink="/pharmacien/reception-prescription" class="text-xs font-semibold text-secondary hover:underline flex items-center gap-1 mt-1">
+            Voir les ordonnances <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- Pharmacies Réseau -->
+        <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-surface-container/50 flex flex-col gap-3 relative overflow-hidden group">
+          <div class="absolute -right-6 -top-6 w-24 h-24 bg-tertiary/5 rounded-full group-hover:scale-110 transition-transform"></div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-on-surface-variant">Pharmacies partenaires</span>
+            <div class="w-10 h-10 rounded-xl bg-tertiary/10 text-tertiary flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined">storefront</span>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-3xl font-bold text-on-surface">{{ pharmacies.length }}</span>
+            <span class="text-xs font-medium text-tertiary">actives</span>
+          </div>
+          <a routerLink="/pharmacien/liste-pharmacies" class="text-xs font-semibold text-tertiary hover:underline flex items-center gap-1 mt-1">
+            Consulter le réseau <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section Rapide -->
+      <div class="grid lg:grid-cols-3 gap-6">
+        
+        <!-- Ordonnances Récentes -->
+        <div class="lg:col-span-2 bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-surface-container/50">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-on-surface">Dernières Ordonnances</h2>
+            <a routerLink="/pharmacien/reception-prescription" class="text-sm font-medium text-primary hover:underline">Tout voir</a>
+          </div>
+          
+          <div class="space-y-3">
+            <div *ngIf="prescriptions.length === 0" class="text-center py-6 text-on-surface-variant">
+              Aucune ordonnance récente.
+            </div>
+            
+            <!-- Slice(0,5) to show only 5 recent -->
+            <div *ngFor="let p of prescriptions.slice(0, 5)" class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low border border-surface-container/30 hover:border-primary/30 transition-colors">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                  <span class="material-symbols-outlined text-lg">description</span>
+                </div>
+                <div>
+                  <div class="font-semibold text-on-surface text-sm">Ordonnance #ORD-{{ p.idPrescription }}</div>
+                  <div class="text-xs text-on-surface-variant mt-0.5">
+                    Émise le {{ p.dateEmission | date:'shortDate' }} • {{ p.lignesMedicaments?.length || 0 }} médicament(s)
+                  </div>
+                </div>
+              </div>
+              <div>
+                <span class="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider"
+                      [ngClass]="{
+                        'bg-blue-100 text-blue-800': p.statut === 'TRANSMISE',
+                        'bg-green-100 text-green-800': p.statut === 'DELIVREE',
+                        'bg-yellow-100 text-yellow-800': p.statut === 'EMISE'
+                      }">
+                  {{ p.statut }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions Rapides -->
+        <div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-surface-container/50">
+          <h2 class="text-lg font-bold text-on-surface mb-4">Actions Rapides</h2>
+          
+          <div class="flex flex-col gap-3">
+            <a routerLink="/pharmacien/gestion-stock" class="flex items-center gap-3 p-4 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+              <span class="material-symbols-outlined">add_circle</span>
+              <span class="font-semibold text-sm">Nouvel article en stock</span>
+            </a>
+            
+            <a routerLink="/pharmacien/liste-pharmacies" class="flex items-center gap-3 p-4 rounded-xl bg-tertiary/10 text-tertiary hover:bg-tertiary/20 transition-colors">
+              <span class="material-symbols-outlined">domain_add</span>
+              <span class="font-semibold text-sm">Ajouter une pharmacie</span>
+            </a>
+
+            <a routerLink="/pharmacien/reception-prescription" class="flex items-center gap-3 p-4 rounded-xl bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors">
+              <span class="material-symbols-outlined">rule</span>
+              <span class="font-semibold text-sm">Délivrer une ordonnance</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
