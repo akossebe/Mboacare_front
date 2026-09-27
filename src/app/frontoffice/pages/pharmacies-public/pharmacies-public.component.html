@@ -1,0 +1,53 @@
+<div class="page-header">
+  <h2><i class="bi bi-hospital me-2"></i>Pharmacies disponibles</h2>
+  <p class="text-muted">Consultez toutes les pharmacies enregistrées dans MBOAcare</p>
+</div>
+
+<!-- Recherche -->
+<div class="search-bar mb-4">
+  <div class="input-group">
+    <span class="input-group-text"><i class="bi bi-search"></i></span>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Rechercher par nom, ville ou quartier..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+    />
+  </div>
+</div>
+
+<!-- Loader -->
+<div *ngIf="isLoading" class="text-center py-5">
+  <div class="spinner-border text-primary" role="status"></div>
+  <p class="mt-2 text-muted">Chargement...</p>
+</div>
+
+<!-- Erreur -->
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+<!-- Résultats -->
+<div *ngIf="!isLoading && !errorMessage">
+  <p class="text-muted mb-3">{{ filteredPharmacies.length }} pharmacie(s) trouvée(s)</p>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-4 mb-4" *ngFor="let pharmacie of filteredPharmacies">
+      <div class="pharmacie-card">
+        <div class="card-top">
+          <i class="bi bi-hospital-fill"></i>
+          <h5>{{ pharmacie.nom }}</h5>
+        </div>
+        <div class="card-body-content">
+          <p><i class="bi bi-geo-alt me-2"></i>{{ pharmacie.ville }}, {{ pharmacie.quartier }}</p>
+          <p><i class="bi bi-envelope me-2"></i>{{ pharmacie.email }}</p>
+          <p><i class="bi bi-calendar me-2"></i>{{ pharmacie.dateCreation | date:'dd/MM/yyyy' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="filteredPharmacies.length === 0" class="text-center py-5">
+    <i class="bi bi-search" style="font-size: 3rem; color: #ccc;"></i>
+    <p class="text-muted mt-3">Aucune pharmacie trouvée pour "{{ searchTerm }}"</p>
+  </div>
+</div>

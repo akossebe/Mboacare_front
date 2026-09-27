@@ -1,0 +1,40 @@
+<div class="container-fluid p-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="fw-bold mb-0">Détails du médicament</h4>
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a routerLink="/admin/dashboard">Accueil</a></li>
+        <li class="breadcrumb-item"><a routerLink="/admin/medicaments">Médicaments</a></li>
+        <li class="breadcrumb-item active">Détails</li>
+      </ol>
+    </div>
+    <a routerLink="/admin/medicaments" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-2"></i>Retour</a>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <div *ngIf="!isLoading && medicament" class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <label class="text-muted" style="font-size:13px;">Nom</label>
+          <p class="fw-bold fs-5">{{ medicament.nom }}</p>
+        </div>
+        <div class="col-md-6">
+          <label class="text-muted" style="font-size:13px;">Forme</label>
+          <p class="fw-bold fs-5">{{ medicament.forme }}</p>
+        </div>
+        <div class="col-md-6">
+          <label class="text-muted" style="font-size:13px;">Prix (FCFA)</label>
+          <p class="fw-bold fs-5">{{ medicament.prix }}</p>
+        </div>
+      </div>
+      <div class="mt-4">
+        <a [routerLink]="['/admin/medicaments/modifier', medicament.idMedicament]" class="btn btn-success">
+          <i class="bi bi-pencil me-2"></i>Modifier
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

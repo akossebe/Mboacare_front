@@ -1,0 +1,85 @@
+<div class="container-fluid p-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="fw-bold mb-0">Bienvenue, Admin !</h4>
+      <p class="text-muted mb-0">Aperçu de votre activité aujourd'hui.</p>
+    </div>
+    <span class="text-muted" style="font-size:13px;">
+      <i class="bi bi-calendar me-2"></i>{{ today | date:'dd MMM yyyy' }}
+    </span>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div *ngIf="!isLoading" class="row g-4">
+
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-3 p-3" style="background:#e8f0fe;">
+            <i class="bi bi-hospital fs-4" style="color:#1656d9;"></i>
+          </div>
+          <div>
+            <p class="text-muted mb-0" style="font-size:13px;">Pharmacies</p>
+            <h4 class="fw-bold mb-0">{{ totalPharmacies }}</h4>
+          </div>
+        </div>
+        <a routerLink="/admin/pharmacies" class="btn btn-outline-primary btn-sm mt-3">
+          Voir les pharmacies
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-3 p-3" style="background:#e8f8f0;">
+            <i class="bi bi-capsule fs-4" style="color:#34b66a;"></i>
+          </div>
+          <div>
+            <p class="text-muted mb-0" style="font-size:13px;">Médicaments</p>
+            <h4 class="fw-bold mb-0">{{ totalMedicaments }}</h4>
+          </div>
+        </div>
+        <a routerLink="/admin/medicaments" class="btn btn-outline-success btn-sm mt-3">
+          Voir les médicaments
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-3 p-3" style="background:#f3e8fe;">
+            <i class="bi bi-box-seam fs-4" style="color:#9b59b6;"></i>
+          </div>
+          <div>
+            <p class="text-muted mb-0" style="font-size:13px;">Stocks</p>
+            <h4 class="fw-bold mb-0">{{ totalStocks }}</h4>
+          </div>
+        </div>
+        <a routerLink="/admin/stocks" class="btn btn-outline-secondary btn-sm mt-3">
+          Voir les stocks
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm p-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-3 p-3" style="background:#fdecea;">
+            <i class="bi bi-exclamation-triangle fs-4" style="color:#e74c3c;"></i>
+          </div>
+          <div>
+            <p class="text-muted mb-0" style="font-size:13px;">Alertes</p>
+            <h4 class="fw-bold mb-0">0</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="app-container">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <img src="logo.jpg" alt="Logo" class="logo" />
+      <span class="app-name">MBOAcare</span>
+    </div>
+
+    <div class="sidebar-section">ESPACE PUBLIC</div>
+
+    <ul class="nav-list">
+      <li>
+        <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="bi bi-house"></i> Accueil
+        </a>
+      </li>
+      <li>
+        <a routerLink="/home/pharmacies" routerLinkActive="active">
+          <i class="bi bi-hospital"></i> Pharmacies
+        </a>
+      </li>
+      <li>
+        <a routerLink="/home/medicaments" routerLinkActive="active">
+          <i class="bi bi-capsule"></i> Médicaments
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <a routerLink="/admin" class="admin-link">
+        <i class="bi bi-shield-lock"></i> Espace Admin
+      </a>
+    </div>
+  </nav>
+
+  <!-- CONTENU -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

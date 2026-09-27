@@ -1,0 +1,58 @@
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h2 {
+  color: #1a1f3c;
+  font-weight: 700;
+}
+
+.search-bar {
+  max-width: 500px;
+}
+
+.pharmacie-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+}
+
+.pharmacie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.card-top {
+  background: linear-gradient(135deg, #1a1f3c, #4f8ef7);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.card-top i {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.card-top h5 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.card-body-content {
+  padding: 16px 20px;
+}
+
+.card-body-content p {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.card-body-content i {
+  color: #4f8ef7;
+}

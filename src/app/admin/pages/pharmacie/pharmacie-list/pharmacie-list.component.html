@@ -1,0 +1,75 @@
+<div class="container-fluid p-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="fw-bold mb-0">Liste des pharmacies</h4>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a routerLink="/admin/dashboard">Accueil</a></li>
+          <li class="breadcrumb-item active">Pharmacies</li>
+        </ol>
+      </nav>
+    </div>
+    <a routerLink="/admin/pharmacies/ajouter" class="btn btn-primary">
+      <i class="bi bi-plus-lg me-2"></i>Ajouter une pharmacie
+    </a>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+    <p class="mt-2 text-muted">Chargement...</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="card border-0 shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-3" style="background:#f7f8fc; border:1px solid #ececec; width:280px;">
+          <i class="bi bi-search text-secondary"></i>
+          <input type="text" class="border-0 bg-transparent" placeholder="Rechercher..." style="outline:none; width:100%; font-size:13px;" [(ngModel)]="searchTerm">
+        </div>
+        <select class="form-select w-auto" [(ngModel)]="filterVille">
+          <option value="">Filtrer par ville</option>
+          <option *ngFor="let ville of villes" [value]="ville">{{ ville }}</option>
+        </select>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Ville</th>
+              <th>Quartier</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of filteredPharmacies(); let i = index">
+              <td>{{ i + 1 }}</td>
+              <td class="fw-semibold">{{ p.nom }}</td>
+              <td>{{ p.ville }}</td>
+              <td>{{ p.quartier }}</td>
+              <td>{{ p.email }}</td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a [routerLink]="['/admin/pharmacies/detail', p.idPharmaci]" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
+                  <a [routerLink]="['/admin/pharmacies/modifier', p.idPharmaci]" class="btn btn-sm btn-success"><i class="bi bi-pencil"></i></a>
+                  <button class="btn btn-sm btn-danger" (click)="delete(p.idPharmaci)"><i class="bi bi-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filteredPharmacies().length === 0">
+              <td colspan="6" class="text-center text-muted py-4">Aucune pharmacie trouvée</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-muted" style="font-size:13px;">
+        Affichage de {{ filteredPharmacies().length }} sur {{ pharmacies.length }} pharmacies
+      </div>
+    </div>
+  </div>
+</div>

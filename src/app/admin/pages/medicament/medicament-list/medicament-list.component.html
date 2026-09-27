@@ -1,0 +1,61 @@
+<div class="container-fluid p-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="fw-bold mb-0">Liste des médicaments</h4>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a routerLink="/admin/dashboard">Accueil</a></li>
+          <li class="breadcrumb-item active">Médicaments</li>
+        </ol>
+      </nav>
+    </div>
+    <a routerLink="/admin/medicaments/ajouter" class="btn btn-primary">
+      <i class="bi bi-plus-lg me-2"></i>Ajouter un médicament
+    </a>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  <div *ngIf="isLoading" class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+
+  <div *ngIf="!isLoading" class="card border-0 shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
+        <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-3" style="background:#f7f8fc; border:1px solid #ececec; width:280px;">
+          <i class="bi bi-search text-secondary"></i>
+          <input type="text" class="border-0 bg-transparent" placeholder="Rechercher..." style="outline:none; width:100%; font-size:13px;" [(ngModel)]="searchTerm">
+        </div>
+        <div class="d-flex gap-2">
+          <input type="text" class="form-control" placeholder="Filtrer par forme..." [(ngModel)]="filterForme" style="width:180px;">
+          <button class="btn btn-primary btn-sm" (click)="rechercherParForme()"><i class="bi bi-funnel"></i></button>
+          <button class="btn btn-outline-secondary btn-sm" (click)="filterForme=''; loadMedicaments()"><i class="bi bi-x-lg"></i></button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr><th>#</th><th>Nom</th><th>Forme</th><th>Prix (FCFA)</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of filteredMedicaments(); let i = index">
+              <td>{{ i + 1 }}</td>
+              <td class="fw-semibold">{{ m.nom }}</td>
+              <td>{{ m.forme }}</td>
+              <td>{{ m.prix }}</td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a [routerLink]="['/admin/medicaments/detail', m.idMedicament]" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
+                  <a [routerLink]="['/admin/medicaments/modifier', m.idMedicament]" class="btn btn-sm btn-success"><i class="bi bi-pencil"></i></a>
+                  <button class="btn btn-sm btn-danger" (click)="delete(m.idMedicament)"><i class="bi bi-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filteredMedicaments().length === 0">
+              <td colspan="5" class="text-center text-muted py-4">Aucun médicament trouvé</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
