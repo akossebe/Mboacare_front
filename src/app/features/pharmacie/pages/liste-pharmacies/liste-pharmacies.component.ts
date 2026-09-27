@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PharmacieService } from '../../services/pharmacie.service';
@@ -20,7 +20,7 @@ export class ListePharmaciesComponent implements OnInit {
   message: {text: string, type: 'success' | 'error'} | null = null;
   showModal = false;
 
-  constructor(private pharmacieService: PharmacieService, private fb: FormBuilder) {
+  constructor(private pharmacieService: PharmacieService, private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.pharmacieForm = this.fb.group({
       nom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -39,10 +39,12 @@ export class ListePharmaciesComponent implements OnInit {
       next: (data) => {
         this.pharmacies = data;
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.showMessage('Erreur lors du chargement', 'error');
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -52,6 +54,7 @@ export class ListePharmaciesComponent implements OnInit {
     this.currentId = null;
     this.pharmacieForm.reset();
     this.showModal = true;
+    this.cdr.markForCheck();
   }
 
   openEditModal(pharma: Pharmacie): void {
@@ -64,10 +67,12 @@ export class ListePharmaciesComponent implements OnInit {
       quartier: pharma.quartier
     });
     this.showModal = true;
+    this.cdr.markForCheck();
   }
 
   closeModal(): void {
     this.showModal = false;
+    this.cdr.markForCheck();
   }
 
   onSubmit(): void {
@@ -108,6 +113,10 @@ export class ListePharmaciesComponent implements OnInit {
 
   showMessage(text: string, type: 'success' | 'error'): void {
     this.message = { text, type };
-    setTimeout(() => this.message = null, 4000);
+    this.cdr.markForCheck();
+    setTimeout(() => {
+      this.message = null;
+      this.cdr.markForCheck();
+    }, 4000);
   }
 }

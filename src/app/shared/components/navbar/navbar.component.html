@@ -4,7 +4,9 @@
     <!-- Logo -->
     <div class="flex items-center gap-3">
       <a routerLink="/" (click)="menuOuvert = false" class="flex items-center gap-2 text-decoration-none">
-        <img src="logo.svg" alt="MboaCare Logo" class="w-9 h-9 rounded-xl shadow-sm object-contain" />
+        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-surface-container overflow-hidden flex items-center justify-center shrink-0">
+          <img src="logo.jpg" alt="MboaCare Logo" class="w-full h-full object-cover transform scale-125" />
+        </div>
         <span class="text-2xl font-bold tracking-tight text-primary">MboaCare</span>
       </a>
       <span class="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary-container text-on-secondary-container">

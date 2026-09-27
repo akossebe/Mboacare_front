@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StockService } from '../../services/stock.service';
@@ -20,7 +20,7 @@ export class GestionStockComponent implements OnInit {
   message: {text: string, type: 'success' | 'error'} | null = null;
   showModal = false;
 
-  constructor(private stockService: StockService, private fb: FormBuilder) {
+  constructor(private stockService: StockService, private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.stockForm = this.fb.group({
       nom: ['', Validators.required],
       quantite: [0, [Validators.required, Validators.min(0)]]
@@ -37,10 +37,12 @@ export class GestionStockComponent implements OnInit {
       next: (data) => {
         this.stocks = data;
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.showMessage('Erreur lors du chargement des stocks', 'error');
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -50,6 +52,7 @@ export class GestionStockComponent implements OnInit {
     this.currentStockId = null;
     this.stockForm.reset({ quantite: 0 });
     this.showModal = true;
+    this.cdr.markForCheck();
   }
 
   openEditModal(stock: Stock): void {
@@ -60,10 +63,12 @@ export class GestionStockComponent implements OnInit {
       quantite: stock.quantite
     });
     this.showModal = true;
+    this.cdr.markForCheck();
   }
 
   closeModal(): void {
     this.showModal = false;
+    this.cdr.markForCheck();
   }
 
   onSubmit(): void {
@@ -104,6 +109,10 @@ export class GestionStockComponent implements OnInit {
 
   showMessage(text: string, type: 'success' | 'error'): void {
     this.message = { text, type };
-    setTimeout(() => this.message = null, 4000);
+    this.cdr.markForCheck();
+    setTimeout(() => {
+      this.message = null;
+      this.cdr.markForCheck();
+    }, 4000);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrescriptionService } from '../../../consultation/services/prescription.service';
 import { PrescriptionResDTO, StatutPrescription } from '../../../consultation/models/prescription.model';
@@ -16,7 +16,10 @@ export class ReceptionPrescriptionComponent implements OnInit {
   message: {text: string, type: 'success' | 'error'} | null = null;
   selectedPrescription: PrescriptionResDTO | null = null;
 
-  constructor(private prescriptionService: PrescriptionService) {}
+  constructor(
+    private prescriptionService: PrescriptionService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadPrescriptions();
@@ -28,22 +31,26 @@ export class ReceptionPrescriptionComponent implements OnInit {
       next: (data) => {
         // Filtrer localement pour ne voir que les transmises ou délivrées pour la pharmacie
         // Pour la demo, on affiche tout pour voir les données
-        this.prescriptions = data.content || data as any; 
+        this.prescriptions = (data && data.content) ? data.content : (Array.isArray(data) ? data : []);
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.showMessage('Erreur de chargement des ordonnances', 'error');
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }
 
   viewDetails(p: PrescriptionResDTO): void {
     this.selectedPrescription = p;
+    this.cdr.markForCheck();
   }
 
   closeDetails(): void {
     this.selectedPrescription = null;
+    this.cdr.markForCheck();
   }
 
   delivrerPrescription(id: number): void {
@@ -61,7 +68,11 @@ export class ReceptionPrescriptionComponent implements OnInit {
 
   showMessage(text: string, type: 'success' | 'error'): void {
     this.message = { text, type };
-    setTimeout(() => this.message = null, 4000);
+    this.cdr.markForCheck();
+    setTimeout(() => {
+      this.message = null;
+      this.cdr.markForCheck();
+    }, 4000);
   }
 
   getBadgeClass(statut: StatutPrescription): string {
