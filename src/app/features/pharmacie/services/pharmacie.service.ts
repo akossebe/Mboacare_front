@@ -5,7 +5,7 @@ import { Pharmacie, PharmacieReq } from '../models/pharmacie.model';
 
 @Injectable({ providedIn: 'root' })
 export class PharmacieService {
-  private apiUrl = 'http://localhost:8081/api/pharmacies';
+  private apiUrl = '/api/pharmacies';
 
   constructor(private http: HttpClient) {}
 

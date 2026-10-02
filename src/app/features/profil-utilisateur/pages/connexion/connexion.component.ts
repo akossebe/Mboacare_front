@@ -5,6 +5,8 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ContexteUtilisateurService } from '../../../consultation/services/contexte-utilisateur.service';
 
+import { WebsocketService } from '../../../../core/services/websocket.service';
+
 @Component({
   selector: 'app-connexion',
   standalone: true,
@@ -22,7 +24,8 @@ export class Connexion {
   constructor(
     private router: Router, 
     private authService: AuthService,
-    private contexteService: ContexteUtilisateurService
+    private contexteService: ContexteUtilisateurService,
+    private ws: WebsocketService
   ) {}
 
   onSubmit() {
@@ -33,9 +36,11 @@ export class Connexion {
 
     if (this.credentials.role === 'patient') {
       this.contexteService.idPatient = fakeId;
+      this.ws.connectPatient(fakeId);
       this.router.navigate(['/patient/tableau-de-bord']);
     } else if (this.credentials.role === 'medecin') {
       this.contexteService.idMedecin = fakeId;
+      this.ws.connectMedecin(fakeId);
       this.router.navigate(['/medecin/tableau-de-bord']);
     }
   }

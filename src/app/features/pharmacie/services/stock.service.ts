@@ -5,7 +5,7 @@ import { Stock, StockReq } from '../models/stock.model';
 
 @Injectable({ providedIn: 'root' })
 export class StockService {
-  private apiUrl = 'http://localhost:8081/stock';
+  private apiUrl = '/api/stock';
 
   constructor(private http: HttpClient) {}
 
