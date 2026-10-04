@@ -1,36 +1,32 @@
 <main class="w-full h-screen bg-background flex items-center justify-center pt-20">
   <div class="w-full max-w-md bg-surface-container-lowest shadow-lg rounded-2xl p-8">
-    <div class="text-center mb-8">
-      <span class="material-symbols-outlined text-primary text-5xl mb-2">login</span>
+    <div class="text-center mb-8 flex flex-col items-center">
+      <img src="logo.jpg" alt="MboaCare" class="w-24 h-24 rounded-3xl object-cover shadow-lg border-2 border-surface-container bg-white mb-5 hover:scale-105 transition-transform">
       <h2 class="text-2xl font-bold text-on-surface">Connexion MboaCare</h2>
       <p class="text-sm text-on-surface-variant">Bienvenue, veuillez vous connecter pour accéder à votre espace.</p>
     </div>
     
+    <div *ngIf="errorMessage" class="mb-4 p-3 bg-error/10 border border-error text-error rounded-lg text-sm text-center">
+      {{ errorMessage }}
+    </div>
+
     <form (ngSubmit)="onSubmit()" #connexionForm="ngForm" class="flex flex-col gap-5">
       <div class="flex flex-col gap-2">
         <label for="email" class="text-sm font-semibold text-on-surface">Adresse Email</label>
         <input type="email" id="email" name="email" [(ngModel)]="credentials.email" required
-               class="w-full p-3 rounded-xl bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40" />
+               class="w-full p-3 rounded-xl bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40" placeholder="email@exemple.com" />
       </div>
       
       <div class="flex flex-col gap-2">
         <label for="motDePasse" class="text-sm font-semibold text-on-surface">Mot de passe</label>
         <input type="password" id="motDePasse" name="motDePasse" [(ngModel)]="credentials.motDePasse" required
-               class="w-full p-3 rounded-xl bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40" />
+               class="w-full p-3 rounded-xl bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40" placeholder="********" />
       </div>
       
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-semibold text-on-surface">Se connecter en tant que :</label>
-        <select name="role" [(ngModel)]="credentials.role" required
-                class="w-full p-3 rounded-xl bg-surface-container-low text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40">
-          <option value="patient">Patient</option>
-          <option value="medecin">Médecin</option>
-        </select>
-      </div>
-      
-      <button type="submit" [disabled]="!connexionForm.form.valid"
-              class="w-full mt-4 py-3 bg-primary text-on-primary rounded-xl font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-        Se connecter
+      <button type="submit" [disabled]="!connexionForm.form.valid || isLoading"
+              class="w-full mt-4 py-3 flex items-center justify-center gap-2 bg-primary text-on-primary rounded-xl font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        <span *ngIf="!isLoading">Se connecter</span>
+        <span *ngIf="isLoading" class="material-symbols-outlined animate-spin">autorenew</span>
       </button>
     </form>
     

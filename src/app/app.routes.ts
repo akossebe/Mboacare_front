@@ -31,6 +31,7 @@ export const routes: Routes = [
             { path: 'tableau-de-bord', component: TableauDeBordPatient },
             { path: 'prise-rdv', component: PriseRdv },
             { path: 'historique-medical', component: HistoriqueMedicalComponent },
+            { path: 'profil', loadComponent: () => import('./features/profil-utilisateur/pages/profil-patient/profil-patient.component').then(m => m.ProfilPatientComponent) },
         ]
     },
 
@@ -45,6 +46,7 @@ export const routes: Routes = [
             { path: 'rediger-prescription', component: RedigerPrescription },
             { path: 'rediger-prescription/:idConsultation', component: RedigerPrescription },
             { path: 'agenda', component: AgendaMedecin },
+            { path: 'profil', loadComponent: () => import('./features/profil-utilisateur/pages/profil-medecin/profil-medecin.component').then(m => m.ProfilMedecinComponent) },
         ]
     },
 

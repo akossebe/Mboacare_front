@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PrescriptionService } from '../../services/prescription.service';
 import { ConsultationService } from '../../services/consultation.service';
 import { ContexteUtilisateurService } from '../../services/contexte-utilisateur.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { LigneMedicamentDTO, PrescriptionReqDTO, PrescriptionResDTO } from '../../models/prescription.model';
 import { ConsultationResDTO } from '../../models/consultation.model';
 
@@ -19,6 +20,7 @@ export class RedigerPrescription implements OnInit {
   idConsultation: number | null = null;
   consultation: ConsultationResDTO | null = null;
   prescriptionActuelle: PrescriptionResDTO | null = null;
+  medecin: any = null;
 
   /** Consultations clôturées du médecin, affichées quand aucune consultation n'est ciblée. */
   consultationsCloturees: ConsultationResDTO[] = [];
@@ -41,10 +43,12 @@ export class RedigerPrescription implements OnInit {
     private prescriptionService: PrescriptionService,
     private consultationService: ConsultationService,
     private contexte: ContexteUtilisateurService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.medecin = this.authService.getUser();
     this.route.paramMap.subscribe(params => {
       const param = params.get('idConsultation');
       if (param) {

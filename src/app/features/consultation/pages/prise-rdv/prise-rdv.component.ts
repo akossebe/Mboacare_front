@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RendezVousService } from '../../services/rendez-vous.service';
 import { ContexteUtilisateurService } from '../../services/contexte-utilisateur.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { RendezVousReqDTO } from '../../models/rendez-vous.model';
-import { MedecinProfile, MEDECINS_MOCK } from '../../models/medecin-profile.model';
 
 interface JourCalendrier {
   dateFull: string;
@@ -22,10 +22,11 @@ interface JourCalendrier {
 })
 export class PriseRdv implements OnInit {
   idPatient: number;
-  idMedecin: number;
+  idMedecin: number = 0;
   
-  medecins: MedecinProfile[] = MEDECINS_MOCK;
-  medecinSelectionne: MedecinProfile | null = null;
+  // Remplacé par les données en temps réel depuis le backend
+  medecins: any[] = [];
+  medecinSelectionne: any = null;
 
   joursDisponibles: JourCalendrier[] = [];
   dateSouhaitee = '';
@@ -40,7 +41,6 @@ export class PriseRdv implements OnInit {
     '15:00:00', '15:30:00', '16:00:00', '16:30:00'
   ];
 
-  /** Heures déjà réservées pour le médecin/date sélectionnés (chargées depuis le backend). */
   creneauxOccupes: string[] = [];
   chargementCreneaux = false;
 
@@ -51,11 +51,11 @@ export class PriseRdv implements OnInit {
   constructor(
     private rdvService: RendezVousService,
     private contexte: ContexteUtilisateurService,
+    private authService: AuthService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {
     this.idPatient = this.contexte.idPatient;
-    this.idMedecin = this.contexte.idMedecin;
   }
 
   ngOnInit(): void {
@@ -70,7 +70,29 @@ export class PriseRdv implements OnInit {
       });
     }
     this.dateSouhaitee = this.joursDisponibles[0].dateFull;
-    this.chargerCreneauxOccupes();
+    
+    // Charger les vrais médecins en temps réel
+    this.chargerMedecins();
+  }
+
+  private chargerMedecins() {
+    this.authService.getMedecins().subscribe({
+      next: (data) => {
+        this.medecins = data;
+        // Si un médecin était déjà défini dans le contexte, on le pré-sélectionne
+        if (this.contexte.idMedecin > 0) {
+          this.idMedecin = this.contexte.idMedecin;
+          this.onMedecinChange();
+        } else if (this.medecins.length > 0) {
+          // On sélectionne le premier par défaut
+          this.choisirMedecin(this.medecins[0]);
+        }
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des médecins', err);
+      }
+    });
   }
 
   private formaterDate(d: Date): string {
@@ -94,7 +116,6 @@ export class PriseRdv implements OnInit {
     this.rdvService.getCreneauxOccupes(this.idMedecin, this.dateSouhaitee).subscribe({
       next: (heures) => {
         this.creneauxOccupes = heures.map(h => h.length === 5 ? `${h}:00` : h);
-        // Si le créneau sélectionné vient d'être pris, on le désélectionne.
         if (this.heureSouhaitee && this.estOccupe(this.heureSouhaitee)) {
           this.heureSouhaitee = '';
         }
@@ -120,7 +141,7 @@ export class PriseRdv implements OnInit {
     this.chargerCreneauxOccupes();
   }
 
-  choisirMedecin(medecin: MedecinProfile): void {
+  choisirMedecin(medecin: any): void {
     this.medecinSelectionne = medecin;
     this.idMedecin = medecin.id;
     this.heureSouhaitee = '';
@@ -149,7 +170,7 @@ export class PriseRdv implements OnInit {
     this.errorMessage = '';
 
     if (!this.idMedecin || this.idMedecin <= 0) {
-      this.errorMessage = 'Veuillez indiquer le numéro du médecin.';
+      this.errorMessage = 'Veuillez sélectionner un médecin.';
       return;
     }
     if (!this.dateSouhaitee || !this.heureSouhaitee) {
@@ -162,6 +183,7 @@ export class PriseRdv implements OnInit {
     }
 
     this.isSubmitting = true;
+    this.cdr.markForCheck();
 
     const req: RendezVousReqDTO = {
       dateSouhaitee: this.dateSouhaitee,
@@ -174,7 +196,7 @@ export class PriseRdv implements OnInit {
     this.rdvService.creer(req).subscribe({
       next: (rdv) => {
         this.isSubmitting = false;
-        this.successMessage = `Rendez-vous n°${rdv.idRendezVous} enregistré pour le ${rdv.dateSouhaitee} à ${rdv.heureSouhaitee.substring(0, 5)}. Il est en attente de confirmation par le médecin.`;
+        this.successMessage = `Rendez-vous enregistré pour le ${rdv.dateSouhaitee} à ${rdv.heureSouhaitee.substring(0, 5)}. En attente de confirmation.`;
         this.cdr.markForCheck();
         setTimeout(() => {
           this.router.navigate(['/patient/tableau-de-bord']);
@@ -185,7 +207,6 @@ export class PriseRdv implements OnInit {
         this.errorMessage = err.error?.message || 'Erreur lors de la réservation du rendez-vous.';
         console.error('Erreur création RDV:', err);
         this.cdr.markForCheck();
-        // Le créneau a pu être pris entre-temps : on rafraîchit.
         this.chargerCreneauxOccupes();
       }
     });
