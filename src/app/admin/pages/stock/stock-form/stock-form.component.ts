@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { StockService } from '../../../../services/stock.service';
+import { PharmacieService } from '../../../../services/pharmacie.service';
 
 @Component({
   selector: 'app-stock-form',
@@ -18,14 +19,27 @@ export class StockFormComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
   stockId = '';
+  pharmacies: any[] = [];
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private stockService: StockService) {}
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private stockService: StockService,
+    private pharmacieService: PharmacieService
+  ) {}
 
   ngOnInit(): void {
     this.stockForm = this.fb.group({
       nom: ['', [Validators.required, Validators.minLength(3)]],
-      quantite: [0, [Validators.required, Validators.min(0)]]
+      quantite: [0, [Validators.required, Validators.min(0)]],
+      idPharmaci: ['', Validators.required]
     });
+
+    this.pharmacieService.getAll().subscribe({
+      next: (data) => { this.pharmacies = data; },
+      error: () => { this.errorMessage = 'Impossible de charger la liste des pharmacies'; }
+    });
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEditMode = true;
@@ -42,16 +56,21 @@ export class StockFormComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
     this.successMessage = '';
+    const dejaExiste = 'Ce stock existe déjà dans cette pharmacie';
+
     if (this.isEditMode) {
       this.stockService.update(this.stockId, this.stockForm.value).subscribe({
         next: () => { this.isLoading = false; this.successMessage = 'Stock modifié avec succès !'; },
-        error: () => { this.errorMessage = 'Erreur de modification'; this.isLoading = false; }
+        error: (err) => {
+          this.errorMessage = err.status === 409 ? dejaExiste : 'Erreur de modification';
+          this.isLoading = false;
+        }
       });
     } else {
       this.stockService.create(this.stockForm.value).subscribe({
         next: () => { this.isLoading = false; this.successMessage = 'Stock ajouté avec succès !'; },
         error: (err) => {
-          this.errorMessage = err.status === 409 ? 'Ce stock existe déjà' : 'Erreur de création';
+          this.errorMessage = err.status === 409 ? dejaExiste : 'Erreur de création';
           this.isLoading = false;
         }
       });

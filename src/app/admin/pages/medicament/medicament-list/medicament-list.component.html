@@ -34,7 +34,7 @@
       <div class="table-responsive">
         <table class="table table-hover align-middle">
           <thead class="table-light">
-            <tr><th>#</th><th>Nom</th><th>Forme</th><th>Prix (FCFA)</th><th>Actions</th></tr>
+            <tr><th>#</th><th>Nom</th><th>Forme</th><th>Prix (FCFA)</th><th>Stock</th><th>Pharmacie</th><th>Actions</th></tr>
           </thead>
           <tbody>
             <tr *ngFor="let m of filteredMedicaments(); let i = index">
@@ -42,6 +42,8 @@
               <td class="fw-semibold">{{ m.nom }}</td>
               <td>{{ m.forme }}</td>
               <td>{{ m.prix }}</td>
+              <td>{{ m.stockNom || '—' }}</td>
+              <td>{{ m.pharmaciNom || '—' }}</td>
               <td>
                 <div class="d-flex gap-2">
                   <a [routerLink]="['/admin/medicaments/detail', m.idMedicament]" class="btn btn-sm btn-primary"><i class="bi bi-eye"></i></a>
@@ -51,7 +53,7 @@
               </td>
             </tr>
             <tr *ngIf="filteredMedicaments().length === 0">
-              <td colspan="5" class="text-center text-muted py-4">Aucun médicament trouvé</td>
+              <td colspan="7" class="text-center text-muted py-4">Aucun médicament trouvé</td>
             </tr>
           </tbody>
         </table>

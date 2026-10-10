@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MedicamentService } from '../../../../services/medicament.service';
+import { StockService } from '../../../../services/stock.service';
 
 @Component({
   selector: 'app-medicament-form',
@@ -18,15 +19,28 @@ export class MedicamentFormComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
   medicamentId = '';
+  stocks: any[] = [];
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private medicamentService: MedicamentService) {}
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private medicamentService: MedicamentService,
+    private stockService: StockService
+  ) {}
 
   ngOnInit(): void {
     this.medicamentForm = this.fb.group({
       nom: ['', [Validators.required, Validators.minLength(3)]],
       forme: ['', Validators.required],
-      prix: [0, [Validators.required, Validators.min(0)]]
+      prix: [0, [Validators.required, Validators.min(0)]],
+      idStock: ['', Validators.required]
     });
+
+    this.stockService.getAll().subscribe({
+      next: (data) => { this.stocks = data; },
+      error: () => { this.errorMessage = 'Impossible de charger la liste des stocks'; }
+    });
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEditMode = true;
@@ -43,15 +57,23 @@ export class MedicamentFormComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
     this.successMessage = '';
+    const dejaExiste = 'Ce médicament existe déjà dans ce stock';
+
     if (this.isEditMode) {
       this.medicamentService.update(this.medicamentId, this.medicamentForm.value).subscribe({
         next: () => { this.isLoading = false; this.successMessage = 'Médicament modifié avec succès !'; },
-        error: () => { this.errorMessage = 'Erreur de modification'; this.isLoading = false; }
+        error: (err) => {
+          this.errorMessage = err.status === 409 ? dejaExiste : 'Erreur de modification';
+          this.isLoading = false;
+        }
       });
     } else {
       this.medicamentService.create(this.medicamentForm.value).subscribe({
         next: () => { this.isLoading = false; this.successMessage = 'Médicament ajouté avec succès !'; },
-        error: () => { this.errorMessage = 'Erreur de création'; this.isLoading = false; }
+        error: (err) => {
+          this.errorMessage = err.status === 409 ? dejaExiste : 'Erreur de création';
+          this.isLoading = false;
+        }
       });
     }
   }

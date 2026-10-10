@@ -33,8 +33,8 @@ export class StockListComponent implements OnInit {
     return this.stocks.filter(s => s.nom.toLowerCase().includes(this.searchTerm.toLowerCase()));
   }
 
-  delete(id: string): void {
-    if (confirm('Supprimer ce stock ?')) {
+    delete(id: string): void {
+    if (confirm('Supprimer ce stock ? Ses médicaments seront aussi supprimés.')) {
       this.stockService.delete(id).subscribe({
         next: () => { this.stocks = this.stocks.filter(s => s.idStock !== id); alert('Supprimé !'); },
         error: () => { this.errorMessage = 'Erreur de suppression'; }

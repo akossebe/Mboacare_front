@@ -24,6 +24,16 @@
               <input type="text" class="form-control" formControlName="nom">
               <div *ngIf="stockForm.get('nom')?.invalid && stockForm.get('nom')?.touched" class="text-danger mt-1" style="font-size:12px;">Minimum 3 caractères</div>
             </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Pharmacie <span class="text-danger">*</span></label>
+              <select class="form-select" formControlName="idPharmaci">
+                <option value="" disabled>Choisir une pharmacie...</option>
+                <option *ngFor="let p of pharmacies" [value]="p.idPharmaci">{{ p.nom }} — {{ p.ville }}</option>
+              </select>
+              <div *ngIf="stockForm.get('idPharmaci')?.invalid && stockForm.get('idPharmaci')?.touched" class="text-danger mt-1" style="font-size:12px;">Veuillez choisir une pharmacie</div>
+            </div>
+
             <div class="mb-3">
               <label class="form-label fw-semibold">Quantité <span class="text-danger">*</span></label>
               <input type="number" class="form-control" formControlName="quantite">
