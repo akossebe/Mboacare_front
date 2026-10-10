@@ -43,8 +43,8 @@ export class PharmacieListComponent implements OnInit {
     });
   }
 
-  delete(id: string): void {
-    if (confirm('Supprimer cette pharmacie ?')) {
+   delete(id: string): void {
+    if (confirm('Supprimer cette pharmacie ? Ses stocks et leurs médicaments seront aussi supprimés.')) {
       this.pharmacieService.delete(id).subscribe({
         next: () => {
           this.pharmacies = this.pharmacies.filter(p => p.idPharmaci !== id);

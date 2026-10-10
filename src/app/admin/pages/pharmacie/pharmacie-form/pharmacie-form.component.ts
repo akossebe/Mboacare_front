@@ -38,23 +38,28 @@ export class PharmacieFormComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
-    this.successMessage = '';
-    if (this.isEditMode) {
-      this.pharmacieService.update(this.pharmacieId, this.pharmacie).subscribe({
-        next: () => { this.isLoading = false; this.successMessage = 'Pharmacie modifiée avec succès !'; },
-        error: () => { this.errorMessage = 'Erreur lors de la modification'; this.isLoading = false; }
-      });
-    } else {
-      this.pharmacieService.create(this.pharmacie).subscribe({
-        next: () => { this.isLoading = false; this.successMessage = 'Pharmacie ajoutée avec succès !'; },
-        error: (err) => {
-          this.errorMessage = err.status === 409 ? 'Cette pharmacie existe déjà' : 'Erreur lors de la création';
-          this.isLoading = false;
-        }
-      });
-    }
+ onSubmit(): void {
+  this.isLoading = true;
+  this.errorMessage = '';
+  this.successMessage = '';
+  const dejaExiste = 'Cette pharmacie existe déjà (même nom dans la même ville, ou email déjà utilisé)';
+
+  if (this.isEditMode) {
+    this.pharmacieService.update(this.pharmacieId, this.pharmacie).subscribe({
+      next: () => { this.isLoading = false; this.successMessage = 'Pharmacie modifiée avec succès !'; },
+      error: (err) => {
+        this.errorMessage = err.status === 409 ? dejaExiste : 'Erreur lors de la modification';
+        this.isLoading = false;
+      }
+    });
+  } else {
+    this.pharmacieService.create(this.pharmacie).subscribe({
+      next: () => { this.isLoading = false; this.successMessage = 'Pharmacie ajoutée avec succès !'; },
+      error: (err) => {
+        this.errorMessage = err.status === 409 ? dejaExiste : 'Erreur lors de la création';
+        this.isLoading = false;
+      }
+    });
   }
+}
 }
