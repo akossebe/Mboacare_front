@@ -12,6 +12,7 @@ import { Inscription } from './features/profil-utilisateur/pages/inscription/ins
 import { Connexion } from './features/profil-utilisateur/pages/connexion/connexion.component';
 import { PharmacienLayout } from './layouts/pharmacien-layout/pharmacien-layout.component';
 import { GestionStockComponent } from './features/pharmacie/pages/gestion-stock/gestion-stock.component';
+import { GestionMedicamentComponent } from './features/pharmacie/pages/gestion-medicament/gestion-medicament.component';
 import { ListePharmaciesComponent } from './features/pharmacie/pages/liste-pharmacies/liste-pharmacies.component';
 import { ReceptionPrescriptionComponent } from './features/pharmacie/pages/reception-prescription/reception-prescription.component';
 import { TableauDeBordPharmacienComponent } from './features/pharmacie/pages/tableau-de-bord-pharmacien/tableau-de-bord-pharmacien.component';
@@ -61,6 +62,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'tableau-de-bord', pathMatch: 'full' },
             { path: 'tableau-de-bord', component: TableauDeBordPharmacienComponent },
             { path: 'gestion-stock', component: GestionStockComponent },
+            { path: 'gestion-medicament', component: GestionMedicamentComponent },
             { path: 'liste-pharmacies', component: ListePharmaciesComponent },
             { path: 'reception-prescription', component: ReceptionPrescriptionComponent }
         ]

@@ -7,7 +7,7 @@
         <div>
           <h1 style="font-size: 1.5rem; font-weight: 700; color: #0b1c30;">Gestion des Stocks (Pharmacie)</h1>
           <p style="color: #6c7a71; font-size: 0.875rem;">
-            Gérez l'inventaire des médicaments, ajoutez de nouvelles références et mettez à jour les quantités.
+            Gérez les stocks de chaque pharmacie et mettez à jour les quantités.
           </p>
         </div>
         <div style="display: flex; gap: 0.5rem;">
@@ -37,8 +37,8 @@
     <div *ngIf="!loading && stocks.length === 0" class="card" style="text-align: center; padding: 4rem 2rem;">
       <span class="material-symbols-outlined" style="font-size: 48px; color: #cbd5e1; margin-bottom: 1rem;">inventory_2</span>
       <h3 style="font-size: 1.125rem; font-weight: 600; color: #334155;">L'inventaire est vide</h3>
-      <p style="color: #64748b; margin-bottom: 1.5rem;">Commencez par ajouter des médicaments à votre stock.</p>
-      <button (click)="openAddModal()" class="btn btn-outline">Ajouter le premier article</button>
+      <p style="color: #64748b; margin-bottom: 1.5rem;">Commencez par ajouter un stock à une pharmacie.</p>
+      <button (click)="openAddModal()" class="btn btn-outline">Ajouter le premier stock</button>
     </div>
 
     <!-- Grille des stocks -->
@@ -52,6 +52,11 @@
             <span style="font-size: 0.75rem; color: #94a3b8; font-family: monospace;">#{{ stock.idStock.substring(0,6).toUpperCase() }}</span>
           </div>
           <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem; word-break: break-word;">{{ stock.nom }}</h3>
+
+          <div style="display: flex; align-items: center; gap: 0.4rem; color: #475569; font-size: 0.875rem; margin-bottom: 1rem;">
+            <span class="material-symbols-outlined" style="font-size: 18px; color: #10B981;">local_pharmacy</span>
+            {{ stock.pharmaciNom || 'Pharmacie non assignée' }}
+          </div>
           
           <div style="display: flex; align-items: center; gap: 0.5rem; color: #475569; margin-bottom: 1.5rem; background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem;">
             <span class="material-symbols-outlined" style="color: #10B981;">medication</span>
@@ -87,10 +92,23 @@
 
       <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
         <div style="margin-bottom: 1.25rem;">
-          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Nom du médicament</label>
-          <input type="text" formControlName="nom" placeholder="Ex: Paracétamol 500mg" 
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Nom du stock</label>
+          <input type="text" formControlName="nom" placeholder="Ex: Stock principal" 
                  style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; outline: none;"
                  [ngStyle]="{'border-color': stockForm.get('nom')?.invalid && stockForm.get('nom')?.touched ? '#ef4444' : '#cbd5e1'}">
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Pharmacie</label>
+          <select formControlName="idPharmaci"
+                  style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; outline: none; background: white;"
+                  [ngStyle]="{'border-color': stockForm.get('idPharmaci')?.invalid && stockForm.get('idPharmaci')?.touched ? '#ef4444' : '#cbd5e1'}">
+            <option value="" disabled>Choisir une pharmacie...</option>
+            <option *ngFor="let p of pharmacies" [value]="p.idPharmaci">{{ p.nom }} — {{ p.ville }}</option>
+          </select>
+          <p *ngIf="pharmacies.length === 0" style="font-size: 0.75rem; color: #ef4444; margin-top: 0.4rem;">
+            Aucune pharmacie disponible : créez-en une d'abord dans « Liste des pharmacies ».
+          </p>
         </div>
 
         <div style="margin-bottom: 1.5rem;">

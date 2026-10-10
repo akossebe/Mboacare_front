@@ -2,7 +2,9 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StockService } from '../../services/stock.service';
+import { PharmacieService } from '../../services/pharmacie.service';
 import { Stock } from '../../models/stock.model';
+import { Pharmacie } from '../../models/pharmacie.model';
 
 @Component({
   selector: 'app-gestion-stock',
@@ -13,6 +15,7 @@ import { Stock } from '../../models/stock.model';
 })
 export class GestionStockComponent implements OnInit {
   stocks: Stock[] = [];
+  pharmacies: Pharmacie[] = [];
   stockForm: FormGroup;
   isEditMode = false;
   currentStockId: string | null = null;
@@ -20,15 +23,22 @@ export class GestionStockComponent implements OnInit {
   message: {text: string, type: 'success' | 'error'} | null = null;
   showModal = false;
 
-  constructor(private stockService: StockService, private fb: FormBuilder, private cdr: ChangeDetectorRef) {
+  constructor(
+    private stockService: StockService,
+    private pharmacieService: PharmacieService,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) {
     this.stockForm = this.fb.group({
       nom: ['', Validators.required],
-      quantite: [0, [Validators.required, Validators.min(0)]]
+      quantite: [0, [Validators.required, Validators.min(0)]],
+      idPharmaci: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
     this.loadStocks();
+    this.loadPharmacies();
   }
 
   loadStocks(): void {
@@ -47,10 +57,22 @@ export class GestionStockComponent implements OnInit {
     });
   }
 
+  loadPharmacies(): void {
+    this.pharmacieService.getAllPharmacies().subscribe({
+      next: (data) => {
+        this.pharmacies = data;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.showMessage('Erreur lors du chargement des pharmacies', 'error');
+      }
+    });
+  }
+
   openAddModal(): void {
     this.isEditMode = false;
     this.currentStockId = null;
-    this.stockForm.reset({ quantite: 0 });
+    this.stockForm.reset({ nom: '', quantite: 0, idPharmaci: '' });
     this.showModal = true;
     this.cdr.markForCheck();
   }
@@ -60,7 +82,8 @@ export class GestionStockComponent implements OnInit {
     this.currentStockId = stock.idStock;
     this.stockForm.patchValue({
       nom: stock.nom,
-      quantite: stock.quantite
+      quantite: stock.quantite,
+      idPharmaci: stock.idPharmaci ?? ''
     });
     this.showModal = true;
     this.cdr.markForCheck();
@@ -81,7 +104,7 @@ export class GestionStockComponent implements OnInit {
           this.loadStocks();
           this.closeModal();
         },
-        error: (err) => this.showMessage(err.error || 'Erreur de modification', 'error')
+        error: (err) => this.showMessage(this.extractError(err, 'Erreur de modification'), 'error')
       });
     } else {
       this.stockService.createStock(this.stockForm.value).subscribe({
@@ -90,13 +113,13 @@ export class GestionStockComponent implements OnInit {
           this.loadStocks();
           this.closeModal();
         },
-        error: (err) => this.showMessage(err.error || 'Erreur de création', 'error')
+        error: (err) => this.showMessage(this.extractError(err, 'Erreur de création'), 'error')
       });
     }
   }
 
   deleteStock(idStock: string): void {
-    if(confirm('Êtes-vous sûr de vouloir supprimer ce stock ?')) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce stock ? Les médicaments associés seront aussi supprimés.')) {
       this.stockService.deleteStock(idStock).subscribe({
         next: (msg) => {
           this.showMessage(msg, 'success');
@@ -105,6 +128,22 @@ export class GestionStockComponent implements OnInit {
         error: (err) => this.showMessage('Erreur lors de la suppression', 'error')
       });
     }
+  }
+
+  private extractError(err: any, fallback: string): string {
+    if (err?.status === 409) {
+      return 'Ce stock existe déjà dans cette pharmacie';
+    }
+    const body = err?.error;
+    if (typeof body === 'string' && body.trim()) {
+      try {
+        const parsed = JSON.parse(body);
+        return parsed.message || parsed.error || fallback;
+      } catch {
+        return body;
+      }
+    }
+    return fallback;
   }
 
   showMessage(text: string, type: 'success' | 'error'): void {
