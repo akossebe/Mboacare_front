@@ -1,85 +1,101 @@
-<div class="container-fluid p-4">
-
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-      <h4 class="fw-bold mb-0">Bienvenue, Admin !</h4>
-      <p class="text-muted mb-0">Aperçu de votre activité aujourd'hui.</p>
-    </div>
-    <span class="text-muted" style="font-size:13px;">
-      <i class="bi bi-calendar me-2"></i>{{ today | date:'dd MMM yyyy' }}
-    </span>
+<div class="page-container">
+  <div class="page-header mb-4">
+    <h2 class="page-title">
+      <i class="bi bi-hospital me-2 text-primary"></i> Espace Pharmacien
+    </h2>
+    <p class="page-subtitle">Vue d'ensemble de vos stocks et de vos pharmacies.</p>
   </div>
 
-  <div *ngIf="isLoading" class="text-center py-5">
-    <div class="spinner-border text-primary"></div>
+  <!-- Stat cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="stat-card">
+        <div class="stat-info">
+          <p>Articles en Stock</p>
+          <h3>{{ totalStocks }}</h3>
+          <a routerLink="/admin/stocks" class="stat-link">Gérer les stocks →</a>
+        </div>
+        <div class="stat-icon green">
+          <i class="bi bi-box-seam"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card">
+        <div class="stat-info">
+          <p>Alertes Stock</p>
+          <h3>{{ alertes }}</h3>
+          <span class="text-muted" style="font-size:0.8rem">produits ≤ 10 unités</span>
+        </div>
+        <div class="stat-icon orange">
+          <i class="bi bi-exclamation-triangle"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card">
+        <div class="stat-info">
+          <p>Médicaments</p>
+          <h3>{{ totalMedicaments }}</h3>
+          <a routerLink="/admin/medicaments" class="stat-link">Voir les médicaments →</a>
+        </div>
+        <div class="stat-icon blue">
+          <i class="bi bi-capsule"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card">
+        <div class="stat-info">
+          <p>Pharmacies</p>
+          <h3>{{ totalPharmacies }}</h3>
+          <a routerLink="/admin/pharmacies" class="stat-link">Consulter →</a>
+        </div>
+        <div class="stat-icon teal">
+          <i class="bi bi-hospital"></i>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="!isLoading" class="row g-4">
-
-    <div class="col-md-3">
-      <div class="card border-0 shadow-sm p-3">
-        <div class="d-flex align-items-center gap-3">
-          <div class="rounded-3 p-3" style="background:#e8f0fe;">
-            <i class="bi bi-hospital fs-4" style="color:#1656d9;"></i>
-          </div>
-          <div>
-            <p class="text-muted mb-0" style="font-size:13px;">Pharmacies</p>
-            <h4 class="fw-bold mb-0">{{ totalPharmacies }}</h4>
-          </div>
+  <!-- Actions rapides -->
+  <div class="row g-3">
+    <div class="col-md-8">
+      <div class="card p-4">
+        <h5 class="fw-bold mb-3">Pharmacies enregistrées</h5>
+        <div *ngIf="isLoading" class="text-center py-3">
+          <div class="spinner-border text-success" role="status"></div>
         </div>
-        <a routerLink="/admin/pharmacies" class="btn btn-outline-primary btn-sm mt-3">
-          Voir les pharmacies
-        </a>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="card border-0 shadow-sm p-3">
-        <div class="d-flex align-items-center gap-3">
-          <div class="rounded-3 p-3" style="background:#e8f8f0;">
-            <i class="bi bi-capsule fs-4" style="color:#34b66a;"></i>
+        <div *ngIf="!isLoading">
+          <div class="pharma-item" *ngFor="let p of pharmacies">
+            <i class="bi bi-hospital-fill text-primary me-2"></i>
+            <div>
+              <div class="fw-semibold">{{ p.nom }}</div>
+              <div class="text-muted" style="font-size:0.82rem">{{ p.ville }}, {{ p.quartier }}</div>
+            </div>
           </div>
-          <div>
-            <p class="text-muted mb-0" style="font-size:13px;">Médicaments</p>
-            <h4 class="fw-bold mb-0">{{ totalMedicaments }}</h4>
-          </div>
-        </div>
-        <a routerLink="/admin/medicaments" class="btn btn-outline-success btn-sm mt-3">
-          Voir les médicaments
-        </a>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="card border-0 shadow-sm p-3">
-        <div class="d-flex align-items-center gap-3">
-          <div class="rounded-3 p-3" style="background:#f3e8fe;">
-            <i class="bi bi-box-seam fs-4" style="color:#9b59b6;"></i>
-          </div>
-          <div>
-            <p class="text-muted mb-0" style="font-size:13px;">Stocks</p>
-            <h4 class="fw-bold mb-0">{{ totalStocks }}</h4>
-          </div>
-        </div>
-        <a routerLink="/admin/stocks" class="btn btn-outline-secondary btn-sm mt-3">
-          Voir les stocks
-        </a>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="card border-0 shadow-sm p-3">
-        <div class="d-flex align-items-center gap-3">
-          <div class="rounded-3 p-3" style="background:#fdecea;">
-            <i class="bi bi-exclamation-triangle fs-4" style="color:#e74c3c;"></i>
-          </div>
-          <div>
-            <p class="text-muted mb-0" style="font-size:13px;">Alertes</p>
-            <h4 class="fw-bold mb-0">0</h4>
+          <div *ngIf="pharmacies.length === 0" class="text-muted text-center py-3">
+            Aucune pharmacie enregistrée
           </div>
         </div>
       </div>
     </div>
 
+    <div class="col-md-4">
+      <div class="card p-4">
+        <h5 class="fw-bold mb-3">Actions Rapides</h5>
+        <div class="quick-actions">
+          <a routerLink="/admin/stocks/new" class="quick-btn">
+            <i class="bi bi-plus-circle"></i> Nouvel article en stock
+          </a>
+          <a routerLink="/admin/pharmacies/new" class="quick-btn">
+            <i class="bi bi-hospital"></i> Ajouter une pharmacie
+          </a>
+          <a routerLink="/admin/medicaments/new" class="quick-btn">
+            <i class="bi bi-capsule"></i> Ajouter un médicament
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
