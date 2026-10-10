@@ -32,38 +32,41 @@
 
   <div class="table-responsive">
     <table class="table table-hover align-middle">
-      <thead>
-        <tr>
-          <th>Médicament</th>
-          <th>Forme</th>
-          <th>Prix</th>
-          <th>Stock</th>
-          <th>Quantité disponible</th>
-          <th>Disponibilité</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let med of filteredMedicaments">
-          <td>
-            <div class="med-name">
-              <i class="bi bi-capsule-pill me-2 text-primary"></i>
-              <strong>{{ med.nom }}</strong>
-            </div>
-          </td>
-          <td><span class="badge bg-light text-dark">{{ med.forme }}</span></td>
-          <td>{{ med.prix }} FCFA</td>
-          <td>{{ getStockNom(med) }}</td>
-          <td>{{ getStockQuantite(med) }}</td>
-          <td>
-            <span
-              class="badge"
-              [ngClass]="getStockQuantite(med) > 0 ? 'bg-success' : 'bg-danger'"
-            >
-              {{ getStockQuantite(med) > 0 ? 'Disponible' : 'Indisponible' }}
-            </span>
-          </td>
-        </tr>
-      </tbody>
+   <thead>
+  <tr>
+    <th>Médicament</th>
+    <th>Forme</th>
+    <th>Prix</th>
+    <th>Pharmacie</th>
+    <th>Quantité disponible</th>
+    <th>Disponibilité</th>
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let med of filteredMedicaments">
+    <td>
+      <div class="med-name">
+        <i class="bi bi-capsule-pill me-2 text-primary"></i>
+        <strong>{{ med.nom }}</strong>
+      </div>
+    </td>
+    <td><span class="badge bg-light text-dark">{{ med.forme }}</span></td>
+    <td>{{ med.prix }} FCFA</td>
+    <td>
+      <ng-container *ngIf="med.pharmaciNom; else nonAssigne">
+        <strong>{{ med.pharmaciNom }}</strong><br>
+        <small class="text-muted">{{ med.pharmaciVille }}</small>
+      </ng-container>
+      <ng-template #nonAssigne><span class="text-muted">Non assigné</span></ng-template>
+    </td>
+    <td>{{ med.quantiteStock ?? 0 }}</td>
+    <td>
+      <span class="badge" [ngClass]="(med.quantiteStock ?? 0) > 0 ? 'bg-success' : 'bg-danger'">
+        {{ (med.quantiteStock ?? 0) > 0 ? 'Disponible' : 'Indisponible' }}
+      </span>
+    </td>
+  </tr>
+</tbody>
     </table>
   </div>
 
